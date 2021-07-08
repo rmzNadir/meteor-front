@@ -42,6 +42,12 @@ export const LoginSpace = styled.div`
       width: 40%;
     }
   }
+
+  @media ${Device.desktop} {
+    & > :first-child {
+      width: 30%;
+    }
+  }
 `;
 
 export const FormSpace = styled.div`
