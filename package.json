@@ -74,8 +74,5 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier-eslint": "^12.0.0"
   },
-  "devServer": {
-    "disableHostCheck": true
-  },
   "proxy": "https://meteor-erp-api.herokuapp.com"
 }
