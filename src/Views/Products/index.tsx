@@ -65,10 +65,10 @@ const Products = () => {
       // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
       if (renders.current <= 1) {
         setTimeout(() => {
-          setData(prodData, cardsRes.cards);
+          setData(prodData, cardsRes?.cards);
         }, 250);
       } else {
-        setData(prodData, cardsRes.cards);
+        setData(prodData, cardsRes?.cards);
       }
 
       setTotalRecords(total);
