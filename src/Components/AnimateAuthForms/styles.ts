@@ -1,13 +1,13 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { Button } from 'antd';
 import Device from '../../Utils/Breakpoints';
 
-export const LoginSpace = styled.div`
-  width: 100vw;
-  height: 100vh;
+export const Space = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  min-width: 100%;
   padding: 2rem;
 
   & .ant-card-head {
@@ -47,33 +47,4 @@ export const LoginSpace = styled.div`
       width: 30%;
     }
   }
-`;
-
-export const FormSpace = styled.div`
-  border: 1px solid ${(props) => props.theme.colors.border};
-  border-radius: ${(props) => props.theme.constants.borderRadius};
-  width: 50%;
-`;
-
-export const LogoSpace = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > :first-child {
-    height: 4.5rem;
-    margin: 0.5rem 0;
-  }
-`;
-
-export const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin: 0.5rem 0 2rem;
-`;
-
-export const SubmitButton = styled(Button)`
-  margin-top: 1rem;
 `;
