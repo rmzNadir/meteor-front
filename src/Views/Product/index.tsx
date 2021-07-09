@@ -195,10 +195,11 @@ const Product = () => {
                       }));
                     }}
                     onError={() => {
+                      setImgLoading(false);
+                      setShowMissingImg(true);
                       message.error(
                         'Ocurrió un error al cargar la imagen del producto'
                       );
-                      setShowMissingImg(true);
                     }}
                   />
                 </motion.div>
