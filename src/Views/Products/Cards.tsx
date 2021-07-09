@@ -41,7 +41,7 @@ const Cards = ({ cards, loadingProducts }: Props) => {
         </CenterCardBodyColumn>
       </Card>
 
-      <Card title='Existencias bajas' bodyPadding={false}>
+      <Card title='Menores existencias' bodyPadding={false}>
         <CenterCardBodyColumn>
           <Spin spinning={loadingProducts}>
             <CenterCardBodyColumn style={{ padding: '12px' }}>
