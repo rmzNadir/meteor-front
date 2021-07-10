@@ -20,6 +20,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  EyeOutlined,
 } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { useMediaQuery } from 'beautiful-react-hooks';
@@ -186,6 +187,9 @@ const Product = () => {
                   key={image?.url}
                 >
                   <AntImage
+                    preview={{
+                      mask: <EyeOutlined style={{ fontSize: 25 }} />,
+                    }}
                     src={image?.url}
                     onLoad={() => {
                       setImgLoading(false);

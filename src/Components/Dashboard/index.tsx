@@ -83,7 +83,7 @@ const Dashboard = ({
   }, [mobile]);
 
   return (
-    <Layout style={{ minHeight: '100vh', minWidth: '100vw' }}>
+    <Layout style={{ minHeight: '100vh' }}>
       {!mobile && (
         <Sider
           trigger={null}
