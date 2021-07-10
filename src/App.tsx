@@ -1,6 +1,13 @@
+/* eslint-disable react/no-children-prop */
 import './App.less';
-import { memo } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { memo, useEffect, useRef } from 'react';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+  useLocation,
+} from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
@@ -24,6 +31,8 @@ import AuthProvider, { useAuthCTX } from './Utils/AuthContext';
 import UnAuthRoute from './Components/UnAuthRoute';
 import AppLoading from './Components/AppLoading';
 import NotFound from './Views/NotFound';
+import ScrollReveal from './Utils/ScrollReveal';
+import Landing from './Views/Landing';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -32,21 +41,38 @@ moment.locale('es');
 
 const Routes = memo(() => {
   const { loading } = useAuthCTX();
+  const childRef = useRef<any>();
+  const location = useLocation();
+
+  useEffect(() => {
+    document.body.classList.add('is-loaded');
+    if (childRef.current) {
+      childRef.current.init();
+    }
+  }, [location.key, loading]);
+
   if (loading) {
     return <AppLoading />;
   }
+
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
-      <Switch>
-        <Route exact path='/404' component={NotFound} />
-        <UnAuthRoute exact path='/' component={Login} />
-        <UnAuthRoute exact path='/sign-up' component={SignUp} />
-        <ProtectedRoute exact path='/products' component={Products} />
-        <ProtectedRoute exact path='/products/:id' component={Product} />
-        <Route path='*' component={() => <Redirect to='/404' />} />
-      </Switch>
-    </BrowserRouter>
+      <ScrollReveal
+        ref={childRef}
+        children={() => (
+          <Switch>
+            <Route exact path='/404' component={NotFound} />
+            <UnAuthRoute exact path='/' component={Landing} />
+            <UnAuthRoute exact path='/login' component={Login} />
+            <UnAuthRoute exact path='/sign-up' component={SignUp} />
+            <ProtectedRoute exact path='/products' component={Products} />
+            <ProtectedRoute exact path='/products/:id' component={Product} />
+            <Route path='*' component={() => <Redirect to='/404' />} />
+          </Switch>
+        )}
+      />
+    </>
   );
 });
 
@@ -55,7 +81,9 @@ function App() {
     <ConfigProvider locale={esEs}>
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <Routes />
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
         </AuthProvider>
       </ThemeProvider>
     </ConfigProvider>

@@ -19,13 +19,14 @@ const UserDropdown = () => {
       setIsAuth(false);
       setUser(undefined);
       await axios.delete('/logout');
+      document.body.classList.remove('is-loaded');
       message.success({
         content: '¡Hasta la próxima! 👀',
         style: { cursor: 'pointer' },
         onClick: () =>
           window.open('https://www.youtube.com/watch?v=b8PxzPxI8Os'),
       });
-      history.push('/');
+      history.replace('/');
     } catch (e) {
       console.error(e);
     }

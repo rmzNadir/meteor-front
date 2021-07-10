@@ -17,7 +17,11 @@ const NotFound = () => {
         <Wrapper>
           <Text strong>Parece que te has perdido ☹</Text>
           <NotFoundSvg />
-          <Button size='large' type='primary' onClick={() => history.push('/')}>
+          <Button
+            size='large'
+            type='primary'
+            onClick={() => history.replace('/')}
+          >
             Llévame de regreso
           </Button>
         </Wrapper>

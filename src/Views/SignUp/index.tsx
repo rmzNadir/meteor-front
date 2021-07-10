@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Typography, Form, Input, message } from 'antd';
+import { Card, Typography, Form, Input, message, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { IFormValues } from '../../Types';
@@ -28,7 +28,7 @@ const SignUp = () => {
         setUser(user);
         message.success(`Bienvenido, ${user.name} ✨`);
         setTimeout(() => {
-          history.push('/products');
+          history.replace('/products');
         }, 250);
       } else if (errors) {
         DisplayErrors(errors);
@@ -55,7 +55,7 @@ const SignUp = () => {
           <div>
             <Text>¿Ya tienes una?</Text>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link onClick={() => history.push('/')}> Iniciar sesión</Link>
+            <Link onClick={() => history.push('/login')}> Iniciar sesión</Link>
           </div>
         </Info>
 
@@ -164,6 +164,9 @@ const SignUp = () => {
             </SubmitButton>
           </Form.Item>
         </Form>
+        <Button block type='link' onClick={() => history.push('/')}>
+          Inicio
+        </Button>
       </Card>
     </AnimateAuthForms>
   );

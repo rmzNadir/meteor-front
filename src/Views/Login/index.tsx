@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Typography, Form, Input, message } from 'antd';
+import { Card, Typography, Form, Input, message, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -30,7 +30,7 @@ const Login = () => {
         setUser(user);
         message.success(`Bienvenido de nuevo, ${user.name} 👋`);
         setTimeout(() => {
-          history.push('/products');
+          history.replace('/products');
         }, 250);
       } else {
         message.error('Revisa tus credenciales');
@@ -112,6 +112,9 @@ const Login = () => {
             </SubmitButton>
           </Form.Item>
         </Form>
+        <Button block type='link' onClick={() => history.push('/')}>
+          Inicio
+        </Button>
       </Card>
     </AnimateAuthForms>
   );
