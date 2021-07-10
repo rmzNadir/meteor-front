@@ -82,6 +82,18 @@ video {
   max-width: 100%; /* Adhere to container width. */
 }
 
+#landing-img {
+  display: block;
+  height: auto; /* Make sure images are scaled correctly. */
+  max-width: 100%;
+}
+
+#landing-logo {
+  display: block;
+  height: auto; /* Make sure images are scaled correctly. */
+  max-width: 100%;
+}
+
 figure {
   margin: $spacing--figure-v $spacing--figure-h; /* Extra wide images within figure tags don't overflow the content area. */
 }

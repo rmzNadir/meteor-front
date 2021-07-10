@@ -30,6 +30,7 @@ const Logo = ({ className, isFooter, ...props }: Props) => {
               alt='Open'
               width={120}
               height={120}
+              id='landing-logo'
             />
           ) : (
             <Image
@@ -37,6 +38,7 @@ const Logo = ({ className, isFooter, ...props }: Props) => {
               alt='Open'
               width={50}
               height={50}
+              id='landing-logo'
             />
           )}
         </Link>

@@ -115,6 +115,7 @@ const Hero = ({
               onClick={openModal}
             >
               <Image
+                id='landing-img'
                 className='has-shadow'
                 src={
                   require('../../assets/images/video-placeholder.png').default

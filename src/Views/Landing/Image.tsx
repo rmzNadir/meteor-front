@@ -12,9 +12,10 @@ interface Props {
     React.ImgHTMLAttributes<HTMLImageElement>,
     HTMLImageElement
   >;
+  id?: string;
 }
 
-const Image = ({ className, src, width, height, alt, ...props }: Props) => {
+const Image = ({ className, src, width, height, alt, id, ...props }: Props) => {
   const [loaded, setLoaded] = useState(false);
 
   const image = useRef<HTMLImageElement>(null);
@@ -53,6 +54,7 @@ const Image = ({ className, src, width, height, alt, ...props }: Props) => {
 
   return (
     <img
+      id={id}
       {...props}
       ref={image}
       className={className}
