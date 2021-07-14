@@ -57,7 +57,6 @@ const ProductListings = ({
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>();
-  const [query, setQuery] = useState<string>();
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
   const childRef = useRef<any>();
@@ -121,11 +120,8 @@ const ProductListings = ({
 
   const handleSearchbar = (value: string) => {
     const trimmed = value.trim();
-    setQuery(value);
     setPaginationParams((p) => ({ ...p, q: trimmed }));
   };
-
-  console.log(loadingProducts);
 
   return (
     <ListingSection {...props} className={outerClasses}>
@@ -141,6 +137,7 @@ const ProductListings = ({
               enterButton
               onSearch={handleSearchbar}
               allowClear
+              loading={loadingProducts}
             />
           </SearchSpace>
           <ScrollReveal
