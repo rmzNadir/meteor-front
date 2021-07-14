@@ -28,7 +28,7 @@ const SignUp = () => {
         setUser(user);
         message.success(`Bienvenido, ${user.name} ✨`);
         setTimeout(() => {
-          history.replace('/products');
+          history.push('/products');
         }, 250);
       } else if (errors) {
         DisplayErrors(errors);

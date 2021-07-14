@@ -26,7 +26,7 @@ const UserDropdown = () => {
         onClick: () =>
           window.open('https://www.youtube.com/watch?v=b8PxzPxI8Os'),
       });
-      history.replace('/');
+      history.push('/');
     } catch (e) {
       console.error(e);
     }

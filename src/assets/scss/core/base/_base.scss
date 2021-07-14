@@ -44,7 +44,7 @@ ol {
 
 li {
   &:not(:last-child) {
-    margin-bottom: $spacing--shared-v / 2;
+    // margin-bottom: $spacing--shared-v / 2;
   }
 }
 
@@ -75,7 +75,7 @@ img {
 // Setting these styles to the img tag breaks antd image preview
 
 // img,
-svg,
+// svg,
 video {
   display: block;
   height: auto; /* Make sure images are scaled correctly. */

@@ -30,7 +30,7 @@ const Login = () => {
         setUser(user);
         message.success(`Bienvenido de nuevo, ${user.name} 👋`);
         setTimeout(() => {
-          history.replace('/products');
+          history.push('/products');
         }, 250);
       } else {
         message.error('Revisa tus credenciales');

@@ -11,14 +11,21 @@ interface Props {
   className?: string;
   data: IData;
   children?: ReactNode;
+  paddingBottom?: boolean;
   props?: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   >;
 }
 
-const SectionHeader = ({ className, data, children, ...props }: Props) => {
-  const classes = classNames('section-header', className);
+const SectionHeader = ({
+  className,
+  data,
+  children,
+  paddingBottom,
+  ...props
+}: Props) => {
+  const classes = classNames('', className, paddingBottom && 'section-header');
 
   return (
     <>
