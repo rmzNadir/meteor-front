@@ -5,3 +5,4 @@ export * from './Auth';
 export * from './LoginForm';
 export * from './Pagination';
 export * from './Common';
+export * from './Cart';

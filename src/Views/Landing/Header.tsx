@@ -3,8 +3,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
+import { ShoppingOutlined } from '@ant-design/icons';
+import { useMediaQuery } from 'beautiful-react-hooks';
+import { Tooltip } from 'antd';
 import Logo from './Logo';
-import { LoginButton, SignUpButton } from './styles';
+import { CartButton, LoginButton, SignUpButton } from './styles';
+import { useCartCTX } from '../../Utils/CartContext';
 
 interface Props {
   className?: string;
@@ -29,7 +33,9 @@ const Header = ({
   ...props
 }: Props) => {
   const [isActive, setIsactive] = useState(false);
+  const { setVisible } = useCartCTX();
   const history = useHistory();
+  const mobile = useMediaQuery('(max-width: 640px)');
 
   const nav = useRef<HTMLElement>(null);
   const hamburger = useRef(null);
@@ -114,10 +120,7 @@ const Header = ({
                     )}
                   >
                     <li>
-                      <SignUpButton
-                        size='large'
-                        onClick={() => history.push('/sign-up')}
-                      >
+                      <SignUpButton onClick={() => history.push('/sign-up')}>
                         Registrarse
                       </SignUpButton>
                     </li>
@@ -126,7 +129,6 @@ const Header = ({
                     <ul className='list-reset header-nav-right'>
                       <li>
                         <LoginButton
-                          size='large'
                           type='primary'
                           onClick={() => history.push('/login')}
                         >
@@ -135,6 +137,24 @@ const Header = ({
                       </li>
                     </ul>
                   )}
+                  <ul
+                    className={classNames(
+                      'list-reset text-xs',
+                      navPosition && `header-nav-${navPosition}`
+                    )}
+                  >
+                    <li>
+                      <Tooltip title='Carrito' placement='bottom' zIndex={999}>
+                        <CartButton
+                          shape={mobile ? undefined : 'circle'}
+                          type='primary'
+                          onClick={() => setVisible(true)}
+                        >
+                          {mobile ? 'Carrito' : <ShoppingOutlined />}
+                        </CartButton>
+                      </Tooltip>
+                    </li>
+                  </ul>
                 </div>
               </nav>
             </>

@@ -13,6 +13,17 @@ export const LoginButton = styled(Button)`
   }
 `;
 
+export const CartButton = styled(Button)`
+  @media (max-width: 640px) {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  @media (min-width: 640px) {
+    width: auto;
+    margin-left: 0.5rem;
+  }
+`;
+
 export const SignUpButton = styled(Button)`
   @media (max-width: 640px) {
     width: 100%;
@@ -32,7 +43,7 @@ export const ListingSpace = styled.div`
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  grid-auto-rows: minmax(500px, min-content);
+  grid-auto-rows: minmax(529px, min-content);
 
   /* > * {
     border: 1px solid teal;

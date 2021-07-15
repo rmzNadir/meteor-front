@@ -1,4 +1,4 @@
-import { Image, Typography, Button, InputNumber } from 'antd';
+import { Image, Typography, Button, InputNumber, message } from 'antd';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -10,6 +10,7 @@ import { ProductInfo, Card } from './styles';
 import theme from '../../Utils/theme';
 import { IProduct } from '../../Types';
 import { useCartCTX } from '../../Utils/CartContext';
+import Capitalize from '../../Utils/Capitalize';
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
@@ -28,29 +29,49 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
     id,
     name,
     image,
+    price,
     description,
     has_free_shipping,
     shipping_cost,
     stock,
   } = productInfo;
 
-  const [selectedAmount, setSelectedAmount] = useState(stock > 1 ? 1 : 0);
+  const [selectedAmount, setSelectedAmount] = useState(stock >= 1 ? 1 : 0);
   const { cartItems, setCartItems } = useCartCTX();
-  console.log(cartItems);
 
   const handleAddToCart = useCallback(() => {
     const itemIndex = cartItems.findIndex((i) => i.id === id);
     let newItems;
 
     if (itemIndex === -1) {
-      newItems = [...cartItems, { id, quantity: selectedAmount }];
+      newItems = [
+        ...cartItems,
+        {
+          id,
+          quantity: selectedAmount,
+          name,
+          price,
+          image,
+          description,
+          stock,
+        },
+      ];
     } else {
-      newItems = cartItems.map((cI) =>
-        cI.id === id ? { id, quantity: cI.quantity + selectedAmount } : cI
-      );
+      newItems = cartItems.map((cI) => {
+        const newAmount = cI.quantity + selectedAmount;
+        if (newAmount > stock) {
+          message.warning(
+            'La cantidad de este producto en tu carrito no puede exceder sus existencias'
+          );
+          return cI;
+        }
+        return cI.id === id
+          ? { id, quantity: newAmount, name, price, image, description, stock }
+          : cI;
+      });
     }
-    console.log('new', newItems);
     setCartItems(newItems);
+    setSelectedAmount(1);
   }, [cartItems, selectedAmount]);
 
   return (
@@ -66,7 +87,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
           block
           style={{ height: '2.25rem' }}
           onClick={handleAddToCart}
-          disabled={stock < 1}
+          disabled={stock < 1 || selectedAmount < 1}
         >
           Agregar ({selectedAmount}) al carrito
           <ShoppingCartOutlined />
@@ -83,7 +104,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
       }
     >
       <Meta
-        title={name}
+        title={Capitalize(name)}
         description={
           <div>
             <Paragraph
@@ -91,9 +112,17 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
                 rows: 2,
               }}
             >
-              {description}
+              {Capitalize(description)}
             </Paragraph>
             <ProductInfo>
+              <div>Costo</div>
+              <NumberFormat
+                value={price}
+                displayType='text'
+                thousandSeparator
+                prefix='$ '
+                suffix=' MXN'
+              />
               <div>Envío gratis</div>
               {has_free_shipping ? (
                 <CheckCircleOutlined
@@ -126,7 +155,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
               />
               <div>Cantidad</div>
               <InputNumber
-                min={0}
+                min={stock < 1 ? 0 : 1}
                 max={stock}
                 value={selectedAmount}
                 disabled={stock < 1}
