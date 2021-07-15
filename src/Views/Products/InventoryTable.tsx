@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-// import moment from 'moment';
+import moment from 'moment';
 import { Table, Button, Tooltip, Typography, Spin } from 'antd';
 import {
   CheckCircleFilled,
@@ -173,14 +173,14 @@ const InventoryTable = ({
           />
         ),
     },
-    // {
-    //   title: 'Comprado por última vez',
-    //   dataIndex: 'last_bought_at',
-    //   key: 'last_bought_at',
-    //   align: 'center',
+    {
+      title: 'Comprado por última vez',
+      dataIndex: 'last_bought_at',
+      key: 'last_bought_at',
+      align: 'center',
 
-    //   render: (d: Date) => (d ? moment(d).format('DD/MM/yy, hh:mm a') : '-'),
-    // },
+      render: (d: Date) => (d ? moment(d).format('DD/MM/yy, hh:mm a') : '-'),
+    },
     {
       title: '',
       dataIndex: '',

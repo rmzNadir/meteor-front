@@ -219,7 +219,9 @@ const Product = () => {
               <Title level={5} style={{ margin: '0.25rem 0 1rem' }}>
                 {provider && Capitalize(provider)}
               </Title>
-              <Paragraph type='secondary'>{description}</Paragraph>
+              <Paragraph className='product-description' type='secondary'>
+                {description}
+              </Paragraph>
               <DetailsVertical>
                 <div>
                   <ItemTitle strong>Precio</ItemTitle>

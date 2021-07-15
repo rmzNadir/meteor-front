@@ -59,6 +59,17 @@ export const Wrapper = styled.div`
 export const InfoSpace = styled.div`
   display: flex;
   flex-direction: column;
+
+  .product-description {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
 `;
 
 export const CardSpace = styled.div`
