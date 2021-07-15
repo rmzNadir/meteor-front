@@ -101,7 +101,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
           onClick={handleAddToCart}
           disabled={stock < 1 || selectedAmount < 1}
         >
-          Agregar ({selectedAmount}) al carrito
+          Agregar al carrito
           <ShoppingCartOutlined />
         </Button>,
       ]}
