@@ -33,7 +33,17 @@ const CartItem = ({ item, setCartItems }: Props) => {
   }, []);
 
   return (
-    <CartItemWrapper>
+    <CartItemWrapper
+      key={id}
+      transition={{
+        type: 'spring',
+        stiffness: 500,
+        damping: 40,
+      }}
+      layout='position'
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, x: 250, transition: { duration: 0.3 } }}
+    >
       <TopInfo>
         <Image src={image?.url} alt='' />
         <ProductInfo>

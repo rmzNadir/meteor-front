@@ -56,6 +56,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
           stock,
         },
       ];
+      message.success(`${Capitalize(name)} agregado al carrito`);
     } else {
       newItems = cartItems.map((cI) => {
         const newAmount = cI.quantity + selectedAmount;
@@ -65,6 +66,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
           );
           return cI;
         }
+        message.success(`${Capitalize(name)} agregado al carrito`);
         return cI.id === id
           ? { id, quantity: newAmount, name, price, image, description, stock }
           : cI;

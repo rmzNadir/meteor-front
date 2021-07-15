@@ -3,10 +3,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import classNames from 'classnames';
-import { message, Input } from 'antd';
-
+import { message, Input, Empty } from 'antd';
 import SectionHeader from './SectionHeader';
-import { ListingSection, ListingSpace, SearchSpace } from './styles';
+import {
+  EmptyWrapper,
+  ListingSection,
+  ListingSpace,
+  SearchSpace,
+} from './styles';
 import { IPagination, IProduct } from '../../Types';
 import Amogus from '../../Utils/Amogus';
 import ScrollReveal from '../../Utils/ScrollReveal';
@@ -93,7 +97,6 @@ const ProductListings = ({
 
       // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
       setProducts(prodData);
-      console.log(prodData);
       setTotalRecords(total);
     } catch (e) {
       message.error('Ocurrió un error al cargar el catálogo de productos');
@@ -134,18 +137,24 @@ const ProductListings = ({
 
           <ScrollReveal
             ref={childRef}
-            children={() => (
-              <ListingSpace>
-                {products.map((productInfo, i) => (
-                  <ProductCard
-                    key={productInfo.id}
-                    loadingProducts={loadingProducts}
-                    productInfo={productInfo}
-                    index={i}
-                  />
-                ))}
-              </ListingSpace>
-            )}
+            children={() =>
+              products.length < 1 && !loadingProducts ? (
+                <EmptyWrapper className='reveal-scale-up'>
+                  <Empty description='No hay productos para mostrar' />
+                </EmptyWrapper>
+              ) : (
+                <ListingSpace>
+                  {products.map((productInfo, i) => (
+                    <ProductCard
+                      key={productInfo.id}
+                      loadingProducts={loadingProducts}
+                      productInfo={productInfo}
+                      index={i}
+                    />
+                  ))}
+                </ListingSpace>
+              )
+            }
           />
 
           {totalRecords && totalRecords > paginationParams.per_page && (

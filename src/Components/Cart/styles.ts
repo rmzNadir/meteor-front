@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button } from 'antd';
+import { motion } from 'framer-motion';
 
 export const FAB = styled(Button)`
   position: fixed;
@@ -42,24 +43,31 @@ export const FAB = styled(Button)`
   }
 `;
 
-export const EmptyWrapper = styled.div`
+export const EmptyWrapper = styled(motion.div)`
+  position: absolute;
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 export const CartItemSpace = styled.div`
+  position: relative;
   width: 100%;
+  height: 100%;
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 1fr;
+  grid-auto-rows: min-content;
+  overflow-x: hidden;
+  padding: 24px;
 `;
 
-export const CartItemWrapper = styled.div`
+export const CartItemWrapper = styled(motion.div)`
   border-bottom: 1px solid ${(props) => props.theme.colors.border};
   padding: 0.5rem 0;
-
+  /* 
   :first-child {
     padding-top: 0;
   }
@@ -67,7 +75,7 @@ export const CartItemWrapper = styled.div`
   :last-child {
     padding-bottom: 0;
     border: 0;
-  }
+  } */
 `;
 
 export const Image = styled.img`
