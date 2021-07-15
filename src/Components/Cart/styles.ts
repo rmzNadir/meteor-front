@@ -71,14 +71,14 @@ export const CartItemWrapper = styled.div`
 `;
 
 export const Image = styled.img`
-  height: 5rem;
-  width: 5rem;
+  height: 5.5rem;
+  width: 5.5rem;
   object-fit: cover;
 `;
 
 export const TopInfo = styled.div`
   display: grid;
-  grid-template-columns: 5rem 1fr;
+  grid-template-columns: 5.5rem 1fr;
   grid-gap: 0.5rem;
 `;
 
