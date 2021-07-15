@@ -12,6 +12,7 @@ const theme: DefaultTheme = {
     textPrimary: 'rgba(255, 255, 255, 0.85)',
     textSecondary: 'rgba(255,255,255,0.45)',
     formError: '#a61d24',
+    secondary: '#00C1C4',
   },
   constants: {
     borderRadius: '0.25rem',

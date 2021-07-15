@@ -83,6 +83,10 @@ const ProductForm = ({
       setFiles([initialValues.image as unknown as File]);
     }
 
+    if (initialValues?.has_free_shipping) {
+      setHasFreeShipping(initialValues?.has_free_shipping);
+    }
+
     if (visible && (!platforms || !languages)) {
       const getData = async () => {
         setIsLoading(true);

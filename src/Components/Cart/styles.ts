@@ -55,13 +55,13 @@ export const EmptyWrapper = styled(motion.div)`
 export const CartItemSpace = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 75%;
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 1fr;
   grid-auto-rows: min-content;
   overflow-x: hidden;
-  padding: 24px;
+  padding: 0 24px 24px;
 `;
 
 export const CartItemWrapper = styled(motion.div)`
@@ -116,6 +116,7 @@ export const BottomInfo = styled.div`
   margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
 
   > :first-child {
     > :first-child {
@@ -126,4 +127,43 @@ export const BottomInfo = styled.div`
   > :last-child {
     justify-self: end;
   }
+`;
+
+export const SummarySpace = styled(motion.div)`
+  padding: 24px 24px 1rem;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border};
+  margin-bottom: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  > * {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  div > :nth-child(2) {
+    color: ${(props) => props.theme.colors.primary};
+  }
+
+  div:last-child {
+    text-align: left;
+    align-self: start;
+    margin-top: 1rem;
+  }
+`;
+
+export const BuyButtonSpace = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
 `;

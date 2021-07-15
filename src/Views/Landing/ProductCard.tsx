@@ -54,6 +54,7 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
           image,
           description,
           stock,
+          shipping_cost,
         },
       ];
       message.success(`${Capitalize(name)} agregado al carrito`);
@@ -68,7 +69,16 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
         }
         message.success(`${Capitalize(name)} agregado al carrito`);
         return cI.id === id
-          ? { id, quantity: newAmount, name, price, image, description, stock }
+          ? {
+              id,
+              quantity: newAmount,
+              name,
+              price,
+              image,
+              description,
+              stock,
+              shipping_cost,
+            }
           : cI;
       });
     }

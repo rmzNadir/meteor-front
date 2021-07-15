@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { ShoppingOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { Tooltip } from 'antd';
+import { Tooltip, Badge } from 'antd';
 import Logo from './Logo';
 import { CartButton, LoginButton, SignUpButton } from './styles';
 import { useCartCTX } from '../../Utils/CartContext';
@@ -33,7 +33,7 @@ const Header = ({
   ...props
 }: Props) => {
   const [isActive, setIsactive] = useState(false);
-  const { setVisible } = useCartCTX();
+  const { setVisible, cartTotal } = useCartCTX();
   const history = useHistory();
   const mobile = useMediaQuery('(max-width: 640px)');
 
@@ -145,13 +145,25 @@ const Header = ({
                   >
                     <li>
                       <Tooltip title='Carrito' placement='bottom' zIndex={999}>
-                        <CartButton
-                          shape={mobile ? undefined : 'circle'}
-                          type='primary'
-                          onClick={() => setVisible(true)}
-                        >
-                          {mobile ? 'Carrito' : <ShoppingOutlined />}
-                        </CartButton>
+                        {mobile ? (
+                          <CartButton
+                            type='primary'
+                            onClick={() => setVisible(true)}
+                          >
+                            Carrito{' '}
+                            {cartTotal.items > 0 ? `(${cartTotal.items})` : ''}
+                          </CartButton>
+                        ) : (
+                          <Badge count={cartTotal.items}>
+                            <CartButton
+                              shape='circle'
+                              type='primary'
+                              onClick={() => setVisible(true)}
+                            >
+                              <ShoppingOutlined />
+                            </CartButton>
+                          </Badge>
+                        )}
                       </Tooltip>
                     </li>
                   </ul>

@@ -5,6 +5,13 @@ export interface ICartCTX {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: ICartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+  cartTotal: ICartTotal;
+}
+
+export interface ICartTotal {
+  items: number;
+  subtotal: number;
+  shipping: number;
 }
 
 export interface ICartItem {
@@ -15,4 +22,5 @@ export interface ICartItem {
   image: IImage;
   description: string;
   stock: number;
+  shipping_cost: number;
 }
