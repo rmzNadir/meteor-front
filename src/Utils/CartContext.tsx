@@ -64,9 +64,23 @@ const CartProvider: React.FC<Props> = ({ children }) => {
 
         if (success) {
           const lsCartUpdate = getStorage('cart_updated_at');
+
+          const isBackOutdated = moment(
+            moment(cart_updated_at).format('YYYY-MM-DD HH:mm')
+          ).isBefore(moment(lsCartUpdate).format('YYYY-MM-DD HH:mm'));
+
+          if (isBackOutdated) {
+            const cart = getStorage('cart');
+            if (Array.isArray(cart)) {
+              updateUserCart(cart);
+              setCartItems(cart);
+            }
+          } else {
+            setCartItems(cart_items);
+            setStorage('cart', cart_items);
+            setStorage('cart_updated_at', moment());
+          }
           // Compare with cart_updated_at and set cart items to latest one
-          setCartItems(cart_items);
-          setStorage('cart', cart_items);
         }
       } else {
         const cart = getStorage('cart');

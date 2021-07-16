@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Typography, Button } from 'antd';
 import NumberFormat from 'react-number-format';
 import { useHistory } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ICartTotal } from '../../Types';
 import { SummarySpace, BuyButtonSpace } from './styles';
 
@@ -76,14 +77,25 @@ const Summary = ({ cartTotal, checkAuthStatus }: Props) => {
           Proceder al pago
         </Button>
       </BuyButtonSpace>
-      {shipping > 0 && (
-        <div>
-          <Text type='secondary'>
-            *Nota: El envío es gratuito en subtotales mayores o iguales $ 250.00
-            MXN
-          </Text>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {shipping > 0 && (
+          <motion.div
+            layout='position'
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{
+              opacity: 0,
+              scale: 0,
+              transition: { duration: 0.25 },
+            }}
+          >
+            <Text type='secondary'>
+              *Nota: El envío es gratuito en subtotales mayores o iguales $
+              250.00 MXN
+            </Text>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </SummarySpace>
   );
 };

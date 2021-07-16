@@ -7,6 +7,7 @@ import { LogoSpace, Info, SubmitButton, TwoColumns } from './styles';
 import DisplayErrors from '../../Utils/DisplayErrors';
 import AnimateAuthForms from '../../Components/AnimateAuthForms';
 import { useAuthCTX } from '../../Utils/AuthContext';
+import GetQueryParams from '../../Utils/GetQueryParams';
 
 const { Title, Text, Link } = Typography;
 
@@ -15,6 +16,8 @@ const SignUp = () => {
   const history = useHistory();
   const { setIsAuth, setUser } = useAuthCTX();
   const [form] = Form.useForm();
+
+  const from = GetQueryParams('from');
 
   const onFinish = async (values: IFormValues) => {
     setIsLoading(true);
@@ -55,7 +58,12 @@ const SignUp = () => {
           <div>
             <Text>¿Ya tienes una?</Text>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link onClick={() => history.push('/login')}> Iniciar sesión</Link>
+            <Link
+              onClick={() => history.push(`/login${from && `?from=${from}`}`)}
+            >
+              {' '}
+              Iniciar sesión
+            </Link>
           </div>
         </Info>
 

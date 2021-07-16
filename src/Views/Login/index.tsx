@@ -7,6 +7,7 @@ import { ILoginFormValues } from '../../Types';
 import { LogoSpace, Info, SubmitButton } from './styles';
 import AnimateAuthForms from '../../Components/AnimateAuthForms';
 import { useAuthCTX } from '../../Utils/AuthContext';
+import GetQueryParams from '../../Utils/GetQueryParams';
 
 const { Title, Text, Link } = Typography;
 
@@ -15,6 +16,8 @@ const Login = () => {
   const history = useHistory();
   const [form] = Form.useForm();
   const { setIsAuth, setUser } = useAuthCTX();
+
+  const from = GetQueryParams('from');
 
   const onFinish = async (values: ILoginFormValues) => {
     setIsLoading(true);
@@ -58,7 +61,12 @@ const Login = () => {
           <div>
             <Text>¿Aún no tienes una?</Text>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link onClick={() => history.push('/sign-up')}> Crear cuenta</Link>
+            <Link
+              onClick={() => history.push(`/sign-up${from && `?from=${from}`}`)}
+            >
+              {' '}
+              Crear cuenta
+            </Link>
           </div>
         </Info>
 
