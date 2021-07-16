@@ -41,11 +41,11 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
 
   const handleAddToCart = useCallback(() => {
     const itemIndex = cartItems.findIndex((i) => i.id === id);
-    let newItems;
+    let newItems = [...cartItems];
 
     if (itemIndex === -1) {
       newItems = [
-        ...cartItems,
+        ...newItems,
         {
           id,
           quantity: selectedAmount,
@@ -59,31 +59,30 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
       ];
       message.success(`${Capitalize(name)} agregado al carrito`);
     } else {
-      newItems = cartItems.map((cI) => {
-        const newAmount = cI.quantity + selectedAmount;
-        if (newAmount > stock) {
-          message.warning(
-            'La cantidad de este producto en tu carrito no puede exceder sus existencias'
-          );
-          return cI;
-        }
+      const newAmount = newItems[itemIndex].quantity + selectedAmount;
+      if (newAmount > stock) {
+        message.warning(
+          'La cantidad de este producto en tu carrito no puede exceder sus existencias'
+        );
+      } else {
         message.success(`${Capitalize(name)} agregado al carrito`);
-        return cI.id === id
-          ? {
-              id,
-              quantity: newAmount,
-              name,
-              price,
-              image,
-              description,
-              stock,
-              shipping_cost,
-            }
-          : cI;
-      });
+
+        newItems[itemIndex] = {
+          id,
+          quantity: newAmount,
+          name,
+          price,
+          image,
+          description,
+          stock,
+          shipping_cost,
+        };
+      }
     }
     setCartItems(newItems);
+
     setSelectedAmount(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems, selectedAmount]);
 
   return (
@@ -95,10 +94,10 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
       actions={[
         <Button
           type='link'
-          key='addToCartBtn'
+          key={`${id}-add-to-cart`}
           block
           style={{ height: '2.25rem' }}
-          onClick={handleAddToCart}
+          onClick={() => handleAddToCart()}
           disabled={stock < 1 || selectedAmount < 1}
         >
           Agregar al carrito
