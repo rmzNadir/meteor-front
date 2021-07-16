@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Typography, Button } from 'antd';
 import NumberFormat from 'react-number-format';
+import { useHistory } from 'react-router-dom';
 import { ICartTotal } from '../../Types';
 import { SummarySpace, BuyButtonSpace } from './styles';
 
@@ -7,10 +9,23 @@ const { Text } = Typography;
 
 interface Props {
   cartTotal: ICartTotal;
+  checkAuthStatus(): Promise<boolean>;
 }
 
-const Summary = ({ cartTotal }: Props) => {
+const Summary = ({ cartTotal, checkAuthStatus }: Props) => {
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
+  const history = useHistory();
   const { subtotal, shipping } = cartTotal;
+
+  const handleStartCheckout = async () => {
+    setIsBtnLoading(true);
+    const isUserAuth = await checkAuthStatus();
+    setIsBtnLoading(false);
+
+    if (!isUserAuth) {
+      history.push('/login?from=cart');
+    }
+  };
 
   return (
     <SummarySpace
@@ -53,7 +68,13 @@ const Summary = ({ cartTotal }: Props) => {
         />
       </div>
       <BuyButtonSpace>
-        <Button type='primary'>Proceder al pago</Button>
+        <Button
+          loading={isBtnLoading}
+          onClick={handleStartCheckout}
+          type='primary'
+        >
+          Proceder al pago
+        </Button>
       </BuyButtonSpace>
       {shipping > 0 && (
         <div>

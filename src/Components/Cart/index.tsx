@@ -1,7 +1,9 @@
 /* eslint-disable no-nested-ternary */
+import { useCallback } from 'react';
 import { Drawer, Empty } from 'antd';
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 import { useCartCTX } from '../../Utils/CartContext';
 import { CartItemSpace, EmptyWrapper } from './styles';
 import CartItem from './CartItem';
@@ -15,6 +17,19 @@ const Cart = () => {
 
   console.log(cartItems);
 
+  const checkAuthStatus = useCallback(async (): Promise<boolean> => {
+    try {
+      const {
+        data: { success },
+      } = await axios.get('/logged_in');
+
+      return success;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }, []);
+
   return (
     <Drawer
       title='Carrito de compras'
@@ -25,7 +40,9 @@ const Cart = () => {
       bodyStyle={{ padding: 0 }}
     >
       <AnimatePresence>
-        {cartItems.length > 0 && <Summary cartTotal={cartTotal} />}
+        {cartItems.length > 0 && (
+          <Summary cartTotal={cartTotal} checkAuthStatus={checkAuthStatus} />
+        )}
       </AnimatePresence>
 
       <CartItemSpace>

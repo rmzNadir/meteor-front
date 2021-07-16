@@ -16,9 +16,9 @@ const UserDropdown = () => {
 
   const handleLogout = async () => {
     try {
+      await axios.delete('/logout');
       setIsAuth(false);
       setUser(undefined);
-      await axios.delete('/logout');
       document.body.classList.remove('is-loaded');
       message.success({
         content: '¡Hasta la próxima! 👀',

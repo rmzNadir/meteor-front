@@ -95,6 +95,7 @@ const DragNDrop = ({
       scrollToBottomRejected();
     }
     renders.current += 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rejectedFiles]);
 
   useEffect(() => {
@@ -102,6 +103,7 @@ const DragNDrop = ({
       scrollToBottomAccepted();
     }
     renders.current += 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
   // A regex would probably be better but...

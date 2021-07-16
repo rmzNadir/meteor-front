@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback } from 'react';
 import { Typography, InputNumber, Button, Popconfirm } from 'antd';
 

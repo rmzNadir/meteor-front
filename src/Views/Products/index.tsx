@@ -125,6 +125,7 @@ const Products = () => {
   useEffect(() => {
     renders.current += 1;
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
   return (

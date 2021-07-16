@@ -115,6 +115,7 @@ const ProductForm = ({
       };
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   const handleFormOk = () => {

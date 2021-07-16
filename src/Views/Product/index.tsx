@@ -106,10 +106,12 @@ const Product = () => {
     }
     setLoadingProduct(false);
     return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDeleteProduct = async () => {

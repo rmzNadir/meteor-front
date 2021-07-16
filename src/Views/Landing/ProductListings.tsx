@@ -110,6 +110,7 @@ const ProductListings = ({
 
   useEffect(() => {
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
   const handleSearchbar = (value: string) => {

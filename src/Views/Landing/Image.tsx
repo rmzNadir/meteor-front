@@ -46,6 +46,7 @@ const Image = ({ className, src, width, height, alt, id, ...props }: Props) => {
     if (image.current) {
       handlePlaceholder(image.current);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onLoad() {
