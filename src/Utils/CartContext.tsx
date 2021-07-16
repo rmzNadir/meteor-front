@@ -80,7 +80,6 @@ const CartProvider: React.FC<Props> = ({ children }) => {
             setStorage('cart', cart_items);
             setStorage('cart_updated_at', moment());
           }
-          // Compare with cart_updated_at and set cart items to latest one
         }
       } else {
         const cart = getStorage('cart');
