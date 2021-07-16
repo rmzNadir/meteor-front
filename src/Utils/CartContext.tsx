@@ -79,6 +79,7 @@ const CartProvider: React.FC<Props> = ({ children }) => {
             setCartItems(cart_items);
             setStorage('cart', cart_items);
             setStorage('cart_updated_at', moment());
+            // xd
           }
         }
       } else {
