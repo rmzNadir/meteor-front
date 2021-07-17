@@ -27,3 +27,9 @@ export const LayoutContent = styled(Content)`
     padding: 1.5rem;
   }
 `;
+
+export const HeaderActions = styled.div`
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+`;

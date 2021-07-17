@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Layout, Menu, Drawer } from 'antd';
+import { Layout, Menu, Drawer, Badge, Button } from 'antd';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ShoppingOutlined,
@@ -15,8 +15,9 @@ import MeteorLogo from './MeteorLogo';
 import { useCollapseCTX } from '../../Utils/CollapseContext';
 import Breadcrumbs from '../Breadcrumbs';
 import UserDropdown from './UserDropdown';
-import { LayoutContent, LogoWrapper } from './styles';
+import { HeaderActions, LayoutContent, LogoWrapper } from './styles';
 import { useAuthCTX } from '../../Utils/AuthContext';
+import { useCartCTX } from '../../Utils/CartContext';
 
 interface Props {
   selectedKeys: string | string[];
@@ -69,6 +70,7 @@ const Dashboard = ({
   const { setIsCollapsing } = useCollapseCTX();
   const [showSider, setShowSider] = useState(false);
   const mobile = useMediaQuery('(max-width: 767px)');
+  const { setVisible, cartTotal } = useCartCTX();
   const { setIsAuth, setUser, user } = useAuthCTX();
   const { role } = { ...user };
 
@@ -173,11 +175,27 @@ const Dashboard = ({
               }
             )}
 
-          <UserDropdown
-            isAdmin={isAdmin}
-            setIsAuth={setIsAuth}
-            setUser={setUser}
-          />
+          <HeaderActions>
+            <Badge
+              count={cartTotal.items}
+              style={{ marginTop: '4px', marginRight: '4px' }}
+            >
+              <Button
+                shape='circle'
+                type='primary'
+                size='large'
+                onClick={() => setVisible(true)}
+              >
+                <ShoppingOutlined />
+              </Button>
+            </Badge>
+
+            <UserDropdown
+              isAdmin={isAdmin}
+              setIsAuth={setIsAuth}
+              setUser={setUser}
+            />
+          </HeaderActions>
         </Header>
         <SectionName>{sectionName}</SectionName>
 
