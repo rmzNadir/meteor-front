@@ -75,7 +75,10 @@ const Cart = () => {
     <Drawer
       title='Carrito de compras'
       placement='right'
-      onClose={() => setVisible(false)}
+      onClose={() => {
+        setVisible(false);
+        setSale(undefined);
+      }}
       visible={visible}
       width={
         mobile
