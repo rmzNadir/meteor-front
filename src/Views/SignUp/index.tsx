@@ -30,9 +30,7 @@ const SignUp = () => {
         setIsAuth(true);
         setUser(user);
         message.success(`Bienvenido, ${user.name} ✨`);
-        setTimeout(() => {
-          history.push('/listings', { showCart: from === 'cart' });
-        }, 250);
+        history.push('/listings', { showCart: from === 'cart' });
       } else if (errors) {
         DisplayErrors(errors);
       }

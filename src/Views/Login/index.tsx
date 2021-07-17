@@ -33,9 +33,7 @@ const Login = () => {
         setUser(user);
         message.success(`Bienvenido de nuevo, ${user.name} 👋`);
 
-        setTimeout(() => {
-          history.push('/listings', { showCart: from === 'cart' });
-        }, 250);
+        history.push('/listings', { showCart: from === 'cart' });
       } else {
         message.error('Revisa tus credenciales');
       }

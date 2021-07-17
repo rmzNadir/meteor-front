@@ -27,13 +27,17 @@ const Listings = () => {
   const { state } = useLocation<ListingsLocationProps>();
   const { setVisible, setUserCart } = useCartCTX();
   const { showCart } = { ...state };
+  const renders = useRef(1);
 
   useEffect(() => {
     if (showCart) {
       setVisible(showCart);
       setUserCart();
+    } else if (renders.current === 2) {
+      setUserCart();
     }
 
+    renders.current += 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showCart]);
 
@@ -80,8 +84,6 @@ const Listings = () => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
-
-  console.log(totalRecords && totalRecords > paginationParams.per_page);
 
   const handleSearchbar = (value: string) => {
     const trimmed = value.trim();

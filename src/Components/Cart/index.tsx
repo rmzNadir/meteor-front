@@ -21,7 +21,6 @@ const Cart = () => {
   const tablet = useMediaQuery('(max-width: 1023px)');
   const laptop = useMediaQuery('(max-width: 1439px)');
   const laptopL = useMediaQuery('(min-width: 1980px)');
-  console.log(cartItems);
 
   const checkAuthStatus = useCallback(async (): Promise<boolean> => {
     try {
@@ -31,7 +30,7 @@ const Cart = () => {
 
       return success;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return false;
     }
   }, []);
@@ -58,7 +57,6 @@ const Cart = () => {
         message.error('Ocurrió un error, por favor intenta de nuevo');
       }
 
-      console.log(formattedValues);
       setIsSubmitting(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
