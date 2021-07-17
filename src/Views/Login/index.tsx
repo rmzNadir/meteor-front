@@ -32,8 +32,9 @@ const Login = () => {
         setIsAuth(true);
         setUser(user);
         message.success(`Bienvenido de nuevo, ${user.name} 👋`);
+
         setTimeout(() => {
-          history.push('/products');
+          history.push('/listings', { showCart: from === 'cart' });
         }, 250);
       } else {
         message.error('Revisa tus credenciales');

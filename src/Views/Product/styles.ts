@@ -43,7 +43,8 @@ export const ProductSpace = styled.div`
       'a b c'
       'd d d'
       '. . e';
-    grid-gap: 2rem;
+    column-gap: 2rem;
+    row-gap: 1rem;
   }
   @media ${Device.laptopL} {
     width: 70%;

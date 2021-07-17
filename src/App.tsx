@@ -33,6 +33,9 @@ import AppLoading from './Components/AppLoading';
 import NotFound from './Views/NotFound';
 import ScrollReveal from './Utils/ScrollReveal';
 import Landing from './Views/Landing';
+import Listings from './Views/Listings';
+import CartProvider from './Utils/CartContext';
+import Cart from './Components/Cart';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -57,21 +60,26 @@ const Routes = memo(() => {
 
   return (
     <>
-      <ScrollToTop />
-      <ScrollReveal
-        ref={childRef}
-        children={() => (
-          <Switch>
-            <Route exact path='/404' component={NotFound} />
-            <UnAuthRoute exact path='/' component={Landing} />
-            <UnAuthRoute exact path='/login' component={Login} />
-            <UnAuthRoute exact path='/sign-up' component={SignUp} />
-            <ProtectedRoute exact path='/products' component={Products} />
-            <ProtectedRoute exact path='/products/:id' component={Product} />
-            <Route path='*' component={() => <Redirect to='/404' />} />
-          </Switch>
-        )}
-      />
+      <CartProvider>
+        <ScrollToTop />
+        <Cart />
+
+        <ScrollReveal
+          ref={childRef}
+          children={() => (
+            <Switch>
+              <Route exact path='/404' component={NotFound} />
+              <UnAuthRoute exact path='/' component={Landing} />
+              <UnAuthRoute exact path='/login' component={Login} />
+              <UnAuthRoute exact path='/sign-up' component={SignUp} />
+              <ProtectedRoute exact path='/products' component={Products} />
+              <ProtectedRoute exact path='/products/:id' component={Product} />
+              <ProtectedRoute exact path='/listings' component={Listings} />
+              <Route path='*' component={() => <Redirect to='/404' />} />
+            </Switch>
+          )}
+        />
+      </CartProvider>
     </>
   );
 });

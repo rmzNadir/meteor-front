@@ -14,7 +14,7 @@ const UnAuthRoute = ({ component, exact = false, path }: Props) => {
     return <Route exact={exact} path={path} component={component} />;
   }
 
-  return <Redirect to='/products' />;
+  return <Redirect to='/listings' />;
 };
 
 export default UnAuthRoute;

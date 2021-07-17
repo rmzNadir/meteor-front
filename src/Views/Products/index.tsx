@@ -130,7 +130,7 @@ const Products = () => {
 
   return (
     <CollapseProvider>
-      <Dashboard selectedKeys='products' sectionName='Productos'>
+      <Dashboard selectedKeys='products' sectionName='Productos' adminView>
         <Title level={3} className='summary-title'>
           Resumen
         </Title>

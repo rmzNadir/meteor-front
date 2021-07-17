@@ -31,7 +31,7 @@ const SignUp = () => {
         setUser(user);
         message.success(`Bienvenido, ${user.name} ✨`);
         setTimeout(() => {
-          history.push('/products');
+          history.push('/listings', { showCart: from === 'cart' });
         }, 250);
       } else if (errors) {
         DisplayErrors(errors);

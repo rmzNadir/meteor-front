@@ -16,7 +16,6 @@ import Amogus from '../../Utils/Amogus';
 import ScrollReveal from '../../Utils/ScrollReveal';
 import ProductCard from './ProductCard';
 import ListingPagination from './ListingPagination';
-import Cart from '../../Components/Cart';
 
 interface Props {
   className?: string;
@@ -167,8 +166,6 @@ const ProductListings = ({
           )}
         </div>
       </div>
-
-      <Cart />
     </ListingSection>
   );
 };

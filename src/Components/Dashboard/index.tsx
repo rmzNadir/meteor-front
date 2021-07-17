@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Layout, Menu, Drawer } from 'antd';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -7,24 +7,33 @@ import {
   MenuFoldOutlined,
 } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMeteor } from '@fortawesome/free-solid-svg-icons';
 import SectionName from '../SectionName';
 import MeteorLogo from './MeteorLogo';
 import { useCollapseCTX } from '../../Utils/CollapseContext';
 import Breadcrumbs from '../Breadcrumbs';
 import UserDropdown from './UserDropdown';
 import { LogoWrapper } from './styles';
+import { useAuthCTX } from '../../Utils/AuthContext';
 
 interface Props {
   selectedKeys: string | string[];
   sectionName: string;
   children: React.ReactNode;
   animate?: boolean;
+  adminView?: boolean;
+}
+
+interface MenuProps {
+  selectedKeys: Props['selectedKeys'];
+  isAdmin: boolean;
 }
 
 const { Header, Sider, Content } = Layout;
 
-const MeteorMenu = ({ selectedKeys }: Pick<Props, 'selectedKeys'>) => {
+const MeteorMenu = ({ selectedKeys, isAdmin }: MenuProps) => {
   const history = useHistory();
 
   const SelectedKeys: string[] = Array.isArray(selectedKeys)
@@ -38,9 +47,14 @@ const MeteorMenu = ({ selectedKeys }: Pick<Props, 'selectedKeys'>) => {
       mode='inline'
       onClick={(i) => history.push(`/${i.key}`)}
     >
-      <Menu.Item key='products' icon={<ShoppingOutlined />}>
-        Productos
+      <Menu.Item key='listings' icon={<FontAwesomeIcon icon={faMeteor} />}>
+        Mi Meteor
       </Menu.Item>
+      {isAdmin && (
+        <Menu.Item key='products' icon={<ShoppingOutlined />}>
+          Productos
+        </Menu.Item>
+      )}
     </Menu>
   );
 };
@@ -50,10 +64,15 @@ const Dashboard = ({
   sectionName,
   children,
   animate = true,
+  adminView = false,
 }: Props) => {
   const { setIsCollapsing } = useCollapseCTX();
   const [showSider, setShowSider] = useState(false);
   const mobile = useMediaQuery('(max-width: 767px)');
+  const { setIsAuth, setUser, user } = useAuthCTX();
+  const { role } = { ...user };
+
+  const isAdmin = useMemo(() => role === 'admin', [role]);
 
   const animations = animate
     ? {
@@ -83,6 +102,10 @@ const Dashboard = ({
     mobile && setShowSider(false);
   }, [mobile]);
 
+  if (adminView && !isAdmin) {
+    return <Redirect to='/' />;
+  }
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {!mobile && (
@@ -93,7 +116,7 @@ const Dashboard = ({
           collapsed={showSider}
         >
           <MeteorLogo collapsed={showSider} />
-          <MeteorMenu selectedKeys={selectedKeys} />
+          <MeteorMenu selectedKeys={selectedKeys} isAdmin={isAdmin} />
         </Sider>
       )}
 
@@ -111,7 +134,7 @@ const Dashboard = ({
             <img className='logo' src='/images/meteor.png' alt='meteor-logo' />
           </LogoWrapper>
 
-          <MeteorMenu selectedKeys={selectedKeys} />
+          <MeteorMenu selectedKeys={selectedKeys} isAdmin={isAdmin} />
         </Drawer>
       )}
 
@@ -150,7 +173,11 @@ const Dashboard = ({
               }
             )}
 
-          <UserDropdown />
+          <UserDropdown
+            isAdmin={isAdmin}
+            setIsAuth={setIsAuth}
+            setUser={setUser}
+          />
         </Header>
         <SectionName>{sectionName}</SectionName>
 

@@ -7,18 +7,28 @@ import {
 } from '@ant-design/icons';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { useAuthCTX } from '../../Utils/AuthContext';
+import { IUser } from '../../Types';
+import { clearStorageKey } from '../../Utils/Storage';
+import { useCartCTX } from '../../Utils/CartContext';
 
-const UserDropdown = () => {
+interface Props {
+  setUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  isAdmin: boolean;
+}
+
+const UserDropdown = ({ setIsAuth, setUser, isAdmin }: Props) => {
   const history = useHistory();
-  const { setIsAuth, setUser, user } = useAuthCTX();
-  const { role } = { ...user };
+  const { setCartItems } = useCartCTX();
 
   const handleLogout = async () => {
     try {
       await axios.delete('/logout');
       setIsAuth(false);
+      setCartItems([]);
       setUser(undefined);
+      clearStorageKey('cart');
+
       document.body.classList.remove('is-loaded');
       message.success({
         content: '¡Hasta la próxima! 👀',
@@ -34,7 +44,7 @@ const UserDropdown = () => {
 
   const menu = (
     <Menu>
-      {role === 'admin' && (
+      {isAdmin && (
         <Menu.Item disabled key='0'>
           <Button disabled type='link' size='small' icon={<LockOutlined />}>
             Panel de administrador

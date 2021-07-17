@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Button } from 'antd';
 import { motion } from 'framer-motion';
+import Device from '../../Utils/Breakpoints';
 
 export const FAB = styled(Button)`
   position: fixed;
@@ -45,7 +46,15 @@ export const FAB = styled(Button)`
 
 export const EmptyWrapper = styled(motion.div)`
   position: absolute;
-  height: 100%;
+  height: 75%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ResultWrapper = styled(motion.div)`
+  height: 75%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -55,7 +64,7 @@ export const EmptyWrapper = styled(motion.div)`
 export const CartItemSpace = styled.div`
   position: relative;
   width: 100%;
-  height: 75%;
+  flex-grow: 1;
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 1fr;
@@ -150,20 +159,41 @@ export const SummarySpace = styled(motion.div)`
     hyphens: auto;
   }
 
-  div > :nth-child(2) {
+  .number-color {
     color: ${(props) => props.theme.colors.primary};
   }
 
-  div:last-child {
+  .shipping-disclaimer {
     text-align: left;
     align-self: start;
     margin-top: 1rem;
   }
 `;
 
-export const BuyButtonSpace = styled.div`
+export const BuyButtonSpace = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+`;
+
+export const CheckoutSpace = styled(motion.div)`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid ${(props) => props.theme.colors.border};
+  text-align: left;
+`;
+
+export const TwoColumns = styled.div`
+  display: grid;
+
+  @media ${Device.zero} {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+
+  @media ${Device.tablet} {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+  }
 `;

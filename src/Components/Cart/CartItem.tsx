@@ -16,11 +16,12 @@ import {
 interface Props {
   item: ICartItem;
   setCartItems: React.Dispatch<React.SetStateAction<ICartItem[]>>;
+  disabled: boolean;
 }
 
 const { Text, Paragraph } = Typography;
 
-const CartItem = ({ item, setCartItems }: Props) => {
+const CartItem = ({ item, setCartItems, disabled }: Props) => {
   const { name, image, price, description, quantity, stock, id } = item;
 
   const handleChangeQuantity = useCallback((value: number) => {
@@ -76,22 +77,28 @@ const CartItem = ({ item, setCartItems }: Props) => {
             min={1}
             max={stock}
             value={quantity}
-            disabled={stock < 1}
+            disabled={stock < 1 || disabled}
             size='small'
             onChange={handleChangeQuantity}
             style={{ maxWidth: '3.45rem' }}
           />
         </div>
-        <Popconfirm
-          placement='left'
-          title='¿Estás seguro?'
-          onConfirm={handleRemoveProduct}
-          okText='Sí'
-        >
-          <Button type='link' danger>
+        {disabled ? (
+          <Button type='link' danger disabled>
             Eliminar
           </Button>
-        </Popconfirm>
+        ) : (
+          <Popconfirm
+            placement='left'
+            title='¿Estás seguro?'
+            onConfirm={handleRemoveProduct}
+            okText='Sí'
+          >
+            <Button type='link' danger>
+              Eliminar
+            </Button>
+          </Popconfirm>
+        )}
       </BottomInfo>
     </CartItemWrapper>
   );

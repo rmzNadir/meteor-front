@@ -13,7 +13,6 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import moment from 'moment';
 import { ICartCTX, ICartItem } from '../Types';
 import { useAuthCTX } from './AuthContext';
 import { getStorage, setStorage } from './Storage';
@@ -22,12 +21,17 @@ interface Props {
   children: React.ReactNode;
 }
 
+interface INewCartItem extends ICartItem {
+  isNew?: boolean;
+}
+
 const CartCTX = createContext<ICartCTX>({
   visible: false,
   setVisible: () => {},
   cartItems: [],
   setCartItems: () => {},
   cartTotal: { items: 0, subtotal: 0, shipping: 0 },
+  setUserCart: () => new Promise<void>(() => {}),
 });
 
 export const useCartCTX = () => {
@@ -53,46 +57,44 @@ const CartProvider: React.FC<Props> = ({ children }) => {
         console.error(e);
       }
     }, 500),
-    []
+    [user]
   );
 
   const setUserCart = useCallback(async () => {
+    const localCart = getStorage('cart');
+
     try {
       if (isAuth) {
         const { data } = await axios.get(`/carts/${user?.id}`);
-        const { success, cart_items, cart_updated_at } = data;
+        const { success, cart_items } = data;
 
         if (success) {
-          const lsCartUpdate = getStorage('cart_updated_at');
+          // If the same product is found in the merge from the ls cart and the db cart arrays
+          // then the one from the ls cart takes priority
+          const merged = Object.values(
+            [
+              ...localCart.map((i: ICartItem) => ({ ...i, isNew: true })),
+              ...cart_items,
+            ].reduce((acc: INewCartItem[], obj: INewCartItem) => {
+              const curr = acc[obj.id];
+              acc[obj.id] = curr ? (!curr.isNew ? obj : curr) : obj;
+              return acc;
+            }, {})
+          ) as ICartItem[];
 
-          const isBackOutdated = moment(
-            moment(cart_updated_at).format('YYYY-MM-DD HH:mm')
-          ).isBefore(moment(lsCartUpdate).format('YYYY-MM-DD HH:mm'));
-
-          if (isBackOutdated) {
-            const cart = getStorage('cart');
-            if (Array.isArray(cart)) {
-              updateUserCart(cart);
-              setCartItems(cart);
-            }
-          } else {
-            setCartItems(cart_items);
-            setStorage('cart', cart_items);
-            setStorage('cart_updated_at', moment());
-            // xd
-          }
+          setCartItems(merged);
+          setStorage('cart', merged);
         }
       } else {
-        const cart = getStorage('cart');
-        if (Array.isArray(cart)) setCartItems(cart);
+        setCartItems(localCart);
       }
     } catch (e) {
       console.error(e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
-  // Maybe separate into 2 useEffects
+  // Maybe separate into 2 useEffects...
 
   useEffect(() => {
     if (renders.current < 2) {
@@ -104,7 +106,6 @@ const CartProvider: React.FC<Props> = ({ children }) => {
         updateUserCart(cartItems);
       }
       setStorage('cart', cartItems);
-      setStorage('cart_updated_at', moment());
     }
 
     renders.current += 1;
@@ -135,6 +136,7 @@ const CartProvider: React.FC<Props> = ({ children }) => {
     cartItems,
     setCartItems,
     cartTotal,
+    setUserCart,
   };
 
   return <CartCTX.Provider value={value}>{children}</CartCTX.Provider>;

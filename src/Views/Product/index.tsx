@@ -175,7 +175,7 @@ const Product = () => {
   };
 
   return (
-    <Dashboard selectedKeys='products' sectionName='Productos'>
+    <Dashboard selectedKeys='products' sectionName='Productos' adminView>
       <Wrapper>
         <ProductSpace>
           <ImageWrapper>
