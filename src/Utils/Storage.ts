@@ -9,7 +9,7 @@ export const getStorage = (key: string) => {
   if (obj) {
     return JSON.parse(obj);
   }
-  return {};
+  return [];
 };
 
 export const clearStorageKey = (key: string) => {

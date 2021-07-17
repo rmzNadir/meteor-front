@@ -15,7 +15,7 @@ import MeteorLogo from './MeteorLogo';
 import { useCollapseCTX } from '../../Utils/CollapseContext';
 import Breadcrumbs from '../Breadcrumbs';
 import UserDropdown from './UserDropdown';
-import { LogoWrapper } from './styles';
+import { LayoutContent, LogoWrapper } from './styles';
 import { useAuthCTX } from '../../Utils/AuthContext';
 
 interface Props {
@@ -31,7 +31,7 @@ interface MenuProps {
   isAdmin: boolean;
 }
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider } = Layout;
 
 const MeteorMenu = ({ selectedKeys, isAdmin }: MenuProps) => {
   const history = useHistory();
@@ -183,18 +183,14 @@ const Dashboard = ({
 
         <Breadcrumbs />
 
-        <Content
-          // className='site-layout-background'
-          style={{
-            margin: '2rem 1rem 1rem',
-            padding: '1.5rem',
-          }}
+        <LayoutContent
+        // className='site-layout-background'
         >
           <AnimatePresence exitBeforeEnter>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <motion.div {...animations}>{children}</motion.div>
           </AnimatePresence>
-        </Content>
+        </LayoutContent>
       </Layout>
     </Layout>
   );

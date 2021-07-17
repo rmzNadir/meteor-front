@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { useCallback, useState } from 'react';
-import { ProductInfo, Card } from './styles';
+import { ProductInfo, Card } from '../../Views/Landing/styles';
 import theme from '../../Utils/theme';
 import { IProduct } from '../../Types';
 import { useCartCTX } from '../../Utils/CartContext';

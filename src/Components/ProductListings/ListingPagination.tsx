@@ -1,7 +1,6 @@
 import React from 'react';
 import { Pagination } from 'antd';
 import { IPagination } from '../../Types';
-
 import { PaginationSpace } from './styles';
 
 interface Props {

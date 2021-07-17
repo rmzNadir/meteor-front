@@ -8,7 +8,7 @@ export const Space = styled(motion.div)`
   align-items: center;
   min-height: 100vh;
   min-width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 
   & .ant-card-head {
     border-top: 2px solid ${(props) => props.theme.colors.primary};
