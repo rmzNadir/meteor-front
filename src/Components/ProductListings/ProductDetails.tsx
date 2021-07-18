@@ -148,7 +148,7 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
             {name && Capitalize(name)}
           </Title>
           {isClientUser && (
-            <Tooltip title='Editar/Eliminar'>
+            <Tooltip title='Editar / Eliminar'>
               <Button
                 shape='circle'
                 type='primary'

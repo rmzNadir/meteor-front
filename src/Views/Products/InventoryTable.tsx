@@ -9,7 +9,6 @@ import {
 import { ColumnsType } from 'antd/es/table';
 import NumberFormat from 'react-number-format';
 import { useHistory } from 'react-router-dom';
-
 import { ILanguage, IPlatform, IProduct } from '../../Types/Products';
 import { Actions, PlatformIconSpace } from './styles';
 import GetPlatformIcon from '../../Utils/GetPlatformIcon';

@@ -6,6 +6,8 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
+  DropboxOutlined,
+  ShoppingCartOutlined,
 } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { Redirect, useHistory } from 'react-router-dom';
@@ -54,8 +56,11 @@ const MeteorMenu = ({ selectedKeys, isClientUser, isAdmin }: MenuProps) => {
       <Menu.Item key='listings' icon={<FontAwesomeIcon icon={faMeteor} />}>
         Mi Meteor
       </Menu.Item>
+      <Menu.Item key='orders' icon={<ShoppingCartOutlined />}>
+        Mis Pedidos
+      </Menu.Item>
       {isClientUser && (
-        <Menu.Item key='products' icon={<ShoppingOutlined />}>
+        <Menu.Item key='products' icon={<DropboxOutlined />}>
           Productos
         </Menu.Item>
       )}

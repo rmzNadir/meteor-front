@@ -9,10 +9,9 @@ const Breadcrumbs = withRouter(({ location }) => {
   const { id }: { id: string } = useParams();
 
   const breadcrumbNameMap: IBreadcrumbNameMap = {
-    '/': 'Inicio',
     '/products': 'Productos',
     '/products/:id': 'Detalles',
-    '/listings': 'Todos los productos',
+    '/orders': 'Todos',
   };
 
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -34,9 +33,9 @@ const Breadcrumbs = withRouter(({ location }) => {
 
   const breadcrumbItems = [
     <Breadcrumb.Item key='home'>
-      <Link to='/'>Home</Link>
+      <Link to='/'>Inicio</Link>
     </Breadcrumb.Item>,
-  ].concat(extraBreadcrumbItems);
+  ].concat(extraBreadcrumbItems.filter((i) => i.key !== '/listings'));
 
   return <Breadcrumb>{breadcrumbItems}</Breadcrumb>;
 });
