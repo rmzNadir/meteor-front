@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-multi-assign */
 import { useRef, useEffect } from 'react';
+import { Affix } from 'antd';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LogoWrapper } from './styles';
 
@@ -46,28 +47,30 @@ const MeteorLogo = ({ collapsed }: Props) => {
     : AnimationsLibrary[0];
 
   return (
-    <LogoWrapper>
-      <AnimatePresence>
-        {collapsed && (
-          <motion.img
-            className='logo'
-            {...AnimationConfigSmall}
-            src={small}
-            alt='meteor-logo'
-          />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {!collapsed && (
-          <motion.img
-            className='logo'
-            {...AnimationConfigBig}
-            src={large}
-            alt='meteor-logo'
-          />
-        )}
-      </AnimatePresence>
-    </LogoWrapper>
+    <Affix>
+      <LogoWrapper>
+        <AnimatePresence>
+          {collapsed && (
+            <motion.img
+              className='logo'
+              {...AnimationConfigSmall}
+              src={small}
+              alt='meteor-logo'
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.img
+              className='logo'
+              {...AnimationConfigBig}
+              src={large}
+              alt='meteor-logo'
+            />
+          )}
+        </AnimatePresence>
+      </LogoWrapper>
+    </Affix>
   );
 };
 

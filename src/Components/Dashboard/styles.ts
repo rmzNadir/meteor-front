@@ -10,6 +10,7 @@ export const LogoWrapper = styled.div`
   align-items: center;
   padding: 7px 0;
   overflow: hidden;
+  background: ${(props) => props.theme.colors.content};
 
   & .logo {
     height: 50px;
