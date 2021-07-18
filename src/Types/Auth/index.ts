@@ -1,6 +1,6 @@
 export interface IUser {
   id: number;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'client_user';
   email: string;
   last_name: string;
   name: string;

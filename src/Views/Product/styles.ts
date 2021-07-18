@@ -80,6 +80,14 @@ export const CardSpace = styled.div`
   grid-auto-rows: auto;
   grid-gap: 1rem;
 
+  @media ${Device.zero} {
+    grid-template-columns: 1fr;
+  }
+
+  @media ${Device.mobileM} {
+    grid-template-columns: 1fr 1fr;
+  }
+
   > * {
     height: min-content;
   }

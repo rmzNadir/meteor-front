@@ -175,7 +175,7 @@ const Product = () => {
   };
 
   return (
-    <Dashboard selectedKeys='products' sectionName='Productos' adminView>
+    <Dashboard selectedKeys='products' sectionName='Productos' clientView>
       <Wrapper>
         <ProductSpace>
           <ImageWrapper>
@@ -250,7 +250,7 @@ const Product = () => {
               </DetailsVertical>
               <Details>
                 <ItemTitle strong>Envío gratis</ItemTitle>
-                <ItemInfo>
+                <ItemInfo style={{ margin: 0 }}>
                   {has_free_shipping ? (
                     <CheckCircleOutlined
                       style={{ color: theme.colors.success, fontSize: '1rem' }}
@@ -264,7 +264,7 @@ const Product = () => {
                 {!has_free_shipping && (
                   <>
                     <ItemTitle strong>Costo de envío</ItemTitle>
-                    <ItemInfo>
+                    <ItemInfo style={{ margin: 0, justifySelf: 'end' }}>
                       <NumberFormat
                         value={shipping_cost}
                         displayType='text'

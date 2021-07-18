@@ -11,6 +11,7 @@ import { useCartCTX } from '../../Utils/CartContext';
 import ScrollReveal from '../../Utils/ScrollReveal';
 import ProductCard from '../../Components/ProductListings/ProductCard';
 import Pagination from './Pagination';
+import ProductDetails from '../../Components/ProductListings/ProductDetails';
 
 const { Search } = Input;
 
@@ -24,10 +25,18 @@ const DEF_PAGINATION: IPagination = {
 };
 
 const Listings = () => {
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [totalRecords, setTotalRecords] = useState<number>();
+  const [showDetails, setShowDetails] = useState(false);
+  const [product, setProduct] = useState<IProduct>();
+  const [paginationParams, setPaginationParams] =
+    useState<IPagination>(DEF_PAGINATION);
   const { state } = useLocation<ListingsLocationProps>();
   const { setVisible, setUserCart } = useCartCTX();
   const { showCart } = { ...state };
   const renders = useRef(1);
+  const childRef = useRef<any>();
 
   useEffect(() => {
     if (showCart) {
@@ -40,13 +49,6 @@ const Listings = () => {
     renders.current += 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showCart]);
-
-  const [loadingProducts, setLoadingProducts] = useState(false);
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [totalRecords, setTotalRecords] = useState<number>();
-  const [paginationParams, setPaginationParams] =
-    useState<IPagination>(DEF_PAGINATION);
-  const childRef = useRef<any>();
 
   const getProducts = useCallback(async () => {
     setLoadingProducts(true);
@@ -90,6 +92,11 @@ const Listings = () => {
     setPaginationParams((p) => ({ ...p, q: trimmed }));
   };
 
+  const handleShowDetails = (id: number) => {
+    setProduct(products.find((p) => p.id === id));
+    setShowDetails(true);
+  };
+
   return (
     <Dashboard selectedKeys='listings' sectionName='Mi Meteor' animate={false}>
       <SearchSpace>
@@ -113,6 +120,7 @@ const Listings = () => {
             <ListingSpace>
               {products.map((productInfo, i) => (
                 <ProductCard
+                  handleShowDetails={handleShowDetails}
                   key={productInfo.id}
                   loadingProducts={loadingProducts}
                   productInfo={productInfo}
@@ -143,6 +151,14 @@ const Listings = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {product && (
+        <ProductDetails
+          data={product}
+          visible={showDetails}
+          setVisible={setShowDetails}
+        />
+      )}
     </Dashboard>
   );
 };

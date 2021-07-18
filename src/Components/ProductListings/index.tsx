@@ -7,6 +7,7 @@ import Amogus from '../../Utils/Amogus';
 import ScrollReveal from '../../Utils/ScrollReveal';
 import ProductCard from './ProductCard';
 import ListingPagination from './ListingPagination';
+import ProductDetails from './ProductDetails';
 
 const { Search } = Input;
 
@@ -16,6 +17,8 @@ const DEF_PAGINATION: IPagination = {
 };
 
 const ProductListings = () => {
+  const [product, setProduct] = useState<IProduct>();
+  const [showDetails, setShowDetails] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>();
@@ -65,6 +68,11 @@ const ProductListings = () => {
     setPaginationParams((p) => ({ ...p, q: trimmed }));
   };
 
+  const handleShowDetails = (id: number) => {
+    setProduct(products.find((p) => p.id === id));
+    setShowDetails(true);
+  };
+
   return (
     <>
       <SearchSpace>
@@ -88,6 +96,7 @@ const ProductListings = () => {
             <ListingSpace>
               {products.map((productInfo, i) => (
                 <ProductCard
+                  handleShowDetails={handleShowDetails}
                   key={productInfo.id}
                   loadingProducts={loadingProducts}
                   productInfo={productInfo}
@@ -104,6 +113,13 @@ const ProductListings = () => {
           totalRecords={totalRecords}
           paginationParams={paginationParams}
           setPaginationParams={setPaginationParams}
+        />
+      )}
+      {product && (
+        <ProductDetails
+          data={product}
+          visible={showDetails}
+          setVisible={setShowDetails}
         />
       )}
     </>

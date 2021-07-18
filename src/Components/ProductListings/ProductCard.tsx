@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useCallback, useState } from 'react';
 import { Image, Typography, Button, InputNumber, message } from 'antd';
 import {
   CheckCircleOutlined,
@@ -5,8 +8,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
-import { useCallback, useState } from 'react';
-import { ProductInfo, Card } from '../../Views/Landing/styles';
+import { ProductInfo, Card } from './styles';
 import theme from '../../Utils/theme';
 import { IProduct } from '../../Types';
 import { useCartCTX } from '../../Utils/CartContext';
@@ -22,9 +24,15 @@ interface Props {
   loadingProducts: boolean;
   productInfo: IProduct;
   index: number;
+  handleShowDetails: (id: number) => void;
 }
 
-const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
+const ProductCard = ({
+  loadingProducts,
+  productInfo,
+  index,
+  handleShowDetails,
+}: Props) => {
   const {
     id,
     name,
@@ -86,99 +94,104 @@ const ProductCard = ({ loadingProducts, productInfo, index }: Props) => {
   }, [cartItems, selectedAmount]);
 
   return (
-    <Card
-      loading={loadingProducts}
-      className='reveal-scale-up'
-      data-reveal-delay={index * 50}
-      hoverable
-      actions={[
-        <Button
-          type='link'
-          key={`${id}-add-to-cart`}
-          block
-          style={{ height: '2.25rem' }}
-          onClick={() => handleAddToCart()}
-          disabled={stock < 1 || selectedAmount < 1}
-        >
-          Agregar al carrito
-          <ShoppingCartOutlined />
-        </Button>,
-      ]}
-      cover={
-        <Image
-          alt={name}
-          src={loadingProducts ? IMG_FALLBACK : image?.url || IMG_FALLBACK}
-          preview={false}
-          fallback={IMG_FALLBACK}
-          style={{ objectFit: 'cover', height: '190px' }}
-        />
-      }
-    >
-      <Meta
-        title={Capitalize(name)}
-        description={
-          <div>
-            <Paragraph
-              ellipsis={{
-                rows: 2,
-              }}
-            >
-              {Capitalize(description)}
-            </Paragraph>
-            <ProductInfo>
-              <div>Costo</div>
-              <NumberFormat
-                value={price}
-                displayType='text'
-                thousandSeparator
-                prefix='$ '
-                suffix=' MXN'
-              />
-              <div>Envío gratis</div>
-              {has_free_shipping ? (
-                <CheckCircleOutlined
-                  style={{
-                    color: theme.colors.success,
-                    fontSize: '1rem',
-                  }}
-                />
-              ) : (
-                <CloseCircleOutlined
-                  style={{
-                    color: theme.colors.error,
-                    fontSize: '1rem',
-                  }}
-                />
-              )}
-              <div>Costo de Envío</div>
-              <NumberFormat
-                value={shipping_cost}
-                displayType='text'
-                thousandSeparator
-                prefix='$ '
-                suffix=' MXN'
-              />
-              <div>Disponibles</div>
-              <NumberFormat
-                value={stock}
-                displayType='text'
-                thousandSeparator
-              />
-              <div>Cantidad</div>
-              <InputNumber
-                min={stock < 1 ? 0 : 1}
-                max={stock}
-                value={selectedAmount}
-                disabled={stock < 1}
-                size='small'
-                onChange={setSelectedAmount}
-                style={{ maxWidth: '3.45rem' }}
-              />
-            </ProductInfo>
-          </div>
+    <>
+      <Card
+        loading={loadingProducts}
+        className='reveal-scale-up'
+        data-reveal-delay={index * 50}
+        hoverable
+        actions={[
+          <Button
+            type='link'
+            key={`${id}-add-to-cart`}
+            block
+            style={{ height: '2.25rem' }}
+            onClick={() => handleAddToCart()}
+            disabled={stock < 1 || selectedAmount < 1}
+          >
+            Agregar al carrito
+            <ShoppingCartOutlined />
+          </Button>,
+        ]}
+        cover={
+          <Image
+            onClick={() => handleShowDetails(id)}
+            alt={name}
+            src={loadingProducts ? IMG_FALLBACK : image?.url || IMG_FALLBACK}
+            preview={false}
+            fallback={IMG_FALLBACK}
+            style={{ objectFit: 'cover', height: '190px' }}
+          />
         }
-      />
-    </Card>
+      >
+        <div className='card-body' onClick={() => handleShowDetails(id)}>
+          <Meta
+            title={Capitalize(name)}
+            description={
+              <div>
+                <Paragraph
+                  ellipsis={{
+                    rows: 2,
+                  }}
+                >
+                  {Capitalize(description)}
+                </Paragraph>
+                <ProductInfo>
+                  <div>Costo</div>
+                  <NumberFormat
+                    value={price}
+                    displayType='text'
+                    thousandSeparator
+                    prefix='$ '
+                    suffix=' MXN'
+                  />
+                  <div>Envío gratis</div>
+                  {has_free_shipping ? (
+                    <CheckCircleOutlined
+                      style={{
+                        color: theme.colors.success,
+                        fontSize: '1rem',
+                      }}
+                    />
+                  ) : (
+                    <CloseCircleOutlined
+                      style={{
+                        color: theme.colors.error,
+                        fontSize: '1rem',
+                      }}
+                    />
+                  )}
+                  <div>Costo de Envío</div>
+                  <NumberFormat
+                    value={shipping_cost}
+                    displayType='text'
+                    thousandSeparator
+                    prefix='$ '
+                    suffix=' MXN'
+                  />
+                  <div>Disponibles</div>
+                  <NumberFormat
+                    value={stock}
+                    displayType='text'
+                    thousandSeparator
+                  />
+                  <div>Cantidad</div>
+                  <InputNumber
+                    min={stock < 1 ? 0 : 1}
+                    max={stock}
+                    value={selectedAmount}
+                    disabled={stock < 1}
+                    size='small'
+                    onChange={setSelectedAmount}
+                    style={{ maxWidth: '3.45rem' }}
+                  />
+                </ProductInfo>
+              </div>
+            }
+          />
+        </div>
+      </Card>
+    </>
   );
 };
 

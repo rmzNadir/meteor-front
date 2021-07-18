@@ -21,21 +21,21 @@ import ProtectedRoute from './Components/ProtectedRoute';
 // Utils
 import ScrollToTop from './Utils/ScrollToTop';
 import theme from './Utils/theme';
+import AuthProvider, { useAuthCTX } from './Utils/AuthContext';
+import CartProvider from './Utils/CartContext';
+import ScrollReveal from './Utils/ScrollReveal';
+import Cart from './Components/Cart';
+import AppLoading from './Components/AppLoading';
+import UnAuthRoute from './Components/UnAuthRoute';
 
 // Views
 import Login from './Views/Login';
 import Products from './Views/Products';
 import Product from './Views/Product';
 import SignUp from './Views/SignUp';
-import AuthProvider, { useAuthCTX } from './Utils/AuthContext';
-import UnAuthRoute from './Components/UnAuthRoute';
-import AppLoading from './Components/AppLoading';
 import NotFound from './Views/NotFound';
-import ScrollReveal from './Utils/ScrollReveal';
 import Landing from './Views/Landing';
 import Listings from './Views/Listings';
-import CartProvider from './Utils/CartContext';
-import Cart from './Components/Cart';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;

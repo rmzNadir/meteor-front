@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 import axios from 'axios';
 import { IUser } from '../Types';
 
@@ -13,6 +19,8 @@ interface IAuth {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isAdmin: boolean;
+  isClientUser: boolean;
 }
 
 const AuthCTX = createContext<IAuth>({
@@ -22,6 +30,8 @@ const AuthCTX = createContext<IAuth>({
   setIsAuth: () => false,
   loading: true,
   setLoading: () => true,
+  isAdmin: false,
+  isClientUser: false,
 });
 
 export const useAuthCTX = () => {
@@ -58,6 +68,13 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     checkUser();
   }, []);
 
+  const isAdmin = useMemo(() => user?.role === 'admin', [user]);
+
+  const isClientUser = useMemo(
+    () => user?.role === 'admin' || user?.role === 'client_user',
+    [user]
+  );
+
   axios.interceptors.response.use(
     (response) => {
       // Any status code that lie within the range of 2xx cause this function to trigger
@@ -86,6 +103,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setIsAuth,
     loading,
     setLoading,
+    isAdmin,
+    isClientUser,
   };
 
   return <AuthCTX.Provider value={value}>{children}</AuthCTX.Provider>;

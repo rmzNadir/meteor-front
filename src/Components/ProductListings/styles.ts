@@ -15,6 +15,18 @@ export const ListingSpace = styled.div`
   } */
 `;
 
+export const ProductInfo = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.25rem;
+  margin-top: 0.5rem;
+
+  & :nth-child(2n) {
+    justify-self: end;
+    align-self: center;
+  }
+`;
+
 export const SearchSpace = styled.div`
   display: flex;
   justify-content: center;
@@ -58,12 +70,18 @@ export const Card = styled(AntCard)`
     }
   }
 
+  .card-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px 24px 24px;
+  }
   // Hell
   .ant-card-body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 20px 24px 24px 24px;
+    padding: 0;
 
     .ant-card-meta {
       height: 100%;
@@ -107,4 +125,68 @@ export const EmptyWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const DetailsWrapper = styled.div`
+  padding: 12px 24px 24px;
+
+  .product-description {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  > :first-child {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+export const InfoGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5rem;
+
+  > :nth-child(2n) {
+    justify-self: end;
+  }
+`;
+
+export const ExtraInfoGrid = styled.div`
+  display: grid;
+  grid-gap: 1rem;
+  margin-top: 1rem;
+
+  > * {
+    height: min-content;
+  }
+
+  .platform-list > :first-child {
+    margin-right: 0.5rem;
+  }
+
+  @media ${Device.zero} {
+    grid-template-columns: 1fr;
+  }
+
+  @media ${Device.mobileM} {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+export const Actions = styled.div`
+  padding: 0.2rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: start;
+
+  > :last-child {
+    justify-self: end;
+  }
 `;
