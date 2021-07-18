@@ -5,6 +5,7 @@ import OrdersTable from './OrdersTable';
 import { HeaderSpace, Title, Search } from './styles';
 import { IPagination, ISaleRecord } from '../../Types';
 import Amogus from '../../Utils/Amogus';
+import CollapseProvider from '../../Utils/CollapseContext';
 
 const DEF_PAGINATION = {
   per_page: 10,
@@ -73,25 +74,27 @@ const Orders = () => {
   };
 
   return (
-    <Dashboard selectedKeys='orders' sectionName='Mis pedidos' animate={false}>
-      <Title level={3}>Últimos pedidos</Title>
-      <HeaderSpace>
-        <Search
-          placeholder='Buscar pedidos'
-          enterButton
-          onSearch={handleSearchbar}
-          allowClear
-          loading={loadingOrders}
-        />
-      </HeaderSpace>
+    <CollapseProvider>
+      <Dashboard selectedKeys='orders' sectionName='Mis pedidos'>
+        <Title level={3}>Últimos pedidos</Title>
+        <HeaderSpace>
+          <Search
+            placeholder='Buscar pedidos'
+            enterButton
+            onSearch={handleSearchbar}
+            allowClear
+            loading={loadingOrders}
+          />
+        </HeaderSpace>
 
-      <OrdersTable
-        loadingOrders={loadingOrders}
-        orders={orders}
-        setPaginationParams={setPaginationParams}
-        totalRecords={totalRecords}
-      />
-    </Dashboard>
+        <OrdersTable
+          loadingOrders={loadingOrders}
+          orders={orders}
+          setPaginationParams={setPaginationParams}
+          totalRecords={totalRecords}
+        />
+      </Dashboard>
+    </CollapseProvider>
   );
 };
 
