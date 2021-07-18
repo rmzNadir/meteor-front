@@ -157,7 +157,7 @@ const SalesTable = ({
               type='primary'
               shape='circle'
               icon={<EyeOutlined />}
-              onClick={() => history.push(`/orders/${r.id}`)}
+              onClick={() => history.push(`/sales/${r.id}`)}
             />
           </Tooltip>
         </Actions>

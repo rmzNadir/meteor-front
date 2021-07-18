@@ -9,7 +9,7 @@ export interface ISaleRecord {
   address: string;
   payment_method: 'credit_card' | 'debit_card';
   payment_info: string;
-  user: Pick<IUser, 'id' | 'name' | 'last_name'>;
+  user: Pick<IUser, 'id' | 'name' | 'last_name' | 'email'>;
   products: ISaleProduct[];
   created_at: Date;
 }

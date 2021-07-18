@@ -39,6 +39,7 @@ import Listings from './Views/Listings';
 import Orders from './Views/Orders';
 import Order from './Views/Order';
 import Sales from './Views/Sales';
+import Sale from './Views/Sale';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -79,6 +80,7 @@ const Routes = memo(() => {
               <ProtectedRoute exact path='/orders/:id' component={Order} />
               <ProtectedRoute exact path='/products' component={Products} />
               <ProtectedRoute exact path='/sales' component={Sales} />
+              <ProtectedRoute exact path='/sales/:id' component={Sale} />
               <ProtectedRoute exact path='/products/:id' component={Product} />
               <ProtectedRoute exact path='/listings' component={Listings} />
               <Route path='*' component={() => <Redirect to='/404' />} />

@@ -75,7 +75,7 @@ const Orders = () => {
 
   return (
     <CollapseProvider>
-      <Dashboard selectedKeys='orders' sectionName='Mis pedidos'>
+      <Dashboard selectedKeys='orders' sectionName='Mis Pedidos'>
         <Title level={3}>Últimos pedidos</Title>
         <HeaderSpace>
           <Search

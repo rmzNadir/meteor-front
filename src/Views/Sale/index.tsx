@@ -14,6 +14,7 @@ import {
   Wrapper,
   SummaryCalculations,
   ProductList,
+  ClientInfo,
 } from './styles';
 import Capitalize from '../../Utils/Capitalize';
 import theme from '../../Utils/theme';
@@ -21,9 +22,9 @@ import ProductCard from './ProductCard';
 
 const { Title, Text } = Typography;
 
-const Order = () => {
+const Sale = () => {
   const [loading, setLoading] = useState(false);
-  const [orderInfo, setOrderInfo] = useState<ISaleRecord>();
+  const [saleInfo, setSaleInfo] = useState<ISaleRecord>();
 
   const { id }: IParams = useParams();
   const history = useHistory();
@@ -33,16 +34,16 @@ const Order = () => {
     try {
       const [res] = await Amogus({
         method: 'GET',
-        url: `/orders/${id}`,
+        url: `/sales/${id}`,
       });
 
       if (!res.success && res.msg === 'Order not found') {
         return history.push('/404');
       }
 
-      const { order } = res;
+      const { sale } = res;
 
-      setOrderInfo(order);
+      setSaleInfo(sale);
     } catch (e) {
       message.error('Ocurrió un error al cargar el pedido ');
     }
@@ -66,21 +67,30 @@ const Order = () => {
     total,
     products,
   } = {
-    ...orderInfo,
+    ...saleInfo,
   };
 
   return (
-    <Dashboard selectedKeys='orders' sectionName='Mis Pedidos'>
+    <Dashboard selectedKeys='sales' sectionName='Ventas' clientView>
       <Spin spinning={loading}>
         <Wrapper>
           <InfoSpace>
-            <Title level={3}>Información del pedido</Title>
+            <Title level={3}>Información de la venta</Title>
             <Space split={<Divider type='vertical' />} wrap>
               <Text>
-                Pedido el {moment(created_at).format('DD [de] MMMM [de] YYYY')}
+                Venta realizada el{' '}
+                {moment(created_at).format('DD [de] MMMM [de] YYYY')}
               </Text>
-              <Text>Pedido No. {id}</Text>
+              <Text>Venta No. {id}</Text>
             </Space>
+            <ClientInfo>
+              <Text>
+                Cliente:{' '}
+                {user &&
+                  `${Capitalize(user.name)} ${Capitalize(user.last_name)}`}
+              </Text>
+              <Text>Email: {user && user.email}</Text>
+            </ClientInfo>
             <Summary>
               <SummaryColumn>
                 <Text strong>Dirección de envío</Text>
@@ -101,7 +111,7 @@ const Order = () => {
                 </Text>
               </SummaryColumn>
               <SummaryColumn>
-                <Text strong>Resumen del pedido</Text>
+                <Text strong>Resumen de la venta</Text>
                 <SummaryCalculations>
                   <Text>Subtotal:</Text>
                   <NumberFormat
@@ -145,4 +155,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Sale;

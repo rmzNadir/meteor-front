@@ -14,6 +14,7 @@ const Breadcrumbs = withRouter(({ location }) => {
     '/orders': 'Todos',
     '/orders/:id': 'Detalles',
     '/sales': 'Todas',
+    '/sales/:id': 'Detalles',
   };
 
   const pathSnippets = location.pathname.split('/').filter((i) => i);
