@@ -1,6 +1,7 @@
 import {
   CaretRightFilled,
   CheckCircleOutlined,
+  CloseCircleFilled,
   CloseCircleOutlined,
   EyeOutlined,
   SettingOutlined,
@@ -16,6 +17,7 @@ import {
   InputNumber,
   message,
 } from 'antd';
+import { useMediaQuery } from 'beautiful-react-hooks';
 import { useCallback, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import { useHistory } from 'react-router-dom';
@@ -55,6 +57,7 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
   const history = useHistory();
   const { isClientUser } = useAuthCTX();
   const { cartItems, setCartItems } = useCartCTX();
+  const mobile = useMediaQuery('(max-width: 767px)');
 
   const handleAddToCart = useCallback(() => {
     const itemIndex = cartItems.findIndex((i) => i.id === id);
@@ -106,7 +109,10 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
     <Modal
       bodyStyle={{ padding: 0 }}
       visible={visible}
-      closable={false}
+      closeIcon={
+        <CloseCircleFilled style={{ color: '#fff', fontSize: '0.75rem' }} />
+      }
+      closable={mobile}
       onCancel={() => setVisible(false)}
       centered
       footer={[

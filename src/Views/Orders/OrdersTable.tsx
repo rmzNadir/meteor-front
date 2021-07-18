@@ -159,7 +159,7 @@ const OrdersTable = ({
           showSizeChanger: true,
           pageSizeOptions: ['10', '25', '50', '100'],
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} de ${total} órdenes`,
+            `${range[0]}-${range[1]} de ${total} pedidos`,
           total: totalRecords,
         }}
         onChange={({ current, pageSize }) => {

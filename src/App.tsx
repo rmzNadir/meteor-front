@@ -37,6 +37,7 @@ import NotFound from './Views/NotFound';
 import Landing from './Views/Landing';
 import Listings from './Views/Listings';
 import Orders from './Views/Orders';
+import Order from './Views/Order';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -74,6 +75,7 @@ const Routes = memo(() => {
               <UnAuthRoute exact path='/login' component={Login} />
               <UnAuthRoute exact path='/sign-up' component={SignUp} />
               <ProtectedRoute exact path='/orders' component={Orders} />
+              <ProtectedRoute exact path='/orders/:id' component={Order} />
               <ProtectedRoute exact path='/products' component={Products} />
               <ProtectedRoute exact path='/products/:id' component={Product} />
               <ProtectedRoute exact path='/listings' component={Listings} />

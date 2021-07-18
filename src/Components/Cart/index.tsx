@@ -129,6 +129,15 @@ const Cart = () => {
                 >
                   Ver orden
                 </Button>,
+                <Button
+                  key='close'
+                  onClick={() => {
+                    setSale(undefined);
+                    setVisible(false);
+                  }}
+                >
+                  Cerrar
+                </Button>,
               ]}
             />
           </ResultWrapper>

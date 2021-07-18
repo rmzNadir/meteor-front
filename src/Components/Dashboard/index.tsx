@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Drawer, Badge, Button } from 'antd';
+import { Layout, Menu, Drawer, Badge, Button, Affix } from 'antd';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ShoppingOutlined,
@@ -164,62 +164,64 @@ const Dashboard = ({
       )}
 
       <Layout>
-        <Header
-          style={{
-            padding: '0 1rem 0 0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          {!mobile &&
-            React.createElement(
-              showSider ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                style: {
-                  color: '#fff',
-                  fontSize: '1.2rem',
-                  marginLeft: '0.5rem',
-                },
-                onClick: () => handleCollapse(),
-              }
-            )}
+        <Affix>
+          <Header
+            style={{
+              padding: '0 1rem 0 0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            {!mobile &&
+              React.createElement(
+                showSider ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  style: {
+                    color: '#fff',
+                    fontSize: '1.2rem',
+                    marginLeft: '0.5rem',
+                  },
+                  onClick: () => handleCollapse(),
+                }
+              )}
 
-          {mobile &&
-            React.createElement(
-              showSider ? MenuFoldOutlined : MenuUnfoldOutlined,
-              {
-                style: {
-                  color: '#fff',
-                  fontSize: '1.2rem',
-                  marginLeft: '1rem',
-                },
-                onClick: () => handleCollapse(),
-              }
-            )}
+            {mobile &&
+              React.createElement(
+                showSider ? MenuFoldOutlined : MenuUnfoldOutlined,
+                {
+                  style: {
+                    color: '#fff',
+                    fontSize: '1.2rem',
+                    marginLeft: '1rem',
+                  },
+                  onClick: () => handleCollapse(),
+                }
+              )}
 
-          <HeaderActions>
-            <Badge
-              count={cartTotal.items}
-              style={{ marginTop: '4px', marginRight: '4px' }}
-            >
-              <Button
-                shape='circle'
-                type='primary'
-                size='large'
-                onClick={() => setVisible(true)}
+            <HeaderActions>
+              <Badge
+                count={cartTotal.items}
+                style={{ marginTop: '4px', marginRight: '4px' }}
               >
-                <ShoppingOutlined />
-              </Button>
-            </Badge>
+                <Button
+                  shape='circle'
+                  type='primary'
+                  size='large'
+                  onClick={() => setVisible(true)}
+                >
+                  <ShoppingOutlined />
+                </Button>
+              </Badge>
 
-            <UserDropdown
-              isAdmin={isAdmin}
-              setIsAuth={setIsAuth}
-              setUser={setUser}
-            />
-          </HeaderActions>
-        </Header>
+              <UserDropdown
+                isAdmin={isAdmin}
+                setIsAuth={setIsAuth}
+                setUser={setUser}
+              />
+            </HeaderActions>
+          </Header>
+        </Affix>
         <SectionName>{sectionName}</SectionName>
 
         <Breadcrumbs />

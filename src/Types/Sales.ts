@@ -10,7 +10,8 @@ export interface ISaleRecord {
   payment_method: 'credit_card' | 'debit_card';
   payment_info: string;
   user: Pick<IUser, 'id' | 'name' | 'last_name'>;
-  products: ISaleProduct;
+  products: ISaleProduct[];
+  created_at: Date;
 }
 
 export interface ISaleProduct {
@@ -18,4 +19,5 @@ export interface ISaleProduct {
   name: IProduct['name'];
   unit_price: IProduct['price'];
   quantity: number;
+  image: IProduct['image'];
 }

@@ -64,6 +64,7 @@ export const ResultWrapper = styled(motion.div)`
 export const CartItemSpace = styled.div`
   position: relative;
   width: 100%;
+  /* height: 100%; */
   flex-grow: 1;
   display: grid;
   grid-gap: 0.5rem;
@@ -189,7 +190,7 @@ export const TwoColumns = styled.div`
 
   @media ${Device.zero} {
     grid-template-columns: 1fr;
-    grid-gap: 0;
+    grid-gap: 0.5rem;
   }
 
   @media ${Device.tablet} {
