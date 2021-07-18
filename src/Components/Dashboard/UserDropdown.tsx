@@ -1,7 +1,6 @@
 import { Button, Menu, Dropdown, message } from 'antd';
 import {
   InfoCircleOutlined,
-  LockOutlined,
   PoweroffOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -14,10 +13,9 @@ import { useCartCTX } from '../../Utils/CartContext';
 interface Props {
   setUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
-  isAdmin: boolean;
 }
 
-const UserDropdown = ({ setIsAuth, setUser, isAdmin }: Props) => {
+const UserDropdown = ({ setIsAuth, setUser }: Props) => {
   const history = useHistory();
   const { setCartItems } = useCartCTX();
 
@@ -44,13 +42,6 @@ const UserDropdown = ({ setIsAuth, setUser, isAdmin }: Props) => {
 
   const menu = (
     <Menu>
-      {isAdmin && (
-        <Menu.Item disabled key='0'>
-          <Button disabled type='link' size='small' icon={<LockOutlined />}>
-            Panel de administrador
-          </Button>
-        </Menu.Item>
-      )}
       <Menu.Item disabled key='1'>
         <Button disabled type='link' size='small' icon={<InfoCircleOutlined />}>
           Perfil

@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { Table, Spin, Tooltip, Button } from 'antd';
+import { Table, Spin, Tooltip, Button, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import NumberFormat from 'react-number-format';
 import { EyeOutlined } from '@ant-design/icons';
@@ -13,31 +13,37 @@ interface ISalesTable extends ISaleRecord {
 }
 
 interface Props {
-  orders: ISaleRecord[] | undefined;
+  sales: ISaleRecord[] | undefined;
   setPaginationParams: React.Dispatch<React.SetStateAction<IPagination>>;
   totalRecords: number | undefined;
-  loadingOrders: boolean;
+  loading: boolean;
   paginationParams: IPagination;
 }
 
-const OrdersTable = ({
-  orders,
+const { Text } = Typography;
+
+const SalesTable = ({
+  sales,
   setPaginationParams,
-  totalRecords,
-  loadingOrders,
   paginationParams,
+  totalRecords,
+  loading,
 }: Props) => {
   const { isCollapsing } = useCollapseCTX();
   const history = useHistory();
 
   const columns: ColumnsType<ISalesTable> = [
-    // {
-    //   title: 'Usuario',
-    //   dataIndex: 'user',
-    //   key: 'user',
-    //   align: 'center',
-    //   render: (d) => d.name,
-    // },
+    {
+      title: 'Usuario',
+      dataIndex: 'user',
+      key: 'user',
+      width: 200,
+      align: 'center',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (d) => `${d.name} ${d.last_name}`,
+    },
     {
       title: 'No. de Orden',
       dataIndex: 'id',
@@ -104,7 +110,18 @@ const OrdersTable = ({
       title: 'Dirección de envío',
       dataIndex: 'address',
       key: 'address',
+      width: 300,
       align: 'center',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (d) => (
+        <Text ellipsis style={{ width: 200 }}>
+          <Tooltip title={d} placement='topLeft'>
+            {d}
+          </Tooltip>
+        </Text>
+      ),
     },
     {
       title: 'Método de pago',
@@ -149,10 +166,10 @@ const OrdersTable = ({
   ];
 
   return (
-    <Spin spinning={loadingOrders}>
+    <Spin spinning={loading}>
       <Table
         columns={columns}
-        dataSource={orders}
+        dataSource={sales}
         rowKey='id'
         scroll={{ x: isCollapsing ? undefined : 'max-content' }}
         pagination={{
@@ -161,7 +178,7 @@ const OrdersTable = ({
           showSizeChanger: true,
           pageSizeOptions: ['10', '25', '50', '100'],
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} de ${total} pedidos`,
+            `${range[0]}-${range[1]} de ${total} ventas`,
           total: totalRecords,
           current: paginationParams.page,
         }}
@@ -176,4 +193,4 @@ const OrdersTable = ({
   );
 };
 
-export default OrdersTable;
+export default SalesTable;

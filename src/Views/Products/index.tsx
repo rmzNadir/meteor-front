@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import Dashboard from '../../Components/Dashboard';
 import CollapseProvider from '../../Utils/CollapseContext';
 import InventoryTable from './InventoryTable';
-import { Title, TableTitle } from './styles';
+import { Title, TableTitle, HeaderSpace, Search } from './styles';
 import ProductForm from './ProductForm';
 import { ICards, IPagination, IProduct } from '../../Types';
 import Amogus from '../../Utils/Amogus';
@@ -128,6 +128,11 @@ const Products = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
+  const handleSearchbar = (value: string) => {
+    const trimmed = value.trim();
+    setPaginationParams((p) => ({ ...p, q: trimmed, page: 1 }));
+  };
+
   return (
     <CollapseProvider>
       <Dashboard selectedKeys='products' sectionName='Productos' clientView>
@@ -148,11 +153,22 @@ const Products = () => {
           </Button>
         </TableTitle>
 
+        <HeaderSpace>
+          <Search
+            placeholder='Buscar ventas'
+            enterButton
+            onSearch={handleSearchbar}
+            allowClear
+            loading={loadingProducts}
+          />
+        </HeaderSpace>
+
         <InventoryTable
           loadingProducts={loadingProducts}
           products={products}
           setPaginationParams={setPaginationParams}
           totalRecords={totalRecords}
+          paginationParams={paginationParams}
         />
 
         <ProductForm

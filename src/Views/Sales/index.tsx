@@ -1,64 +1,66 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { message } from 'antd';
+import { message, Tabs } from 'antd';
 import Dashboard from '../../Components/Dashboard';
-import OrdersTable from './OrdersTable';
-import { HeaderSpace, Title, Search } from './styles';
+
 import { IPagination, ISaleRecord } from '../../Types';
 import Amogus from '../../Utils/Amogus';
 import CollapseProvider from '../../Utils/CollapseContext';
+import SalesHistory from './SalesHistory';
+
+const { TabPane } = Tabs;
 
 const DEF_PAGINATION = {
   per_page: 10,
   page: 1,
 };
 
-const Orders = () => {
-  const [loadingOrders, setLoadingOrders] = useState(false);
-  const [orders, setOrders] = useState<ISaleRecord[]>([]);
-  const [totalRecords, setTotalRecords] = useState<number>();
+const Sales = () => {
+  const [loading, setLoading] = useState(false);
+  const [sales, setSales] = useState<ISaleRecord[]>([]);
+  const [totalRecords, setTotalRecords] = useState<number>(0);
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
 
   const renders = useRef(0);
 
-  const setData = (orderData: ISaleRecord[]) => {
-    setOrders(orderData);
-    setLoadingOrders(false);
+  const setData = (salesdata: ISaleRecord[]) => {
+    setSales(salesdata);
+    setLoading(false);
   };
 
   const getProducts = useCallback(async () => {
-    setLoadingOrders(true);
+    setLoading(true);
     try {
       const params = new URLSearchParams(
         paginationParams as unknown as Record<string, string>
       );
-      const [orderRes] = await Amogus(
+      const [res] = await Amogus(
         {
           method: 'GET',
-          url: `/orders/?${params}`,
+          url: `/sales/?${params}`,
         },
         false
       );
 
       const {
-        data: orderData,
+        data,
         headers: { total },
-      } = orderRes;
+      } = res;
 
       // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
       if (renders.current <= 1) {
         setTimeout(() => {
-          setData(orderData);
+          setData(data);
         }, 250);
       } else {
-        setData(orderData);
+        setData(data);
       }
 
       setTotalRecords(total);
     } catch (e) {
-      setLoadingOrders(false);
+      setLoading(false);
 
-      message.error('Ocurrió un error al cargar el catálogo de productos');
+      message.error('Ocurrió un error al cargar el historial de ventas');
     }
   }, [paginationParams]);
 
@@ -75,28 +77,25 @@ const Orders = () => {
 
   return (
     <CollapseProvider>
-      <Dashboard selectedKeys='orders' sectionName='Mis pedidos'>
-        <Title level={3}>Últimos pedidos</Title>
-        <HeaderSpace>
-          <Search
-            placeholder='Buscar pedidos'
-            enterButton
-            onSearch={handleSearchbar}
-            allowClear
-            loading={loadingOrders}
-          />
-        </HeaderSpace>
-
-        <OrdersTable
-          loadingOrders={loadingOrders}
-          orders={orders}
-          setPaginationParams={setPaginationParams}
-          totalRecords={totalRecords}
-          paginationParams={paginationParams}
-        />
+      <Dashboard selectedKeys='sales' sectionName='Ventas' clientView>
+        <Tabs defaultActiveKey='table'>
+          <TabPane tab='Dashboard' key='dashboard' disabled>
+            a
+          </TabPane>
+          <TabPane tab='Historial' key='table'>
+            <SalesHistory
+              setPaginationParams={setPaginationParams}
+              paginationParams={paginationParams}
+              loading={loading}
+              handleSearchbar={handleSearchbar}
+              totalRecords={totalRecords}
+              sales={sales}
+            />
+          </TabPane>
+        </Tabs>
       </Dashboard>
     </CollapseProvider>
   );
 };
 
-export default Orders;
+export default Sales;

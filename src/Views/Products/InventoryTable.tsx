@@ -28,6 +28,7 @@ interface Props {
   setPaginationParams: React.Dispatch<React.SetStateAction<IPagination>>;
   totalRecords: number | undefined;
   loadingProducts: boolean;
+  paginationParams: IPagination;
 }
 
 const InventoryTable = ({
@@ -35,6 +36,7 @@ const InventoryTable = ({
   setPaginationParams,
   totalRecords,
   loadingProducts,
+  paginationParams,
 }: Props) => {
   const { isCollapsing } = useCollapseCTX();
   const history = useHistory();
@@ -215,6 +217,7 @@ const InventoryTable = ({
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} de ${total} productos`,
           total: totalRecords,
+          current: paginationParams.page,
         }}
         onChange={({ current, pageSize }) => {
           setPaginationParams({

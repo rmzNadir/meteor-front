@@ -8,6 +8,7 @@ import {
   UserOutlined,
   DropboxOutlined,
   ShoppingCartOutlined,
+  DollarOutlined,
 } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { Redirect, useHistory } from 'react-router-dom';
@@ -62,6 +63,11 @@ const MeteorMenu = ({ selectedKeys, isClientUser, isAdmin }: MenuProps) => {
       {isClientUser && (
         <Menu.Item key='products' icon={<DropboxOutlined />}>
           Productos
+        </Menu.Item>
+      )}
+      {isClientUser && (
+        <Menu.Item key='sales' icon={<DollarOutlined />}>
+          Ventas
         </Menu.Item>
       )}
       {isAdmin && (
@@ -214,11 +220,7 @@ const Dashboard = ({
                 </Button>
               </Badge>
 
-              <UserDropdown
-                isAdmin={isAdmin}
-                setIsAuth={setIsAuth}
-                setUser={setUser}
-              />
+              <UserDropdown setIsAuth={setIsAuth} setUser={setUser} />
             </HeaderActions>
           </Header>
         </Affix>

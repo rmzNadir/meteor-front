@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { Typography, Empty } from 'antd';
+import { Typography, Empty, Input } from 'antd';
 import Device from '../../Utils/Breakpoints';
 
 const { Title: antTitle } = Typography;
+const { Search: antSearch } = Input;
 
 export const Summary = styled.div`
   display: grid;
@@ -44,7 +45,7 @@ export const PlatformIconSpace = styled.div`
 
 export const TableTitle = styled.div`
   height: 100%;
-  margin: 2rem 0;
+  margin: 2rem 0 1rem;
   align-items: center;
 
   @media ${Device.zero} {
@@ -128,4 +129,28 @@ export const InnerCell = styled.div`
 
 export const NoData = styled(Empty)`
   margin: 0;
+`;
+
+export const HeaderSpace = styled.div`
+  margin: 0.25rem 0 1.1rem;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const Search = styled(antSearch)`
+  @media ${Device.zero} {
+    width: 100%;
+  }
+
+  @media ${Device.laptop} {
+    width: 50%;
+  }
+
+  @media ${Device.laptopL} {
+    width: 40%;
+  }
+
+  @media (min-width: 1980px) {
+    width: 30%;
+  }
 `;
