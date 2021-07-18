@@ -45,6 +45,7 @@ export const PlatformIconSpace = styled.div`
 export const TableTitle = styled.div`
   height: 100%;
   margin: 2rem 0;
+  align-items: center;
 
   @media ${Device.zero} {
     display: grid;

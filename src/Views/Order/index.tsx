@@ -69,8 +69,6 @@ const Order = () => {
     ...orderInfo,
   };
 
-  console.log(orderInfo);
-
   return (
     <Dashboard selectedKeys='orders' sectionName='Mis Pedidos' clientView>
       <Spin spinning={loading}>
