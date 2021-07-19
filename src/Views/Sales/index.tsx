@@ -6,6 +6,8 @@ import { IPagination, ISaleRecord } from '../../Types';
 import Amogus from '../../Utils/Amogus';
 import CollapseProvider from '../../Utils/CollapseContext';
 import SalesHistory from './SalesHistory';
+import SalesDashboard from './SalesDashboard';
+import { useAuthCTX } from '../../Utils/AuthContext';
 
 const { TabPane } = Tabs;
 
@@ -22,6 +24,7 @@ const Sales = () => {
     useState<IPagination>(DEF_PAGINATION);
 
   const renders = useRef(0);
+  const { isAdmin } = useAuthCTX();
 
   const setData = (salesdata: ISaleRecord[]) => {
     setSales(salesdata);
@@ -78,10 +81,12 @@ const Sales = () => {
   return (
     <CollapseProvider>
       <Dashboard selectedKeys='sales' sectionName='Ventas' clientView>
-        <Tabs defaultActiveKey='table'>
-          <TabPane tab='Dashboard' key='dashboard' disabled>
-            a
-          </TabPane>
+        <Tabs defaultActiveKey={isAdmin ? 'dashboard' : 'table'}>
+          {isAdmin && (
+            <TabPane tab='Dashboard' key='dashboard'>
+              <SalesDashboard />
+            </TabPane>
+          )}
           <TabPane tab='Historial' key='table'>
             <SalesHistory
               setPaginationParams={setPaginationParams}

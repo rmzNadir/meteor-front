@@ -21,3 +21,27 @@ export interface ISaleProduct {
   quantity: number;
   image: IProduct['image'];
 }
+export interface IDaySale {
+  name: string;
+  date: Date;
+  sales: number;
+}
+
+export interface MostSold {
+  all_sales: number;
+  percentage: number;
+  product: IProduct;
+}
+
+export interface ITopBuyer {
+  user: IUser;
+  all_sales: number;
+  percentage: number;
+}
+
+export interface IDashboard {
+  week_sales: IDaySale[];
+  most_sold: MostSold;
+  top_buyer: ITopBuyer;
+  top_5_products: IProduct[];
+}

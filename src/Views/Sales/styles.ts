@@ -47,3 +47,22 @@ export const Search = styled(antSearch)`
     width: 30%;
   }
 `;
+
+export const DashboardSpace = styled.div`
+  width: 100%;
+
+  .graph-space {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > :first-child,
+    > :last-child {
+      width: calc(50% - 0.5rem);
+    }
+  }
+
+  .bottom-graphs {
+    margin-top: 1rem;
+  }
+`;

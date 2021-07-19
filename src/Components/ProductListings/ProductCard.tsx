@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useCallback, useState } from 'react';
-import { Image, Typography, Button, InputNumber, message } from 'antd';
+import { Image, Typography, Button, InputNumber, message, Tooltip } from 'antd';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
+  EyeOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
-import { ProductInfo, Card } from './styles';
+import { ProductInfo, Card, CardTitle } from './styles';
 import theme from '../../Utils/theme';
 import { IProduct } from '../../Types';
 import { useCartCTX } from '../../Utils/CartContext';
@@ -120,13 +121,31 @@ const ProductCard = ({
             src={loadingProducts ? IMG_FALLBACK : image?.url || IMG_FALLBACK}
             preview={false}
             fallback={IMG_FALLBACK}
-            style={{ objectFit: 'cover', height: '190px' }}
+            style={{
+              objectFit: 'cover',
+              height: '190px',
+              borderBottom: `2px solid ${theme.colors.primary}`,
+            }}
           />
         }
       >
-        <div className='card-body' onClick={() => handleShowDetails(id)}>
+        <div className='card-body'>
           <Meta
-            title={Capitalize(name)}
+            title={
+              <CardTitle>
+                {Capitalize(name)}
+                <Tooltip title='Ver más' zIndex={999}>
+                  <Button
+                    type='primary'
+                    shape='circle'
+                    size='small'
+                    onClick={() => handleShowDetails(id)}
+                  >
+                    <EyeOutlined />
+                  </Button>
+                </Tooltip>
+              </CardTitle>
+            }
             description={
               <div>
                 <Paragraph

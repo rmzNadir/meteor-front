@@ -75,6 +75,7 @@ export const Card = styled(AntCard)`
     display: flex;
     flex-direction: column;
     padding: 20px 24px 24px 24px;
+    cursor: default;
   }
   // Hell
   .ant-card-body {
@@ -96,6 +97,7 @@ export const Card = styled(AntCard)`
 
         .ant-card-meta-title {
           display: flex;
+          min-height: 1.5rem;
           flex-direction: column;
         }
 
@@ -189,4 +191,10 @@ export const Actions = styled.div`
   > :last-child {
     justify-self: end;
   }
+`;
+
+export const CardTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
