@@ -197,4 +197,16 @@ export const CardTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  > :first-child {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    max-width: calc(100% - 1.5rem);
+  }
 `;
