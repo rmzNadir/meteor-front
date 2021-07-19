@@ -145,6 +145,7 @@ const ProductForm = ({
           const shouldClearFiles = await onSubmit(values, form.resetFields);
 
           if (shouldClearFiles) {
+            setHasFreeShipping(false);
             setFiles([]);
             setRejectedFiles([]);
           }

@@ -20,7 +20,7 @@ interface ListingsLocationProps {
 }
 
 const DEF_PAGINATION: IPagination = {
-  per_page: 9,
+  per_page: 10,
   page: 1,
 };
 

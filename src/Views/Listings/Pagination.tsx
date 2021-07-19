@@ -20,9 +20,9 @@ const Pagination = ({
         responsive
         current={paginationParams.page}
         total={totalRecords}
-        defaultPageSize={9}
+        defaultPageSize={10}
         defaultCurrent={1}
-        showSizeChanger={false}
+        showSizeChanger
         hideOnSinglePage
         onChange={(p, pS) =>
           pS &&
