@@ -121,7 +121,7 @@ const Dashboard = ({
     mobile && setShowSider(false);
   }, [mobile]);
 
-  if (clientView && !isAdmin && !clientView) {
+  if (clientView && !isAdmin && !isClientUser) {
     return <Redirect to='/' />;
   }
 
