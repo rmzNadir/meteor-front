@@ -70,6 +70,10 @@ const SalesHistory = () => {
     setPaginationParams((p) => ({ ...p, q: trimmed, page: 1 }));
   };
 
+  const handleSearchbarChange = (value: string) => {
+    !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
+  };
+
   return (
     <>
       <HeaderSpace>
@@ -77,6 +81,7 @@ const SalesHistory = () => {
           placeholder='Buscar ventas'
           enterButton
           onSearch={handleSearchbar}
+          onChange={({ target }) => handleSearchbarChange(target.value)}
           allowClear
           loading={loading}
         />

@@ -133,6 +133,10 @@ const Products = () => {
     setPaginationParams((p) => ({ ...p, q: trimmed, page: 1 }));
   };
 
+  const handleSearchbarChange = (value: string) => {
+    !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
+  };
+
   return (
     <CollapseProvider>
       <Dashboard selectedKeys='products' sectionName='Productos' clientView>
@@ -158,6 +162,7 @@ const Products = () => {
             placeholder='Buscar ventas'
             enterButton
             onSearch={handleSearchbar}
+            onChange={({ target }) => handleSearchbarChange(target.value)}
             allowClear
             loading={loadingProducts}
           />

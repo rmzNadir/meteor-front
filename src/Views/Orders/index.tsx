@@ -73,6 +73,10 @@ const Orders = () => {
     setPaginationParams((p) => ({ ...p, q: trimmed, page: 1 }));
   };
 
+  const handleSearchbarChange = (value: string) => {
+    !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
+  };
+
   return (
     <CollapseProvider>
       <Dashboard selectedKeys='orders' sectionName='Mis Pedidos'>
@@ -82,6 +86,7 @@ const Orders = () => {
             placeholder='Buscar pedidos'
             enterButton
             onSearch={handleSearchbar}
+            onChange={({ target }) => handleSearchbarChange(target.value)}
             allowClear
             loading={loadingOrders}
           />

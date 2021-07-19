@@ -89,7 +89,11 @@ const Listings = () => {
 
   const handleSearchbar = (value: string) => {
     const trimmed = value.trim();
-    setPaginationParams((p) => ({ ...p, q: trimmed }));
+    setPaginationParams((p) => ({ ...p, q: trimmed, page: 1 }));
+  };
+
+  const handleSearchbarChange = (value: string) => {
+    !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
   };
 
   const handleShowDetails = (id: number) => {
@@ -104,6 +108,7 @@ const Listings = () => {
           placeholder='Buscar productos'
           enterButton
           onSearch={handleSearchbar}
+          onChange={({ target }) => handleSearchbarChange(target.value)}
           allowClear
           loading={loadingProducts}
         />
