@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useState } from 'react';
-import { Card, message, Tooltip } from 'antd';
+import { Card, message, Tooltip, Spin } from 'antd';
 import {
   Line,
   LineConfig,
@@ -20,6 +20,7 @@ import Capitalize from '../../Utils/Capitalize';
 
 const SalesDashboard = () => {
   const [dashboardData, setDashboardData] = useState<IDashboard>();
+  const [loading, setLoading] = useState(false);
 
   const { week_sales, most_sold, top_buyer, top_5_products } = {
     ...dashboardData,
@@ -29,6 +30,7 @@ const SalesDashboard = () => {
 
   useEffect(() => {
     const getDashboardData = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get('/sales-dashboard');
         const { dashboard, success } = data;
@@ -40,6 +42,7 @@ const SalesDashboard = () => {
         console.error(e);
         message.error('Ocurrió un error al tratar de cargar la información');
       }
+      setLoading(false);
     };
     getDashboardData();
   }, []);
@@ -68,7 +71,7 @@ const SalesDashboard = () => {
     animation: {
       appear: {
         animation: 'path-in',
-        duration: 5000,
+        duration: 2500,
       },
     },
     color: theme.colors.primary,
@@ -123,7 +126,7 @@ const SalesDashboard = () => {
         content: '',
       },
     },
-    color: ['#94D0CC', '#8b6188', '#FFD3B4', '#FFBCBC'],
+    color: ['#94D0CC', '#8b6188', '#FFD3B4', '#FFBCBC', '#A1CAE2'],
   };
 
   const StarChart: LiquidConfig = {
@@ -168,7 +171,9 @@ const SalesDashboard = () => {
     <DashboardSpace>
       <div className='graph-space'>
         <Card title='Ventas en los últimos 7 días' type='inner'>
-          <Line {...LineChart} />
+          <Spin spinning={loading}>
+            <Line {...LineChart} />
+          </Spin>
         </Card>
         <Card
           title='Producto más vendido'
@@ -182,7 +187,9 @@ const SalesDashboard = () => {
             </Tooltip>
           }
         >
-          <Liquid {...LiquidChart} />
+          <Spin spinning={loading}>
+            <Liquid {...LiquidChart} />
+          </Spin>
         </Card>
       </div>
       <div className='graph-space bottom-graphs'>
@@ -198,10 +205,14 @@ const SalesDashboard = () => {
             </Tooltip>
           }
         >
-          <Liquid {...StarChart} />
+          <Spin spinning={loading}>
+            <Liquid {...StarChart} />
+          </Spin>
         </Card>
         <Card title='Productos más vendidos' type='inner'>
-          <Pie {...PieChart} />
+          <Spin spinning={loading}>
+            <Pie {...PieChart} />
+          </Spin>
         </Card>
       </div>
     </DashboardSpace>

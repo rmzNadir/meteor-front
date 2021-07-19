@@ -150,7 +150,13 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
       />
       <DetailsWrapper>
         <div>
-          <Title level={3} style={{ margin: 0 }}>
+          <Title
+            level={3}
+            style={{
+              margin: 0,
+              marginRight: '1rem',
+            }}
+          >
             {name && Capitalize(name)}
           </Title>
           {isClientUser && (
