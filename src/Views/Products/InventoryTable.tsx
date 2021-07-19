@@ -95,7 +95,7 @@ const InventoryTable = ({
 
       render: (d: IPlatform[]) => {
         if (d.length === 0) {
-          return '-';
+          return 'No Aplica';
         }
 
         return (
@@ -120,7 +120,7 @@ const InventoryTable = ({
       },
       render: (d) => {
         if (d.length === 0) {
-          return '-';
+          return 'No Aplica';
         }
         const formattedLangs = d
           .map(({ name }: ILanguage, i: number) =>

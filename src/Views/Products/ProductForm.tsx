@@ -255,7 +255,7 @@ const ProductForm = ({
             label='Lenguajes'
             rules={[
               {
-                required: true,
+                required: false,
                 message: 'Es necesario seleccionar al menos un lenguaje',
               },
             ]}
@@ -288,7 +288,7 @@ const ProductForm = ({
             label='Plataformas'
             rules={[
               {
-                required: true,
+                required: false,
                 message: 'Es necesario seleccionar al menos una plataforma',
               },
             ]}
