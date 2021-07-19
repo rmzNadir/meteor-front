@@ -70,11 +70,11 @@ const MeteorMenu = ({ selectedKeys, isClientUser, isAdmin }: MenuProps) => {
           Ventas
         </Menu.Item>
       )}
-      {isAdmin && (
+      {/* {isAdmin && (
         <Menu.Item key='users' icon={<UserOutlined />}>
           Usuarios
         </Menu.Item>
-      )}
+      )} */}
     </Menu>
   );
 };
