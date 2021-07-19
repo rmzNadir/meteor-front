@@ -138,12 +138,14 @@ const Dashboard = ({
           collapsible
           collapsed={showSider}
         >
-          <MeteorLogo collapsed={showSider} />
-          <MeteorMenu
-            selectedKeys={selectedKeys}
-            isAdmin={isAdmin}
-            isClientUser={isClientUser}
-          />
+          <Affix>
+            <MeteorLogo collapsed={showSider} />
+            <MeteorMenu
+              selectedKeys={selectedKeys}
+              isAdmin={isAdmin}
+              isClientUser={isClientUser}
+            />
+          </Affix>
         </Sider>
       )}
 

@@ -175,7 +175,7 @@ const InventoryTable = ({
         ),
     },
     {
-      title: 'Comprado por última vez',
+      title: 'Vendido por última vez',
       dataIndex: 'last_bought_at',
       key: 'last_bought_at',
       align: 'center',
