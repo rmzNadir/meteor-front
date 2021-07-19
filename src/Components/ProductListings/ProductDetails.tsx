@@ -206,30 +206,35 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
           )}
         </InfoGrid>
         <ExtraInfoGrid>
-          <List
-            header={<Text strong>Lenguajes</Text>}
-            size='small'
-            bordered
-            dataSource={languages}
-            renderItem={(l) => (
-              <List.Item>
-                <CaretRightFilled style={{ marginRight: '0.5rem' }} />
-                {l.name}
-              </List.Item>
-            )}
-          />
-          <List
-            header={<Text strong>Plataformas</Text>}
-            size='small'
-            bordered
-            dataSource={platforms}
-            renderItem={(p) => (
-              <List.Item className='platform-list'>
-                {GetPlatformIcon(p)}
-                {p.name}
-              </List.Item>
-            )}
-          />
+          {languages && languages.length > 0 && (
+            <List
+              header={<Text strong>Lenguajes</Text>}
+              size='small'
+              bordered
+              dataSource={languages}
+              renderItem={(l) => (
+                <List.Item>
+                  <CaretRightFilled style={{ marginRight: '0.5rem' }} />
+                  {l.name}
+                </List.Item>
+              )}
+            />
+          )}
+
+          {platforms && platforms.length > 0 && (
+            <List
+              header={<Text strong>Plataformas</Text>}
+              size='small'
+              bordered
+              dataSource={platforms}
+              renderItem={(p) => (
+                <List.Item className='platform-list'>
+                  {GetPlatformIcon(p)}
+                  {p.name}
+                </List.Item>
+              )}
+            />
+          )}
         </ExtraInfoGrid>
       </DetailsWrapper>
     </Modal>
