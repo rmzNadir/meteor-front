@@ -32,7 +32,6 @@ const SalesDashboard = () => {
       try {
         const { data } = await axios.get('/sales-dashboard');
         const { dashboard, success } = data;
-        console.log(dashboard);
 
         if (success) {
           setDashboardData(dashboard);
