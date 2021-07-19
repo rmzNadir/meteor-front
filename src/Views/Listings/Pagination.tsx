@@ -24,7 +24,6 @@ const Pagination = ({
         defaultPageSize={12}
         defaultCurrent={1}
         showSizeChanger
-        hideOnSinglePage
         onChange={(p, pS) =>
           pS &&
           setPaginationParams((params) => ({
