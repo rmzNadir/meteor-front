@@ -1,6 +1,7 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-children-prop */
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { message, Input, Empty } from 'antd';
+import { message, Input, Empty, Spin } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { EmptyWrapper, ListingSpace, SearchSpace } from './styles';
@@ -121,6 +122,10 @@ const Listings = () => {
             <EmptyWrapper className='reveal-scale-up'>
               <Empty description='No hay productos para mostrar' />
             </EmptyWrapper>
+          ) : loadingProducts ? (
+            <EmptyWrapper>
+              <Spin spinning />
+            </EmptyWrapper>
           ) : (
             <ListingSpace>
               {products.map((productInfo, i) => (
@@ -138,7 +143,7 @@ const Listings = () => {
       />
 
       <AnimatePresence>
-        {totalRecords && (
+        {totalRecords && totalRecords > 0 && !loadingProducts && (
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}

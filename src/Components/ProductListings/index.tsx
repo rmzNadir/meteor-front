@@ -1,6 +1,7 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-children-prop */
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { message, Input, Empty } from 'antd';
+import { message, Input, Empty, Spin } from 'antd';
 import { EmptyWrapper, ListingSpace, SearchSpace } from './styles';
 import { IPagination, IProduct } from '../../Types';
 import Amogus from '../../Utils/Amogus';
@@ -96,6 +97,10 @@ const ProductListings = () => {
           products.length < 1 && !loadingProducts ? (
             <EmptyWrapper className='reveal-scale-up'>
               <Empty description='No hay productos para mostrar' />
+            </EmptyWrapper>
+          ) : loadingProducts ? (
+            <EmptyWrapper>
+              <Spin spinning />
             </EmptyWrapper>
           ) : (
             <ListingSpace>
