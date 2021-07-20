@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { message } from 'antd';
 import Dashboard from '../../Components/Dashboard';
-import OrdersTable from './OrdersTable';
+import UsersTable from './UsersTable';
 import { HeaderSpace, Title, Search } from './styles';
-import { IPagination, ISaleRecord } from '../../Types';
+import { IPagination, IUser } from '../../Types';
 import Amogus from '../../Utils/Amogus';
 import CollapseProvider from '../../Utils/CollapseContext';
 
@@ -12,59 +12,59 @@ const DEF_PAGINATION = {
   page: 1,
 };
 
-const Orders = () => {
-  const [loadingOrders, setLoadingOrders] = useState(false);
-  const [orders, setOrders] = useState<ISaleRecord[]>([]);
+const Users = () => {
+  const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>();
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
 
   const renders = useRef(0);
 
-  const setData = (orderData: ISaleRecord[]) => {
-    setOrders(orderData);
-    setLoadingOrders(false);
+  const setData = (userData: IUser[]) => {
+    setUsers(userData);
+    setLoading(false);
   };
 
-  const getOrders = useCallback(async () => {
-    setLoadingOrders(true);
+  const getUsers = useCallback(async () => {
+    setLoading(true);
     try {
       const params = new URLSearchParams(
         paginationParams as unknown as Record<string, string>
       );
-      const [orderRes] = await Amogus(
+      const [res] = await Amogus(
         {
           method: 'GET',
-          url: `/orders/?${params}`,
+          url: `/users/?${params}`,
         },
         false
       );
 
       const {
-        data: orderData,
+        data,
         headers: { total },
-      } = orderRes;
+      } = res;
 
       // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
       if (renders.current <= 1) {
         setTimeout(() => {
-          setData(orderData);
+          setData(data);
         }, 250);
       } else {
-        setData(orderData);
+        setData(data);
       }
 
       setTotalRecords(total);
     } catch (e) {
-      setLoadingOrders(false);
+      setLoading(false);
 
-      message.error('Ocurrió un error al cargar el catálogo de productos');
+      message.error('Ocurrió un error al cargar los usuarios');
     }
   }, [paginationParams]);
 
   useEffect(() => {
     renders.current += 1;
-    getOrders();
+    getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
@@ -79,22 +79,22 @@ const Orders = () => {
 
   return (
     <CollapseProvider>
-      <Dashboard selectedKeys='orders' sectionName='Mis Pedidos'>
-        <Title level={3}>Últimos pedidos</Title>
+      <Dashboard selectedKeys='users' sectionName='Usuarios' adminView>
+        <Title level={3}>Todos los usuarios</Title>
         <HeaderSpace>
           <Search
-            placeholder='Buscar pedidos'
+            placeholder='Buscar usuarios'
             enterButton
             onSearch={handleSearchbar}
             onChange={({ target }) => handleSearchbarChange(target.value)}
             allowClear
-            loading={loadingOrders}
+            loading={loading}
           />
         </HeaderSpace>
 
-        <OrdersTable
-          loadingOrders={loadingOrders}
-          orders={orders}
+        <UsersTable
+          loading={loading}
+          users={users}
           setPaginationParams={setPaginationParams}
           totalRecords={totalRecords}
           paginationParams={paginationParams}
@@ -104,4 +104,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Users;
