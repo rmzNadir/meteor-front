@@ -56,9 +56,26 @@ export const DashboardSpace = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    > :first-child,
-    > :last-child {
-      width: calc(50% - 0.5rem);
+    @media ${Device.zero} {
+      flex-direction: column;
+      > :last-child {
+        width: 100%;
+        margin-top: 1rem;
+      }
+      > :first-child {
+        width: 100%;
+      }
+    }
+
+    @media ${Device.laptopL} {
+      flex-direction: row;
+      > :last-child {
+        margin-top: 0;
+      }
+      > :first-child,
+      > :last-child {
+        width: calc(50% - 0.5rem);
+      }
     }
   }
 
