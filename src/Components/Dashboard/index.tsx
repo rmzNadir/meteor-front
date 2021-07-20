@@ -5,7 +5,7 @@ import {
   ShoppingOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
+  // UserOutlined,
   DropboxOutlined,
   ShoppingCartOutlined,
   DollarOutlined,
