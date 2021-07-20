@@ -159,7 +159,7 @@ const Products = () => {
 
         <HeaderSpace>
           <Search
-            placeholder='Buscar ventas'
+            placeholder='Buscar productos'
             enterButton
             onSearch={handleSearchbar}
             onChange={({ target }) => handleSearchbarChange(target.value)}

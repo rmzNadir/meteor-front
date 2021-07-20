@@ -48,6 +48,7 @@ const ProductForm = ({
   const [filesError, setFilesError] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [rejectedFiles, setRejectedFiles] = useState<FileRejection[]>([]);
+  const [canSave, setCanSave] = useState(!isEdit);
   const [form] = Form.useForm();
 
   const handleAcceptedFiles = (f: File[]) => {
@@ -146,6 +147,7 @@ const ProductForm = ({
 
           if (shouldClearFiles) {
             setHasFreeShipping(false);
+            setCanSave(false);
             setFiles([]);
             setRejectedFiles([]);
           }
@@ -176,6 +178,11 @@ const ProductForm = ({
     setVisible(false);
   };
 
+  const onValuesChange = () => {
+    // needs more work lmao
+    setCanSave(true);
+  };
+
   return (
     <Spin spinning={isLoading}>
       <Modal
@@ -194,6 +201,7 @@ const ProductForm = ({
             type='primary'
             onClick={handleFormOk}
             loading={isSubmitting}
+            disabled={!canSave}
           >
             {isEdit ? 'Guardar' : 'Crear'}
           </Button>,
@@ -205,6 +213,7 @@ const ProductForm = ({
           preserve={false}
           scrollToFirstError
           initialValues={initialValues}
+          onValuesChange={onValuesChange}
         >
           <Form.Item
             name='provider'

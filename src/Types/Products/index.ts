@@ -29,6 +29,7 @@ export interface IProduct {
   last_bought_at: Date;
   created_at: Date;
   image: IImage;
+  times_bought: number;
 }
 
 export type ILowStock = Pick<IProduct, 'id' | 'name' | 'stock'>;
