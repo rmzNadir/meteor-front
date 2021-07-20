@@ -8,5 +8,5 @@
       "origin": "${API_URL}"
     }
   },
-  "max_body_size": "10m"
+  "max_body_size": "4G"
 }
