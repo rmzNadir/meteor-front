@@ -43,7 +43,11 @@ const User = () => {
 
   return (
     <Dashboard selectedKeys='users' sectionName='Usuarios' showParticles>
-      <UserProfile user={userInfo} loading={loading} />
+      <UserProfile
+        userInfo={userInfo}
+        loading={loading}
+        setUserInfo={setUserInfo}
+      />
     </Dashboard>
   );
 };

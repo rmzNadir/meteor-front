@@ -156,7 +156,7 @@ const DragNDrop = ({
                     danger
                     size='small'
                     shape='circle'
-                    icon={<DeleteOutlined style={{ marginLeft: '1px' }} />}
+                    icon={<DeleteOutlined />}
                     onClick={() => handleRemoveFile(f)}
                   />
                 </ListItemInfo>

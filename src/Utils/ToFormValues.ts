@@ -8,10 +8,13 @@ const ToFormValues = (object: IObject) => {
       .map(([key, val]) => {
         switch (true) {
           case key === 'image':
-            return [
-              key,
-              { id: val.id, name: val.filename, created_at: val.created_at },
-            ];
+            if (val) {
+              return [
+                key,
+                { id: val.id, name: val.filename, created_at: val.created_at },
+              ];
+            }
+            return [key, undefined];
           case typeof val === 'boolean':
             return [key, val];
           case Array.isArray(val):

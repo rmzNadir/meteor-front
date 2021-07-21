@@ -55,6 +55,7 @@ export const ProfileCard = styled(Card)`
 export const Image = styled(AntImage)`
   border-radius: 50%;
   width: 9rem;
+  height: 9rem;
   object-fit: cover;
   object-position: center right;
   border: 4px solid
@@ -95,4 +96,18 @@ export const ProfilePictureSpace = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+export const TwoColumns = styled.div`
+  display: grid;
+
+  @media ${Device.zero} {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+
+  @media ${Device.tablet} {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+  }
 `;
