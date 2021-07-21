@@ -28,7 +28,7 @@ const Order = () => {
   const { id }: IParams = useParams();
   const history = useHistory();
 
-  const getProduct = useCallback(async () => {
+  const getOrder = useCallback(async () => {
     setLoading(true);
     try {
       const [res] = await Amogus({
@@ -52,7 +52,7 @@ const Order = () => {
   }, []);
 
   useEffect(() => {
-    getProduct();
+    getOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

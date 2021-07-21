@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { ComponentType } from 'react';
 import { Table, Spin, Tooltip, Button, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -89,7 +90,14 @@ const UsersTable = ({
       dataIndex: 'role',
       key: 'role',
       align: 'center',
-      render: (data) => Capitalize(data),
+      render: (data) =>
+        Capitalize(
+          data === 'user'
+            ? 'Usuario'
+            : data === 'client_user'
+            ? 'Gerente'
+            : 'Administrador'
+        ),
     },
     {
       title: '',

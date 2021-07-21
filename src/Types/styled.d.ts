@@ -14,6 +14,9 @@ declare module 'styled-components' {
       textPrimary: string;
       textSecondary: string;
       formError: string;
+      admin: string;
+      user: string;
+      client_user: string;
     };
     constants: {
       borderRadius: string;
