@@ -95,7 +95,7 @@ const Dashboard = ({
   const [showSider, setShowSider] = useState(false);
   const mobile = useMediaQuery('(max-width: 767px)');
   const { setVisible, cartTotal } = useCartCTX();
-  const { setIsAuth, setUser, isAdmin, isClientUser } = useAuthCTX();
+  const { setIsAuth, setUser, user, isAdmin, isClientUser } = useAuthCTX();
 
   const animations = animate
     ? {
@@ -239,7 +239,11 @@ const Dashboard = ({
                 </Button>
               </Badge>
 
-              <UserDropdown setIsAuth={setIsAuth} setUser={setUser} />
+              <UserDropdown
+                setIsAuth={setIsAuth}
+                setUser={setUser}
+                user={user}
+              />
             </HeaderActions>
           </Header>
         </Affix>

@@ -18,6 +18,7 @@ import Capitalize from '../../Utils/Capitalize';
 import UserForm from './UserForm';
 import ToFormValues from '../../Utils/ToFormValues';
 import DisplayErrors from '../../Utils/DisplayErrors';
+import { useAuthCTX } from '../../Utils/AuthContext';
 
 const { Text, Title } = Typography;
 
@@ -34,6 +35,7 @@ const UserProfile = ({ userInfo, loading, setUserInfo }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [edit, setEdit] = useState(false);
   const [initialValues, setInitialValues] = useState();
+  const { user, setUser } = useAuthCTX();
 
   const { name, last_name, email, role, created_at, id, image } = {
     ...userInfo,
@@ -43,16 +45,18 @@ const UserProfile = ({ userInfo, loading, setUserInfo }: Props) => {
     setIsSubmitting(true);
     try {
       const {
-        data: { success, user, errors },
+        data: { success, user: userData, errors },
       } = await axios.patch(`/users/${id}`, values);
 
       setIsSubmitting(false);
 
       if (success) {
         // Update initial values in case the user wants to make a new edit
-        setInitialValues(ToFormValues(user));
-        setUserInfo(user);
-        console.log('user', user);
+        setInitialValues(ToFormValues(userData));
+        setUserInfo(userData);
+        if (userData.id === user?.id) {
+          setUser(userData);
+        }
         setEdit(false);
         message.success('El usuario ha sido actualizado correctamente');
       }

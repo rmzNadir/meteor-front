@@ -42,7 +42,12 @@ const User = () => {
   }, []);
 
   return (
-    <Dashboard selectedKeys='users' sectionName='Usuarios' showParticles>
+    <Dashboard
+      selectedKeys='users'
+      sectionName='Usuarios'
+      showParticles
+      adminView
+    >
       <UserProfile
         userInfo={userInfo}
         loading={loading}

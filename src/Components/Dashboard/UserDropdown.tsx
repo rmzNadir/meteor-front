@@ -1,4 +1,4 @@
-import { Button, Menu, Dropdown, message } from 'antd';
+import { Button, Menu, Dropdown, message, Avatar } from 'antd';
 import {
   InfoCircleOutlined,
   PoweroffOutlined,
@@ -13,9 +13,10 @@ import { useCartCTX } from '../../Utils/CartContext';
 interface Props {
   setUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  user: IUser | undefined;
 }
 
-const UserDropdown = ({ setIsAuth, setUser }: Props) => {
+const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
   const history = useHistory();
   const { setCartItems } = useCartCTX();
 
@@ -62,12 +63,24 @@ const UserDropdown = ({ setIsAuth, setUser }: Props) => {
 
   return (
     <Dropdown trigger={['click']} overlay={menu} arrow>
-      <Button
-        type='primary'
-        shape='circle'
-        icon={<UserOutlined />}
-        size='large'
-      />
+      {user?.image ? (
+        <Avatar
+          size='large'
+          src={user?.image.url}
+          style={{
+            cursor: 'pointer',
+            objectFit: 'cover',
+            objectPosition: 'center right',
+          }}
+        />
+      ) : (
+        <Button
+          type='primary'
+          shape='circle'
+          icon={<UserOutlined />}
+          size='large'
+        />
+      )}
     </Dropdown>
   );
 };
