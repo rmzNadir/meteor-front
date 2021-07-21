@@ -176,7 +176,7 @@ const Dashboard = ({
       )}
 
       <Layout style={{ position: 'relative' }}>
-        {showParticles && (
+        {showParticles && !mobile && (
           <Particles
             style={{
               position: 'absolute',
