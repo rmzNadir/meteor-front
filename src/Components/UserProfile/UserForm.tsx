@@ -15,6 +15,8 @@ interface Props {
   isSubmitting: boolean;
   initialValues?: IUserTemp;
   isEdit?: boolean;
+  isProfile?: boolean;
+  isAdmin?: boolean;
 }
 
 const MAX_FILES = 1;
@@ -27,6 +29,8 @@ const UserForm = ({
   isSubmitting,
   initialValues,
   isEdit = false,
+  isProfile = false,
+  isAdmin = false,
 }: Props) => {
   const [filesError, setFilesError] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
@@ -178,42 +182,88 @@ const UserForm = ({
           <Input autoComplete='off' />
         </Form.Item>
 
-        <Form.Item
-          name='role'
-          label='Rol'
-          rules={[
-            {
-              required: true,
-              message: 'Es necesario seleccionar un rol',
-            },
-          ]}
-        >
-          <Select
-            getPopupContainer={(trigger) => trigger.parentElement}
-            optionFilterProp='children'
-            filterOption={(input, option) =>
-              option?.children
-                .toLowerCase()
-                .indexOf(input.trim().toLowerCase()) >= 0
-            }
-            filterSort={(optionA, optionB) =>
-              optionA.children
-                .toLowerCase()
-                .localeCompare(optionB.children.toLowerCase())
-            }
+        {isAdmin && (
+          <Form.Item
+            name='role'
+            label='Rol'
+            rules={[
+              {
+                required: true,
+                message: 'Es necesario seleccionar un rol',
+              },
+            ]}
           >
-            <Option value='admin'>Administrador</Option>
-            <Option value='client_user'>Gerente</Option>
-            <Option value='user'>Usuario</Option>
-          </Select>
-        </Form.Item>
+            <Select
+              getPopupContainer={(trigger) => trigger.parentElement}
+              optionFilterProp='children'
+              filterOption={(input, option) =>
+                option?.children
+                  .toLowerCase()
+                  .indexOf(input.trim().toLowerCase()) >= 0
+              }
+              filterSort={(optionA, optionB) =>
+                optionA.children
+                  .toLowerCase()
+                  .localeCompare(optionB.children.toLowerCase())
+              }
+            >
+              <Option value='admin'>Administrador</Option>
+              <Option value='client_user'>Gerente</Option>
+              <Option value='user'>Usuario</Option>
+            </Select>
+          </Form.Item>
+        )}
+
+        {isProfile && (
+          <Form.Item
+            name='current_password'
+            label='Contraseña actual'
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (
+                    !value &&
+                    (getFieldValue('password_confirmation') ||
+                      getFieldValue('password'))
+                  ) {
+                    return Promise.reject(
+                      new Error('Es necesario ingresar la contraseña actual')
+                    );
+                  }
+                  return Promise.resolve();
+                },
+              }),
+            ]}
+          >
+            <Input.Password autoComplete='password' />
+          </Form.Item>
+        )}
 
         <Form.Item
           name='password'
           label='Nueva contraseña'
+          dependencies={['current_password']}
           rules={[
             ({ getFieldValue }) => ({
               validator(_, value) {
+                if (isProfile && !value && getFieldValue('current_password')) {
+                  return Promise.reject(
+                    new Error(
+                      'Es necesario especificar una nueva contraseña para realizar el cambio'
+                    )
+                  );
+                }
+                if (
+                  isProfile &&
+                  value &&
+                  getFieldValue('current_password') === value
+                ) {
+                  return Promise.reject(
+                    new Error(
+                      'La nueva contraseña no puede ser igual a la anterior'
+                    )
+                  );
+                }
                 if (!value && getFieldValue('password_confirmation')) {
                   return Promise.reject(
                     new Error(
@@ -232,10 +282,17 @@ const UserForm = ({
         <Form.Item
           name='password_confirmation'
           label='Confirmación de nueva contraseña'
-          dependencies={['password']}
+          dependencies={['password', 'current_password']}
           rules={[
             ({ getFieldValue }) => ({
               validator(_, value) {
+                if (isProfile && !value && getFieldValue('current_password')) {
+                  return Promise.reject(
+                    new Error(
+                      'Es necesario especificar una nueva contraseña para realizar el cambio'
+                    )
+                  );
+                }
                 if (!value && getFieldValue('password')) {
                   return Promise.reject(
                     new Error('Es necesario confirmar la nueva contraseña')

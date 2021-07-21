@@ -42,6 +42,7 @@ import Sales from './Views/Sales';
 import Sale from './Views/Sale';
 import Users from './Views/Users';
 import User from './Views/User';
+import MyProfile from './Views/MyProfile';
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.withCredentials = true;
@@ -87,6 +88,7 @@ const Routes = memo(() => {
               <ProtectedRoute exact path='/listings' component={Listings} />
               <ProtectedRoute exact path='/users' component={Users} />
               <ProtectedRoute exact path='/users/:id' component={User} />
+              <ProtectedRoute exact path='/my-profile' component={MyProfile} />
               <Route path='*' component={() => <Redirect to='/404' />} />
             </Switch>
           )}

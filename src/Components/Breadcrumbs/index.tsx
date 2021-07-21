@@ -17,6 +17,7 @@ const Breadcrumbs = withRouter(({ location }) => {
     '/sales/:id': 'Detalles',
     '/users': 'Todos',
     '/users/:id': 'Detalles',
+    '/my-profile': 'Yo',
   };
 
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -42,7 +43,11 @@ const Breadcrumbs = withRouter(({ location }) => {
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems.filter((i) => i.key !== '/listings'));
 
-  return <Breadcrumb style={{ zIndex: 1 }}>{breadcrumbItems}</Breadcrumb>;
+  return (
+    <Breadcrumb style={{ zIndex: 1, userSelect: 'none' }}>
+      {breadcrumbItems}
+    </Breadcrumb>
+  );
 });
 
 export default Breadcrumbs;

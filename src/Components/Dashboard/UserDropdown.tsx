@@ -20,6 +20,8 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
   const history = useHistory();
   const { setCartItems } = useCartCTX();
 
+  // TODO: turn into a custom hook
+
   const handleLogout = async () => {
     try {
       await axios.delete('/logout');
@@ -41,20 +43,26 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
     }
   };
 
+  const handleMenuClick = (e: { key: string }) => {
+    switch (e.key) {
+      case 'profile':
+        return history.push('/my-profile');
+      case 'logout':
+        return handleLogout();
+      default:
+        return undefined;
+    }
+  };
+
   const menu = (
-    <Menu>
-      <Menu.Item disabled key='1'>
-        <Button disabled type='link' size='small' icon={<InfoCircleOutlined />}>
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key='profile'>
+        <Button type='link' size='small' icon={<InfoCircleOutlined />}>
           Perfil
         </Button>
       </Menu.Item>
-      <Menu.Item key='2'>
-        <Button
-          type='link'
-          onClick={handleLogout}
-          size='small'
-          icon={<PoweroffOutlined />}
-        >
+      <Menu.Item key='logout'>
+        <Button type='link' size='small' icon={<PoweroffOutlined />}>
           Cerrar sesión
         </Button>
       </Menu.Item>
@@ -71,6 +79,7 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
             cursor: 'pointer',
             objectFit: 'cover',
             objectPosition: 'center right',
+            userSelect: 'none',
           }}
         />
       ) : (

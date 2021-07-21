@@ -53,6 +53,7 @@ export const ProfileCard = styled(Card)`
 `;
 
 export const Image = styled(AntImage)`
+  user-select: none;
   border-radius: 50%;
   width: 9rem;
   height: 9rem;
