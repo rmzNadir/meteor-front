@@ -32,7 +32,7 @@ interface Props {
   animate?: boolean;
   adminView?: boolean;
   clientView?: boolean;
-  hideParticles?: boolean;
+  showParticles?: boolean;
 }
 
 interface MenuProps {
@@ -89,7 +89,7 @@ const Dashboard = ({
   animate = true,
   adminView = false,
   clientView = false,
-  hideParticles = false,
+  showParticles = false,
 }: Props) => {
   const { setIsCollapsing } = useCollapseCTX();
   const [showSider, setShowSider] = useState(false);
@@ -176,7 +176,7 @@ const Dashboard = ({
       )}
 
       <Layout style={{ position: 'relative' }}>
-        {!hideParticles && (
+        {showParticles && (
           <Particles
             style={{
               position: 'absolute',
@@ -189,7 +189,7 @@ const Dashboard = ({
           />
         )}
 
-        <Affix style={{ zIndex: 1 }}>
+        <Affix style={{ zIndex: 1000 }}>
           <Header
             style={{
               padding: '0 1rem 0 0',

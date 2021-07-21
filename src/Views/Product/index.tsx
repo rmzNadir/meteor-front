@@ -175,7 +175,12 @@ const Product = () => {
   };
 
   return (
-    <Dashboard selectedKeys='products' sectionName='Productos' clientView>
+    <Dashboard
+      selectedKeys='products'
+      sectionName='Productos'
+      clientView
+      showParticles
+    >
       <Wrapper>
         <ProductSpace>
           <ImageWrapper>

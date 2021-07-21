@@ -103,12 +103,7 @@ const Listings = () => {
   };
 
   return (
-    <Dashboard
-      selectedKeys='listings'
-      sectionName='Mi Meteor'
-      animate={false}
-      hideParticles
-    >
+    <Dashboard selectedKeys='listings' sectionName='Mi Meteor' animate={false}>
       <SearchSpace>
         <Search
           className='search-input'

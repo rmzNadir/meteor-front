@@ -70,7 +70,7 @@ const Order = () => {
   };
 
   return (
-    <Dashboard selectedKeys='orders' sectionName='Mis Pedidos'>
+    <Dashboard selectedKeys='orders' sectionName='Mis Pedidos' showParticles>
       <Spin spinning={loading}>
         <Wrapper>
           <InfoSpace>

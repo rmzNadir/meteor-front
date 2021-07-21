@@ -71,7 +71,12 @@ const Sale = () => {
   };
 
   return (
-    <Dashboard selectedKeys='sales' sectionName='Ventas' clientView>
+    <Dashboard
+      selectedKeys='sales'
+      sectionName='Ventas'
+      clientView
+      showParticles
+    >
       <Spin spinning={loading}>
         <Wrapper>
           <InfoSpace>

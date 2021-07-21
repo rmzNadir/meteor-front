@@ -28,7 +28,7 @@ const UserProfile = ({ user, loading }: Props) => {
     <ProfileSpace>
       <ProfileCard
         actions={[
-          <Button type='link' block>
+          <Button type='link' block style={{ height: '2.25rem' }}>
             <EditOutlined key='edit' /> Editar
           </Button>,
         ]}
