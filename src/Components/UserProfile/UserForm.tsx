@@ -72,7 +72,8 @@ const UserForm = ({
   const handleFormOk = () => {
     form
       .validateFields()
-      .then(async ({ image, ...rest }: IUserTemp) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .then(async ({ image, password_confirmation, ...rest }: IUserTemp) => {
         const formattedValues = {
           ...rest,
           // Avoid wrong params from being sent to the server on unchanged image user edit
@@ -205,6 +206,52 @@ const UserForm = ({
             <Option value='client_user'>Gerente</Option>
             <Option value='user'>Usuario</Option>
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          name='password'
+          label='Nueva contraseña'
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value && getFieldValue('password_confirmation')) {
+                  return Promise.reject(
+                    new Error(
+                      'Es necesario rellenar ambos campos para una nueva contraseña'
+                    )
+                  );
+                }
+                return Promise.resolve();
+              },
+            }),
+          ]}
+        >
+          <Input.Password autoComplete='new-password' />
+        </Form.Item>
+
+        <Form.Item
+          name='password_confirmation'
+          label='Confirmación de nueva contraseña'
+          dependencies={['password']}
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value && getFieldValue('password')) {
+                  return Promise.reject(
+                    new Error('Es necesario confirmar la nueva contraseña')
+                  );
+                }
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('Las contraseñas no coinciden')
+                );
+              },
+            }),
+          ]}
+        >
+          <Input.Password autoComplete='new-password' />
         </Form.Item>
 
         <Form.Item name='image' label='Foto de perfil'>

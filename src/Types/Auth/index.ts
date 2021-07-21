@@ -18,4 +18,6 @@ export interface IUserTemp {
   last_name: string;
   name: string;
   image?: IImage;
+  password_confirmation: string;
+  password: string;
 }
