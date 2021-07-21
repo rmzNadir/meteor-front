@@ -82,6 +82,7 @@ const ProductListings = () => {
     <>
       <SearchSpace>
         <Search
+          className='search-input'
           placeholder='Buscar productos'
           enterButton
           onChange={({ target }) => handleSearchbarChange(target.value)}

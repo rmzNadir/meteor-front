@@ -42,7 +42,7 @@ const Breadcrumbs = withRouter(({ location }) => {
     </Breadcrumb.Item>,
   ].concat(extraBreadcrumbItems.filter((i) => i.key !== '/listings'));
 
-  return <Breadcrumb>{breadcrumbItems}</Breadcrumb>;
+  return <Breadcrumb style={{ zIndex: 1 }}>{breadcrumbItems}</Breadcrumb>;
 });
 
 export default Breadcrumbs;

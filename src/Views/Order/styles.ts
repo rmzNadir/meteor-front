@@ -33,6 +33,7 @@ export const Summary = styled.div`
   padding: 0.75rem;
   display: grid;
   grid-gap: 0.25rem;
+  background: ${(props) => props.theme.colors.background};
 
   @media ${Device.zero} {
     grid-template-columns: 1fr;
@@ -84,6 +85,7 @@ export const SummaryCalculations = styled.div`
 `;
 
 export const ProductList = styled.div`
+  background: ${(props) => props.theme.colors.background};
   margin-top: 1rem;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 4px;

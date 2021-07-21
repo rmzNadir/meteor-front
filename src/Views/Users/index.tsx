@@ -83,6 +83,7 @@ const Users = () => {
         <Title level={3}>Todos los usuarios</Title>
         <HeaderSpace>
           <Search
+            className='search-input'
             placeholder='Buscar usuarios'
             enterButton
             onSearch={handleSearchbar}

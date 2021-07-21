@@ -27,6 +27,8 @@ export const InfoSpace = styled.div`
 `;
 
 export const Summary = styled.div`
+  background: ${(props) => props.theme.colors.background};
+
   margin-top: 1rem;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 4px;
@@ -84,6 +86,7 @@ export const SummaryCalculations = styled.div`
 `;
 
 export const ProductList = styled.div`
+  background: ${(props) => props.theme.colors.background};
   margin-top: 1rem;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 4px;

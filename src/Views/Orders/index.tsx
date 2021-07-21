@@ -83,6 +83,7 @@ const Orders = () => {
         <Title level={3}>Últimos pedidos</Title>
         <HeaderSpace>
           <Search
+            className='search-input'
             placeholder='Buscar pedidos'
             enterButton
             onSearch={handleSearchbar}

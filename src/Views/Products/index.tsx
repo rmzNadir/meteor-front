@@ -159,6 +159,7 @@ const Products = () => {
 
         <HeaderSpace>
           <Search
+            className='search-input'
             placeholder='Buscar productos'
             enterButton
             onSearch={handleSearchbar}

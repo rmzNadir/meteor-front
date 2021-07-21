@@ -103,9 +103,15 @@ const Listings = () => {
   };
 
   return (
-    <Dashboard selectedKeys='listings' sectionName='Mi Meteor' animate={false}>
+    <Dashboard
+      selectedKeys='listings'
+      sectionName='Mi Meteor'
+      animate={false}
+      hideParticles
+    >
       <SearchSpace>
         <Search
+          className='search-input'
           placeholder='Buscar productos'
           enterButton
           onSearch={handleSearchbar}

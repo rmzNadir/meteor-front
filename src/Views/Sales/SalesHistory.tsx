@@ -78,6 +78,7 @@ const SalesHistory = () => {
     <>
       <HeaderSpace>
         <Search
+          className='search-input'
           placeholder='Buscar ventas'
           enterButton
           onSearch={handleSearchbar}

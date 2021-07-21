@@ -14,6 +14,7 @@ import { useMediaQuery } from 'beautiful-react-hooks';
 import { Redirect, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMeteor } from '@fortawesome/free-solid-svg-icons';
+import Particles from 'react-particles-js';
 import SectionName from '../SectionName';
 import MeteorLogo from './MeteorLogo';
 import { useCollapseCTX } from '../../Utils/CollapseContext';
@@ -22,6 +23,7 @@ import UserDropdown from './UserDropdown';
 import { HeaderActions, LayoutContent, LogoWrapper } from './styles';
 import { useAuthCTX } from '../../Utils/AuthContext';
 import { useCartCTX } from '../../Utils/CartContext';
+import ParticlesConfig from '../../Utils/ParticlesConfig';
 
 interface Props {
   selectedKeys: string | string[];
@@ -30,6 +32,7 @@ interface Props {
   animate?: boolean;
   adminView?: boolean;
   clientView?: boolean;
+  hideParticles?: boolean;
 }
 
 interface MenuProps {
@@ -86,6 +89,7 @@ const Dashboard = ({
   animate = true,
   adminView = false,
   clientView = false,
+  hideParticles = false,
 }: Props) => {
   const { setIsCollapsing } = useCollapseCTX();
   const [showSider, setShowSider] = useState(false);
@@ -171,8 +175,21 @@ const Dashboard = ({
         </Drawer>
       )}
 
-      <Layout>
-        <Affix>
+      <Layout style={{ position: 'relative' }}>
+        {!hideParticles && (
+          <Particles
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            }}
+            params={ParticlesConfig}
+          />
+        )}
+
+        <Affix style={{ zIndex: 1 }}>
           <Header
             style={{
               padding: '0 1rem 0 0',

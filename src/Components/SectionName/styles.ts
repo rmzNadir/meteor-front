@@ -5,6 +5,7 @@ export const Section = styled.div`
   margin: 1rem 0 -0.5rem 1rem;
   cursor: pointer;
   transition: color 0.2s;
+  z-index: 1;
 
   &:hover {
     color: #c598d8;

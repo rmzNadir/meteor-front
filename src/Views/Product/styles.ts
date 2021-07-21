@@ -58,6 +58,8 @@ export const Wrapper = styled.div`
 `;
 
 export const InfoSpace = styled.div`
+  background: ${(props) => props.theme.colors.background};
+  z-index: 1;
   display: flex;
   flex-direction: column;
 
