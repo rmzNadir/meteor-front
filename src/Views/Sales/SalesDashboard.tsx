@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
-import { Card, message, Tooltip, Spin } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { Card, message, Tooltip, Spin, Button } from 'antd';
 import {
   Line,
   LineConfig,
@@ -13,7 +13,7 @@ import { PathCommand } from '@antv/g-base';
 import axios from 'axios';
 import moment from 'moment';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { DashboardSpace } from './styles';
+import { DashboardSpace, TitleInfo } from './styles';
 import theme from '../../Utils/theme';
 import { IDashboard } from '../../Types';
 import Capitalize from '../../Utils/Capitalize';
@@ -21,6 +21,13 @@ import Capitalize from '../../Utils/Capitalize';
 const SalesDashboard = () => {
   const [dashboardData, setDashboardData] = useState<IDashboard>();
   const [loading, setLoading] = useState(false);
+
+  // Refs
+  // <Plot<AllBaseConfig> | undefined> is not typed correctly
+  // TODO: create own type lmao
+  // Liquid charts wont show text when downloaded
+  const lineRef = useRef<any>();
+  const pieRef = useRef<any>();
 
   const { week_sales, most_sold, top_buyer, top_5_products } = {
     ...dashboardData,
@@ -170,22 +177,36 @@ const SalesDashboard = () => {
   return (
     <DashboardSpace>
       <div className='graph-space'>
-        <Card title='Ventas en los últimos 7 días' type='inner'>
+        <Card
+          title='Ventas en los últimos 7 días'
+          type='inner'
+          extra={
+            <Button
+              onClick={() =>
+                lineRef.current?.downloadImage(
+                  `ventas-7-dias-${moment().format('DD-MM-YYYY')}`
+                )
+              }
+            >
+              Descargar
+            </Button>
+          }
+        >
           <Spin spinning={loading}>
-            <Line {...LineChart} />
+            <Line {...LineChart} chartRef={lineRef} />
           </Spin>
         </Card>
         <Card
-          title='Producto más vendido'
-          type='inner'
-          extra={
-            <Tooltip
-              title='En relación al porcentaje total de ventas'
-              placement='left'
-            >
-              <InfoCircleOutlined />
-            </Tooltip>
+          title={
+            <TitleInfo>
+              <span>Producto más vendido</span>
+              <Tooltip title='En relación al porcentaje total de ventas'>
+                <InfoCircleOutlined />
+              </Tooltip>
+            </TitleInfo>
           }
+          extra={<Button type='ghost' />}
+          type='inner'
         >
           <Spin spinning={loading}>
             <Liquid {...LiquidChart} />
@@ -194,24 +215,38 @@ const SalesDashboard = () => {
       </div>
       <div className='graph-space bottom-graphs'>
         <Card
-          title='Cliente con más ordenes'
-          type='inner'
-          extra={
-            <Tooltip
-              title='En relación al porcentaje total de ordenes'
-              placement='left'
-            >
-              <InfoCircleOutlined />
-            </Tooltip>
+          title={
+            <TitleInfo>
+              <span>Cliente con más ordenes</span>
+              <Tooltip title='En relación al porcentaje total de ordenes'>
+                <InfoCircleOutlined />
+              </Tooltip>
+            </TitleInfo>
           }
+          extra={<Button type='ghost' />}
+          type='inner'
         >
           <Spin spinning={loading}>
             <Liquid {...StarChart} />
           </Spin>
         </Card>
-        <Card title='Productos más vendidos' type='inner'>
+        <Card
+          title='Productos más vendidos'
+          type='inner'
+          extra={
+            <Button
+              onClick={() =>
+                pieRef.current?.downloadImage(
+                  `productos-mas-vendidos-${moment().format('DD-MM-YYYY')}`
+                )
+              }
+            >
+              Descargar
+            </Button>
+          }
+        >
           <Spin spinning={loading}>
-            <Pie {...PieChart} />
+            <Pie {...PieChart} chartRef={pieRef} />
           </Spin>
         </Card>
       </div>

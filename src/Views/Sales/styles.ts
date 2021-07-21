@@ -83,3 +83,14 @@ export const DashboardSpace = styled.div`
     margin-top: 1rem;
   }
 `;
+
+export const TitleInfo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min-content;
+
+  > :first-child {
+    margin-right: 0.5rem;
+  }
+`;
