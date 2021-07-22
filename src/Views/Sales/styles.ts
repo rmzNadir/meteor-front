@@ -28,6 +28,10 @@ export const HeaderSpace = styled.div`
   margin: 0.25rem 0 1.1rem;
   display: flex;
   justify-content: flex-end;
+
+  > :first-child {
+    margin-right: 0.5rem;
+  }
 `;
 
 export const Search = styled(antSearch)`

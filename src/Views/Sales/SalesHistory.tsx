@@ -1,9 +1,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { message } from 'antd';
+import { message, Button, Tooltip } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import moment from 'moment';
 import { IPagination, ISaleRecord } from '../../Types';
-import Amogus from '../../Utils/Amogus';
 import SalesTable from './SalesTable';
 import { HeaderSpace, Search } from './styles';
+
+const fileDownload = require('js-file-download');
 
 const DEF_PAGINATION = {
   per_page: 10,
@@ -12,52 +16,63 @@ const DEF_PAGINATION = {
 
 const SalesHistory = () => {
   const [loading, setLoading] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
   const [sales, setSales] = useState<ISaleRecord[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
 
   const renders = useRef(0);
-  const setData = (salesdata: ISaleRecord[]) => {
-    setSales(salesdata);
-    setLoading(false);
-  };
 
-  const getProducts = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams(
-        paginationParams as unknown as Record<string, string>
-      );
-      const [res] = await Amogus(
-        {
-          method: 'GET',
-          url: `/sales/?${params}`,
-        },
-        false
-      );
+  const getProducts = useCallback(
+    async (isDownload: boolean = false) => {
+      isDownload ? setLoadingDownload(true) : setLoading(true);
+      try {
+        let params = new URLSearchParams(
+          paginationParams as unknown as Record<string, string>
+        );
 
-      const {
-        data,
-        headers: { total },
-      } = res;
+        if (isDownload) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { page, per_page, ...rest } = paginationParams;
+          params = new URLSearchParams({
+            ...rest,
+            download: 'true',
+          } as unknown as Record<string, string>);
+        }
 
-      // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
-      if (renders.current <= 1) {
-        setTimeout(() => {
-          setData(data);
-        }, 250);
-      } else {
-        setData(data);
+        const res = await axios.get(
+          `/sales/?${params}`,
+          isDownload ? { responseType: 'blob' } : undefined
+        );
+
+        const {
+          data,
+          headers: { total },
+        } = res;
+
+        // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
+        if (isDownload) {
+          fileDownload(
+            data,
+            `Reporte-ventas-${moment().format('DD-MM-YYYY')}.xlsx`
+          );
+        } else if (renders.current <= 1) {
+          setTimeout(() => {
+            setSales(data);
+          }, 250);
+        } else {
+          setSales(data);
+        }
+
+        setTotalRecords(total);
+      } catch (e) {
+        message.error('Ocurrió un error al cargar el historial de ventas');
       }
-
-      setTotalRecords(total);
-    } catch (e) {
-      setLoading(false);
-
-      message.error('Ocurrió un error al cargar el historial de ventas');
-    }
-  }, [paginationParams]);
+      isDownload ? setLoadingDownload(false) : setLoading(false);
+    },
+    [paginationParams]
+  );
 
   useEffect(() => {
     renders.current += 1;
@@ -77,6 +92,16 @@ const SalesHistory = () => {
   return (
     <>
       <HeaderSpace>
+        <Tooltip title='Descargar reporte'>
+          <Button
+            shape='circle'
+            type='primary'
+            loading={loadingDownload}
+            disabled={totalRecords < 1}
+            icon={<DownloadOutlined />}
+            onClick={() => getProducts(true)}
+          />
+        </Tooltip>
         <Search
           className='search-input'
           placeholder='Buscar ventas'
