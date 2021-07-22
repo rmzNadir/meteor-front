@@ -1,11 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { message } from 'antd';
+import { Button, message, Tooltip } from 'antd';
+import axios from 'axios';
+import moment from 'moment';
+import { DownloadOutlined } from '@ant-design/icons';
 import Dashboard from '../../Components/Dashboard';
 import UsersTable from './UsersTable';
 import { HeaderSpace, Title, Search } from './styles';
 import { IPagination, IUser } from '../../Types';
-import Amogus from '../../Utils/Amogus';
 import CollapseProvider from '../../Utils/CollapseContext';
+
+const fileDownload = require('js-file-download');
 
 const DEF_PAGINATION = {
   per_page: 10,
@@ -14,53 +18,63 @@ const DEF_PAGINATION = {
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [totalRecords, setTotalRecords] = useState<number>();
+  const [totalRecords, setTotalRecords] = useState<number>(0);
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
 
   const renders = useRef(0);
 
-  const setData = (userData: IUser[]) => {
-    setUsers(userData);
-    setLoading(false);
-  };
+  const getUsers = useCallback(
+    async (isDownload: boolean = false) => {
+      isDownload ? setLoadingDownload(true) : setLoading(true);
+      try {
+        let params = new URLSearchParams(
+          paginationParams as unknown as Record<string, string>
+        );
 
-  const getUsers = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams(
-        paginationParams as unknown as Record<string, string>
-      );
-      const [res] = await Amogus(
-        {
-          method: 'GET',
-          url: `/users/?${params}`,
-        },
-        false
-      );
+        if (isDownload) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { page, per_page, ...rest } = paginationParams;
+          params = new URLSearchParams({
+            ...rest,
+            download: 'true',
+          } as unknown as Record<string, string>);
+        }
 
-      const {
-        data,
-        headers: { total },
-      } = res;
+        const res = await axios.get(
+          `/users/?${params}`,
+          isDownload ? { responseType: 'blob' } : undefined
+        );
 
-      // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
-      if (renders.current <= 1) {
-        setTimeout(() => {
-          setData(data);
-        }, 250);
-      } else {
-        setData(data);
+        const {
+          data,
+          headers: { total },
+        } = res;
+
+        if (isDownload) {
+          fileDownload(
+            data,
+            `Reporte-usuarios-${moment().format('DD-MM-YYYY')}.xlsx`
+          );
+          // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
+        } else if (renders.current <= 1) {
+          setTimeout(() => {
+            setUsers(data);
+          }, 250);
+        } else {
+          setUsers(data);
+        }
+
+        setTotalRecords(total);
+      } catch (e) {
+        message.error('Ocurrió un error al cargar los usuarios');
       }
-
-      setTotalRecords(total);
-    } catch (e) {
-      setLoading(false);
-
-      message.error('Ocurrió un error al cargar los usuarios');
-    }
-  }, [paginationParams]);
+      isDownload ? setLoadingDownload(false) : setLoading(false);
+    },
+    [paginationParams]
+  );
 
   useEffect(() => {
     renders.current += 1;
@@ -82,6 +96,16 @@ const Users = () => {
       <Dashboard selectedKeys='users' sectionName='Usuarios' adminView>
         <Title level={3}>Todos los usuarios</Title>
         <HeaderSpace>
+          <Tooltip title='Descargar reporte'>
+            <Button
+              shape='circle'
+              type='primary'
+              loading={loadingDownload}
+              disabled={totalRecords < 1}
+              icon={<DownloadOutlined />}
+              onClick={() => getUsers(true)}
+            />
+          </Tooltip>
           <Search
             className='search-input'
             placeholder='Buscar usuarios'
