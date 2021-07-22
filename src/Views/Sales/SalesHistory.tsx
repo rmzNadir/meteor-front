@@ -24,7 +24,7 @@ const SalesHistory = () => {
 
   const renders = useRef(0);
 
-  const getProducts = useCallback(
+  const getSales = useCallback(
     async (isDownload: boolean = false) => {
       isDownload ? setLoadingDownload(true) : setLoading(true);
       try {
@@ -51,12 +51,12 @@ const SalesHistory = () => {
           headers: { total },
         } = res;
 
-        // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
         if (isDownload) {
           fileDownload(
             data,
             `Reporte-ventas-${moment().format('DD-MM-YYYY')}.xlsx`
           );
+          // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
         } else if (renders.current <= 1) {
           setTimeout(() => {
             setSales(data);
@@ -76,7 +76,7 @@ const SalesHistory = () => {
 
   useEffect(() => {
     renders.current += 1;
-    getProducts();
+    getSales();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
@@ -99,7 +99,7 @@ const SalesHistory = () => {
             loading={loadingDownload}
             disabled={totalRecords < 1}
             icon={<DownloadOutlined />}
-            onClick={() => getProducts(true)}
+            onClick={() => getSales(true)}
           />
         </Tooltip>
         <Search

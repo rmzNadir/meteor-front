@@ -1,8 +1,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { PlusOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { Button, message, Modal } from 'antd';
+import {
+  PlusOutlined,
+  CheckCircleOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
+import { Button, message, Modal, Tooltip } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import Dashboard from '../../Components/Dashboard';
 import CollapseProvider from '../../Utils/CollapseContext';
 import InventoryTable from './InventoryTable';
@@ -14,6 +19,8 @@ import Cards from './Cards';
 import DisplayErrors from '../../Utils/DisplayErrors';
 import theme from '../../Utils/theme';
 
+const fileDownload = require('js-file-download');
+
 const DEF_PAGINATION = {
   per_page: 10,
   page: 1,
@@ -21,11 +28,12 @@ const DEF_PAGINATION = {
 
 const Products = () => {
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cards, setCards] = useState<ICards>();
-  const [totalRecords, setTotalRecords] = useState<number>();
+  const [totalRecords, setTotalRecords] = useState<number>(0);
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
 
@@ -35,49 +43,64 @@ const Products = () => {
   const setData = (prodData: IProduct[], cardsData: ICards) => {
     setProducts(prodData);
     setCards(cardsData);
-    setLoadingProducts(false);
   };
 
-  const getProducts = useCallback(async () => {
-    setLoadingProducts(true);
-    try {
-      const params = new URLSearchParams(
-        paginationParams as unknown as Record<string, string>
-      );
-      const [prodRes] = await Amogus(
-        {
-          method: 'GET',
-          url: `/products/?${params}`,
-        },
-        false
-      );
+  const getProducts = useCallback(
+    async (isDownload: boolean = false) => {
+      isDownload ? setLoadingDownload(true) : setLoadingProducts(true);
+      try {
+        let params = new URLSearchParams(
+          paginationParams as unknown as Record<string, string>
+        );
 
-      const {
-        data: prodData,
-        headers: { total },
-      } = prodRes;
+        if (isDownload) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { page, per_page, ...rest } = paginationParams;
+          params = new URLSearchParams({
+            ...rest,
+            download: 'true',
+          } as unknown as Record<string, string>);
+        }
 
-      const [cardsRes] = await Amogus({
-        method: 'GET',
-        url: `/product-cards/`,
-      });
+        const res = await axios.get(
+          `/products/?${params}`,
+          isDownload ? { responseType: 'blob' } : undefined
+        );
 
-      // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
-      if (renders.current <= 1) {
-        setTimeout(() => {
-          setData(prodData, cardsRes?.cards);
-        }, 250);
-      } else {
-        setData(prodData, cardsRes?.cards);
+        const {
+          data: prodData,
+          headers: { total },
+        } = res;
+
+        if (isDownload) {
+          fileDownload(
+            prodData,
+            `Reporte-productos-${moment().format('DD-MM-YYYY')}.xlsx`
+          );
+        } else {
+          const [cardsRes] = await Amogus({
+            method: 'GET',
+            url: `/product-cards/`,
+          });
+
+          // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
+          if (renders.current <= 1) {
+            setTimeout(() => {
+              setData(prodData, cardsRes?.cards);
+            }, 250);
+          } else {
+            setData(prodData, cardsRes?.cards);
+          }
+        }
+
+        setTotalRecords(total);
+      } catch (e) {
+        message.error('Ocurrió un error al cargar el catálogo de productos');
       }
-
-      setTotalRecords(total);
-    } catch (e) {
-      setLoadingProducts(false);
-
-      message.error('Ocurrió un error al cargar el catálogo de productos');
-    }
-  }, [paginationParams]);
+      isDownload ? setLoadingDownload(false) : setLoadingProducts(false);
+    },
+    [paginationParams]
+  );
 
   const submitProduct = async (values: FormData, resetFieldsCB: () => void) => {
     setIsSubmitting(true);
@@ -158,6 +181,16 @@ const Products = () => {
         </TableTitle>
 
         <HeaderSpace>
+          <Tooltip title='Descargar reporte'>
+            <Button
+              shape='circle'
+              type='primary'
+              loading={loadingDownload}
+              disabled={totalRecords < 1}
+              icon={<DownloadOutlined />}
+              onClick={() => getProducts(true)}
+            />
+          </Tooltip>
           <Search
             className='search-input'
             placeholder='Buscar productos'
