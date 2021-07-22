@@ -69,7 +69,7 @@ const Users = () => {
 
         setTotalRecords(total);
       } catch (e) {
-        message.error('Ocurrió un error al cargar los usuarios');
+        message.error('Ocurrió un error al cargar la lista de usuarios');
       }
       isDownload ? setLoadingDownload(false) : setLoading(false);
     },
