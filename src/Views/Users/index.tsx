@@ -45,7 +45,7 @@ const Users = () => {
         headers: { total },
       } = res;
 
-      // Yet another guetto workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
+      // Yet another ugly workaround, in this case it helps avoid the ugly stuttering animation on 1st renders
       if (renders.current <= 1) {
         setTimeout(() => {
           setData(data);

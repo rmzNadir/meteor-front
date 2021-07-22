@@ -5,7 +5,7 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
-    // Guetto workaround to make scrolling to top work on page load lmao
+    // Ugly workaround to make scrolling to top work on page load lmao
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);

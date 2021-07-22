@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface IErrorProps {
-  // Guetto workaround to stop "overwritten" err
+  // Ugly workaround to stop "overwritten" err
   errorBorder: undefined;
 }
 
