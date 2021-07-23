@@ -1,7 +1,7 @@
 import { IObject } from '../Types';
 
-export const setStorage = (key: string, object: IObject | string) => {
-  return localStorage.setItem(key, JSON.stringify(object));
+export const setStorage = (key: string, value: IObject | string) => {
+  return localStorage.setItem(key, JSON.stringify(value));
 };
 
 export const getStorage = (key: string) => {

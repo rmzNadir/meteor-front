@@ -13,10 +13,13 @@ import { PathCommand } from '@antv/g-base';
 import axios from 'axios';
 import moment from 'moment';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { DashboardSpace, TitleInfo } from './styles';
+import NumberFormat from 'react-number-format';
+import { useHistory } from 'react-router-dom';
+import { DashboardSpace, LiquidTooltipInfo, TitleInfo } from './styles';
 import theme from '../../Utils/theme';
 import { IDashboard } from '../../Types';
 import Capitalize from '../../Utils/Capitalize';
+import { setStorage } from '../../Utils/Storage';
 
 const SalesDashboard = () => {
   const [dashboardData, setDashboardData] = useState<IDashboard>();
@@ -28,6 +31,7 @@ const SalesDashboard = () => {
   // Liquid charts wont show text when downloaded
   const lineRef = useRef<any>();
   const pieRef = useRef<any>();
+  const history = useHistory();
 
   const { week_sales, most_sold, top_buyer, top_5_products } = {
     ...dashboardData,
@@ -174,6 +178,11 @@ const SalesDashboard = () => {
     theme: { styleSheet: { brandColor: '#FFC100' } },
   };
 
+  const handleRedirect = (route: string) => {
+    setStorage('dashboardTab', 'dashboard');
+    history.push(route);
+  };
+
   return (
     <DashboardSpace>
       <div className='graph-space'>
@@ -205,12 +214,43 @@ const SalesDashboard = () => {
               </Tooltip>
             </TitleInfo>
           }
-          extra={<Button type='ghost' />}
+          extra={
+            <Button
+              onClick={() =>
+                handleRedirect(`/products/${most_sold?.product.id}`)
+              }
+            >
+              Ver producto
+            </Button>
+          }
           type='inner'
         >
-          <Spin spinning={loading}>
-            <Liquid {...LiquidChart} />
-          </Spin>
+          <Tooltip
+            title={
+              <LiquidTooltipInfo>
+                <div className='tooltip-info-wrapper'>
+                  <div>Todos las ventas:</div>
+                  <NumberFormat
+                    value={most_sold?.all_sales}
+                    displayType='text'
+                    thousandSeparator
+                  />
+                </div>
+                <div className='tooltip-info-wrapper'>
+                  <div>{most_sold && Capitalize(most_sold.product.name)}: </div>
+                  <NumberFormat
+                    value={most_sold?.product.times_bought}
+                    displayType='text'
+                    thousandSeparator
+                  />
+                </div>
+              </LiquidTooltipInfo>
+            }
+          >
+            <Spin spinning={loading}>
+              <Liquid {...LiquidChart} />
+            </Spin>
+          </Tooltip>
         </Card>
       </div>
       <div className='graph-space bottom-graphs'>
@@ -223,12 +263,45 @@ const SalesDashboard = () => {
               </Tooltip>
             </TitleInfo>
           }
-          extra={<Button type='ghost' />}
+          extra={
+            <Button
+              onClick={() => handleRedirect(`/users/${top_buyer?.user.id}`)}
+            >
+              Ver cliente
+            </Button>
+          }
           type='inner'
         >
-          <Spin spinning={loading}>
-            <Liquid {...StarChart} />
-          </Spin>
+          <Tooltip
+            title={
+              <LiquidTooltipInfo>
+                <div className='tooltip-info-wrapper'>
+                  <div>Todos las ordenes:</div>
+                  <NumberFormat
+                    value={top_buyer?.all_sales}
+                    displayType='text'
+                    thousandSeparator
+                  />
+                </div>
+                <div className='tooltip-info-wrapper'>
+                  <div>
+                    {user &&
+                      `${Capitalize(user.name)} ${Capitalize(user.last_name)}`}
+                    :
+                  </div>
+                  <NumberFormat
+                    value={top_buyer?.user_sales}
+                    displayType='text'
+                    thousandSeparator
+                  />
+                </div>
+              </LiquidTooltipInfo>
+            }
+          >
+            <Spin spinning={loading}>
+              <Liquid {...StarChart} />
+            </Spin>
+          </Tooltip>
         </Card>
         <Card
           title='Productos más vendidos'

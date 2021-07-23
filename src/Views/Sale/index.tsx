@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, useCallback } from 'react';
 import { Divider, message, Space, Spin, Typography } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
@@ -19,12 +20,14 @@ import {
 import Capitalize from '../../Utils/Capitalize';
 import theme from '../../Utils/theme';
 import ProductCard from './ProductCard';
+import { useAuthCTX } from '../../Utils/AuthContext';
 
-const { Title, Text } = Typography;
+const { Title, Text, Link } = Typography;
 
 const Sale = () => {
   const [loading, setLoading] = useState(false);
   const [saleInfo, setSaleInfo] = useState<ISaleRecord>();
+  const { isAdmin } = useAuthCTX();
 
   const { id }: IParams = useParams();
   const history = useHistory();
@@ -91,8 +94,15 @@ const Sale = () => {
             <ClientInfo>
               <Text>
                 Cliente:{' '}
-                {user &&
-                  `${Capitalize(user.name)} ${Capitalize(user.last_name)}`}
+                {isAdmin ? (
+                  <Link onClick={() => history.push(`/users/${user?.id}`)}>
+                    {user &&
+                      `${Capitalize(user.name)} ${Capitalize(user.last_name)}`}
+                  </Link>
+                ) : (
+                  user &&
+                  `${Capitalize(user.name)} ${Capitalize(user.last_name)}`
+                )}
               </Text>
               <Text>Email: {user && user.email}</Text>
             </ClientInfo>

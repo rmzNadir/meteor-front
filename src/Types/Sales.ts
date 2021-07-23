@@ -37,6 +37,7 @@ export interface ITopBuyer {
   user: IUser;
   all_sales: number;
   percentage: number;
+  user_sales: number;
 }
 
 export interface IDashboard {

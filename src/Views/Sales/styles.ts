@@ -98,3 +98,29 @@ export const TitleInfo = styled.div`
     margin-right: 0.5rem;
   }
 `;
+
+export const LiquidTooltipInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .tooltip-info-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 0.5rem;
+
+    > :nth-child(2n) {
+      justify-self: flex-end;
+    }
+  }
+
+  > * {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+`;
