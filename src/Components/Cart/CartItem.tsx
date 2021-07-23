@@ -12,6 +12,7 @@ import {
   ProductInfo,
   BottomInfo,
 } from './styles';
+import IMG_FALLBACK from '../../Utils/IMG_FALLBACK';
 
 interface Props {
   item: ICartItem;
@@ -47,7 +48,7 @@ const CartItem = ({ item, setCartItems, disabled }: Props) => {
       exit={{ opacity: 0, x: 250, transition: { duration: 0.3 } }}
     >
       <TopInfo>
-        <Image src={image?.url} alt='' />
+        <Image src={image?.url} alt='' fallback={IMG_FALLBACK} />
         <ProductInfo>
           <Text>{Capitalize(name)}</Text>
           <Paragraph

@@ -1,18 +1,23 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Typography } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
+import { useHistory } from 'react-router-dom';
 import { ProductImage, OrderProduct, ProductInfo } from './styles';
 import { ISaleProduct } from '../../Types';
 import IMG_FALLBACK from '../../Utils/IMG_FALLBACK';
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 
 interface Props {
   product: ISaleProduct;
 }
 
 const ProductCard = ({ product }: Props) => {
-  const { image, name, quantity, unit_price } = product;
+  const history = useHistory();
+
+  const { image, name, quantity, unit_price, id } = product;
+
   return (
     <OrderProduct>
       <ProductImage
@@ -23,7 +28,12 @@ const ProductCard = ({ product }: Props) => {
         }}
       />
       <ProductInfo>
-        <Text style={{ marginBottom: '0.5rem' }}>{name}</Text>
+        <Link
+          style={{ marginBottom: '0.5rem' }}
+          onClick={() => history.push(`/listings?id=${id}`)}
+        >
+          {name}
+        </Link>
         <Text>
           Cantidad:&nbsp;
           <NumberFormat value={quantity} displayType='text' thousandSeparator />

@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { message, Input, Empty, Spin } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import axios from 'axios';
 import { EmptyWrapper, ListingSpace, SearchSpace } from './styles';
 import { IPagination, IProduct } from '../../Types';
 import Amogus from '../../Utils/Amogus';
@@ -13,6 +14,7 @@ import ScrollReveal from '../../Utils/ScrollReveal';
 import ProductCard from '../../Components/ProductListings/ProductCard';
 import Pagination from './Pagination';
 import ProductDetails from '../../Components/ProductListings/ProductDetails';
+import GetQueryParams from '../../Utils/GetQueryParams';
 
 const { Search } = Input;
 
@@ -37,7 +39,34 @@ const Listings = () => {
   const { setVisible, setUserCart } = useCartCTX();
   const { showCart } = { ...state };
   const renders = useRef(1);
+  const productRenders = useRef(1);
   const childRef = useRef<any>();
+
+  const handleShowDetails = useCallback(
+    async (id: number) => {
+      window.history.replaceState(null, '', `?id=${id}`);
+      setShowDetails(true);
+      const prod = products.find((p) => p.id === id);
+      if (prod) {
+        setProduct(prod);
+      } else {
+        try {
+          const { data } = await axios.get(`/products/${id}`);
+          const { success, product: dProd, msg } = data;
+
+          if (success) {
+            setProduct(dProd);
+          }
+          if (msg === 'Product not found') {
+            message.error('No se encontró el producto');
+          }
+        } catch (e) {
+          message.error('Ocurrió un error al cargar el producto');
+        }
+      }
+    },
+    [products]
+  );
 
   useEffect(() => {
     if (showCart) {
@@ -50,6 +79,20 @@ const Listings = () => {
     renders.current += 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showCart]);
+
+  useEffect(() => {
+    // Show product details if needed on second render (after products have been set)
+    if (productRenders.current === 2) {
+      const id = GetQueryParams('id');
+
+      if (id) {
+        handleShowDetails(+id);
+      }
+    }
+
+    productRenders.current += 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
 
   const getProducts = useCallback(async () => {
     setLoadingProducts(true);
@@ -85,6 +128,7 @@ const Listings = () => {
 
   useEffect(() => {
     getProducts();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationParams]);
 
@@ -95,11 +139,6 @@ const Listings = () => {
 
   const handleSearchbarChange = (value: string) => {
     !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
-  };
-
-  const handleShowDetails = (id: number) => {
-    setProduct(products.find((p) => p.id === id));
-    setShowDetails(true);
   };
 
   return (
@@ -115,7 +154,6 @@ const Listings = () => {
           loading={loadingProducts}
         />
       </SearchSpace>
-
       <ScrollReveal
         ref={childRef}
         children={() =>
@@ -142,7 +180,6 @@ const Listings = () => {
           )
         }
       />
-
       <AnimatePresence>
         {totalRecords && totalRecords > 0 && !loadingProducts && (
           <motion.div
@@ -165,9 +202,9 @@ const Listings = () => {
 
       {product && (
         <ProductDetails
-          data={product}
           visible={showDetails}
           setVisible={setShowDetails}
+          data={product}
         />
       )}
     </Dashboard>

@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react';
 import {
   CaretRightFilled,
   CheckCircleOutlined,
@@ -18,7 +19,7 @@ import {
   message,
 } from 'antd';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { useCallback, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import NumberFormat from 'react-number-format';
 import { useHistory } from 'react-router-dom';
 import { IProduct } from '../../Types';
@@ -105,15 +106,20 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems, selectedAmount]);
 
+  const handleCloseDetails = () => {
+    window.history.replaceState(null, '', window.location.pathname);
+    setVisible(false);
+  };
+
   return (
     <Modal
-      bodyStyle={{ padding: 0 }}
+      bodyStyle={{ padding: 0, overflowX: 'hidden' }}
       visible={visible}
       closeIcon={
         <CloseCircleFilled style={{ color: '#fff', fontSize: '0.75rem' }} />
       }
       closable={mobile}
-      onCancel={() => setVisible(false)}
+      onCancel={handleCloseDetails}
       centered
       footer={[
         <Actions>
@@ -140,14 +146,25 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
         </Actions>,
       ]}
     >
-      <Image
-        fallback={IMG_FALLBACK}
-        src={image?.url}
-        preview={{
-          mask: <EyeOutlined style={{ fontSize: 25 }} />,
-        }}
-        style={{ height: '10rem', objectFit: 'cover' }}
-      />
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          key={id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <Image
+            fallback={IMG_FALLBACK}
+            src={image?.url}
+            preview={{
+              mask: <EyeOutlined style={{ fontSize: 25 }} />,
+            }}
+            style={{ height: '10rem', objectFit: 'cover' }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
       <DetailsWrapper>
         <div>
           <Title

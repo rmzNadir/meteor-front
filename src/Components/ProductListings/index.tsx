@@ -2,6 +2,7 @@
 /* eslint-disable react/no-children-prop */
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { message, Input, Empty, Spin } from 'antd';
+import axios from 'axios';
 import { EmptyWrapper, ListingSpace, SearchSpace } from './styles';
 import { IPagination, IProduct } from '../../Types';
 import Amogus from '../../Utils/Amogus';
@@ -9,6 +10,7 @@ import ScrollReveal from '../../Utils/ScrollReveal';
 import ProductCard from './ProductCard';
 import ListingPagination from './ListingPagination';
 import ProductDetails from './ProductDetails';
+import GetQueryParams from '../../Utils/GetQueryParams';
 
 const { Search } = Input;
 
@@ -18,14 +20,16 @@ const DEF_PAGINATION: IPagination = {
 };
 
 const ProductListings = () => {
-  const [product, setProduct] = useState<IProduct>();
   const [showDetails, setShowDetails] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [products, setProducts] = useState<IProduct[]>([]);
   const [totalRecords, setTotalRecords] = useState<number>();
+  const [product, setProduct] = useState<IProduct>();
   const [paginationParams, setPaginationParams] =
     useState<IPagination>(DEF_PAGINATION);
+
   const childRef = useRef<any>();
+  const renders = useRef(1);
 
   const getProducts = useCallback(async () => {
     setLoadingProducts(true);
@@ -59,6 +63,46 @@ const ProductListings = () => {
     }
   }, [paginationParams]);
 
+  const handleShowDetails = useCallback(
+    async (id: number) => {
+      window.history.replaceState(null, '', `?id=${id}`);
+      setShowDetails(true);
+      const prod = products.find((p) => p.id === id);
+      if (prod) {
+        setProduct(prod);
+      } else {
+        try {
+          const { data } = await axios.get(`/listings/${id}`);
+          const { success, product: dProd, msg } = data;
+
+          if (success) {
+            setProduct(dProd);
+          }
+          if (msg === 'Product not found') {
+            message.error('No se encontró el producto');
+          }
+        } catch (e) {
+          message.error('Ocurrió un error al cargar el producto');
+        }
+      }
+    },
+    [products]
+  );
+
+  useEffect(() => {
+    // Show product details if needed on second render (after products have been set)
+    if (renders.current === 2) {
+      const id = GetQueryParams('id');
+
+      if (id) {
+        handleShowDetails(+id);
+      }
+    }
+
+    renders.current += 1;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
+
   useEffect(() => {
     getProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,11 +115,6 @@ const ProductListings = () => {
 
   const handleSearchbarChange = (value: string) => {
     !value && setPaginationParams((p) => ({ ...p, q: value.trim(), page: 1 }));
-  };
-
-  const handleShowDetails = (id: number) => {
-    setProduct(products.find((p) => p.id === id));
-    setShowDetails(true);
   };
 
   return (
@@ -91,7 +130,6 @@ const ProductListings = () => {
           loading={loadingProducts}
         />
       </SearchSpace>
-
       <ScrollReveal
         ref={childRef}
         children={() =>
@@ -118,7 +156,6 @@ const ProductListings = () => {
           )
         }
       />
-
       {totalRecords && totalRecords > paginationParams.per_page && (
         <ListingPagination
           totalRecords={totalRecords}
@@ -126,11 +163,12 @@ const ProductListings = () => {
           setPaginationParams={setPaginationParams}
         />
       )}
+
       {product && (
         <ProductDetails
-          data={product}
           visible={showDetails}
           setVisible={setShowDetails}
+          data={product}
         />
       )}
     </>

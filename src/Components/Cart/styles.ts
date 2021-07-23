@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from 'antd';
+import { Button, Image as AntImage } from 'antd';
 import { motion } from 'framer-motion';
 import Device from '../../Utils/Breakpoints';
 
@@ -88,7 +88,7 @@ export const CartItemWrapper = styled(motion.div)`
   } */
 `;
 
-export const Image = styled.img`
+export const Image = styled(AntImage)`
   height: 5.5rem;
   width: 5.5rem;
   object-fit: cover;

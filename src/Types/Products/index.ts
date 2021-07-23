@@ -9,10 +9,11 @@ export interface ILanguage {
 }
 
 export interface IImage {
+  id: number;
   content_type: string;
   filename: string;
   url: string;
-  created_at?: Date;
+  created_at?: string;
 }
 
 export interface IProduct {
@@ -26,8 +27,8 @@ export interface IProduct {
   provider: string;
   has_free_shipping: boolean;
   shipping_cost: number;
-  last_bought_at: Date;
-  created_at: Date;
+  last_bought_at: string | null;
+  created_at: string;
   image: IImage;
   times_bought: number;
 }
