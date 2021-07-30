@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Card as AntCard } from 'antd';
+import { motion } from 'framer-motion';
 import Device from '../../Utils/Breakpoints';
 
 export const ListingSpace = styled.div`
@@ -208,5 +209,11 @@ export const CardTitle = styled.div`
     -webkit-hyphens: auto;
     hyphens: auto;
     max-width: calc(100% - 1.5rem);
+  }
+`;
+
+export const ImageWrapper = styled(motion.div)`
+  > :first-child {
+    width: 100%;
   }
 `;

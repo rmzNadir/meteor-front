@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   CaretRightFilled,
   CheckCircleOutlined,
@@ -19,7 +19,7 @@ import {
   message,
 } from 'antd';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import NumberFormat from 'react-number-format';
 import { useHistory } from 'react-router-dom';
 import { IProduct } from '../../Types';
@@ -29,7 +29,13 @@ import { useCartCTX } from '../../Utils/CartContext';
 import GetPlatformIcon from '../../Utils/GetPlatformIcon';
 import IMG_FALLBACK from '../../Utils/IMG_FALLBACK';
 import theme from '../../Utils/theme';
-import { Actions, DetailsWrapper, ExtraInfoGrid, InfoGrid } from './styles';
+import {
+  Actions,
+  DetailsWrapper,
+  ExtraInfoGrid,
+  ImageWrapper,
+  InfoGrid,
+} from './styles';
 
 interface Props {
   data: IProduct;
@@ -54,11 +60,15 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
     id,
   } = data;
 
-  const [selectedAmount, setSelectedAmount] = useState(stock >= 1 ? 1 : 0);
+  const [selectedAmount, setSelectedAmount] = useState(0);
   const history = useHistory();
   const { isClientUser } = useAuthCTX();
   const { cartItems, setCartItems } = useCartCTX();
   const mobile = useMediaQuery('(max-width: 767px)');
+
+  useEffect(() => {
+    setSelectedAmount(stock >= 1 ? 1 : 0);
+  }, [stock]);
 
   const handleAddToCart = useCallback(() => {
     const itemIndex = cartItems.findIndex((i) => i.id === id);
@@ -147,7 +157,7 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
       ]}
     >
       <AnimatePresence exitBeforeEnter>
-        <motion.div
+        <ImageWrapper
           key={id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -162,7 +172,7 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
             }}
             style={{ height: '10rem', objectFit: 'cover' }}
           />
-        </motion.div>
+        </ImageWrapper>
       </AnimatePresence>
 
       <DetailsWrapper>

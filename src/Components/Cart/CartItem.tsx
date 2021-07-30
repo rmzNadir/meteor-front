@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import { Typography, InputNumber, Button, Popconfirm } from 'antd';
 
 import NumberFormat from 'react-number-format';
+import { EyeOutlined } from '@ant-design/icons';
 import { ICartItem } from '../../Types';
 import Capitalize from '../../Utils/Capitalize';
 import {
@@ -48,7 +49,14 @@ const CartItem = ({ item, setCartItems, disabled }: Props) => {
       exit={{ opacity: 0, x: 250, transition: { duration: 0.3 } }}
     >
       <TopInfo>
-        <Image src={image?.url} alt='' fallback={IMG_FALLBACK} />
+        <Image
+          src={image?.url}
+          alt=''
+          fallback={IMG_FALLBACK}
+          preview={{
+            mask: <EyeOutlined style={{ fontSize: 25 }} />,
+          }}
+        />
         <ProductInfo>
           <Text>{Capitalize(name)}</Text>
           <Paragraph
