@@ -113,6 +113,11 @@ export const OrderProduct = styled.div`
 
 export const ProductImage = styled(AntImage)`
   object-fit: cover;
+
+  :first-child {
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 export const ProductInfo = styled.div`
