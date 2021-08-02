@@ -17,10 +17,10 @@ import {
   CaretRightFilled,
   CheckCircleOutlined,
   CloseCircleOutlined,
-  DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
   EyeOutlined,
+  WarningOutlined,
 } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
 import { useMediaQuery } from 'beautiful-react-hooks';
@@ -82,6 +82,7 @@ const Product = () => {
     stock,
     has_free_shipping,
     shipping_cost,
+    disabled,
   } = {
     ...productInfo,
   };
@@ -117,17 +118,30 @@ const Product = () => {
   const handleDeleteProduct = async () => {
     try {
       const {
-        data: { success },
+        data: { success, product },
       } = await axios.delete<IDeleteProduct>(`/products/${id}`);
 
-      if (success) {
-        message.success('El producto fue eliminado satisfactoriamente');
-        history.push('/products');
+      if (success && product) {
+        setProductInfo(product);
+        const { disabled: dataDisabled } = product;
+
+        message.success(
+          `El producto fue ${
+            dataDisabled ? 'desactivado' : 'activado'
+          } satisfactoriamente`
+        );
+        // history.push('/products');
       } else {
-        message.error('Ocurrió un error al eliminar el producto');
+        message.error(
+          `Ocurrió un error al ${
+            disabled ? 'activar' : 'desactivar'
+          } el producto`
+        );
       }
     } catch (e) {
-      message.error('Ocurrió un error al eliminar el producto');
+      message.error(
+        `Ocurrió un error al ${disabled ? 'activar' : 'desactivar'} el producto`
+      );
     }
   };
 
@@ -135,9 +149,10 @@ const Product = () => {
     Modal.confirm({
       title: '¿Estás seguro?',
       icon: <ExclamationCircleOutlined />,
-      content:
-        'Esta acción es irreversible, haciendo imposible la recuperación de este registro.',
-      okText: 'Eliminar',
+      content: disabled
+        ? 'Al activar el producto este será visible para todos los usuarios'
+        : 'Al desactivar el producto este será invisible para todos los usuarios',
+      okText: disabled ? 'Activar' : 'Desactivar',
       okType: 'danger',
       cancelText: 'Cancelar',
       centered: true,
@@ -332,10 +347,10 @@ const Product = () => {
               <Button
                 type='primary'
                 danger
-                icon={<DeleteOutlined />}
+                icon={<WarningOutlined />}
                 onClick={handleConfirmDelete}
               >
-                Eliminar
+                {disabled ? 'Activar' : 'Desactivar'}
               </Button>
               <ProductForm
                 visible={edit}

@@ -1,3 +1,5 @@
+import { IErrors } from '../Common';
+
 export interface IPlatform {
   id: number;
   name: 'PC' | 'Mac' | 'Linux';
@@ -30,6 +32,7 @@ export interface IProduct {
   last_bought_at: string | null;
   created_at: string;
   image: IImage;
+  disabled: boolean;
   times_bought: number;
 }
 
@@ -63,4 +66,6 @@ export interface INewProductTemp {
 export interface IDeleteProduct {
   success: boolean;
   msg: string;
+  product?: IProduct;
+  errors?: IErrors;
 }
