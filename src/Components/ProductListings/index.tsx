@@ -76,7 +76,12 @@ const ProductListings = () => {
           const { success, product: dProd, msg } = data;
 
           if (success) {
-            setProduct(dProd);
+            if (dProd.disabled) {
+              message.warning('Este producto no se encuentra disponible');
+              window.history.replaceState(null, '', window.location.pathname);
+            } else {
+              setProduct(dProd);
+            }
           }
           if (msg === 'Product not found') {
             message.error('No se encontró el producto');
