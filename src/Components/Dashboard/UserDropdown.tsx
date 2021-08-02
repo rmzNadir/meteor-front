@@ -29,6 +29,7 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
       setCartItems([]);
       setUser(undefined);
       clearStorageKey('cart');
+      clearStorageKey('dashboardTab');
 
       document.body.classList.remove('is-loaded');
       message.success({

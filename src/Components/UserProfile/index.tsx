@@ -60,6 +60,7 @@ const UserProfile = ({
       setCartItems([]);
       setUser(undefined);
       clearStorageKey('cart');
+      clearStorageKey('dashboardTab');
 
       document.body.classList.remove('is-loaded');
       message.info('Por favor inicia sesión con tu nueva contraseña');

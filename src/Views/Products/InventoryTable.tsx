@@ -183,6 +183,18 @@ const InventoryTable = ({
       render: (d: Date) => (d ? moment(d).format('DD/MM/yy, hh:mm a') : '-'),
     },
     {
+      title: 'Activo',
+      dataIndex: 'disabled',
+      key: 'disabled',
+      align: 'center',
+      render: (d) =>
+        !d ? (
+          <CheckCircleFilled style={{ color: theme.colors.success }} />
+        ) : (
+          <CloseCircleFilled style={{ color: theme.colors.error }} />
+        ),
+    },
+    {
       title: '',
       dataIndex: '',
       fixed: 'right',
