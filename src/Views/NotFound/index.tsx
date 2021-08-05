@@ -1,12 +1,11 @@
 import { Typography, Button } from 'antd';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ReactComponent as NotFoundSvg } from './404.svg';
 import { Wrapper } from './styles';
 
 const { Text } = Typography;
 const NotFound = () => {
-  const history = useHistory();
   return (
     <AnimatePresence>
       <motion.div
@@ -17,9 +16,11 @@ const NotFound = () => {
         <Wrapper>
           <Text strong>Parece que te has perdido ☹</Text>
           <NotFoundSvg />
-          <Button size='large' type='primary' onClick={() => history.push('/')}>
-            Llévame de regreso
-          </Button>
+          <Link to='/'>
+            <Button size='large' type='primary'>
+              Llévame de regreso
+            </Button>
+          </Link>
         </Wrapper>
       </motion.div>
     </AnimatePresence>

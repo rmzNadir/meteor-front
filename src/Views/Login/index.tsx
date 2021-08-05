@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, Typography, Form, Input, message, Button } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 
 import { ILoginFormValues } from '../../Types';
@@ -9,7 +9,7 @@ import AnimateAuthForms from '../../Components/AnimateAuthForms';
 import { useAuthCTX } from '../../Utils/AuthContext';
 import GetQueryParams from '../../Utils/GetQueryParams';
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -60,12 +60,10 @@ const Login = () => {
           <div>
             <Text>¿Aún no tienes una?</Text>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link
-              onClick={() => history.push(`/sign-up${from && `?from=${from}`}`)}
-            >
+            <RouterLink to={`/sign-up${from && `?from=${from}`}`}>
               {' '}
               Crear cuenta
-            </Link>
+            </RouterLink>
           </div>
         </Info>
 
@@ -119,9 +117,11 @@ const Login = () => {
             </SubmitButton>
           </Form.Item>
         </Form>
-        <Button block type='link' onClick={() => history.push('/')}>
-          Inicio
-        </Button>
+        <RouterLink to='/'>
+          <Button block type='link'>
+            Inicio
+          </Button>
+        </RouterLink>
       </Card>
     </AnimateAuthForms>
   );

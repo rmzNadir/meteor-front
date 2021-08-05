@@ -5,8 +5,6 @@ import Device from '../../Utils/Breakpoints';
 const { Content } = Layout;
 
 export const LogoWrapper = styled.div`
-  cursor: pointer;
-  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -2,7 +2,7 @@
 /* eslint-disable no-multi-assign */
 import { useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LogoWrapper } from './styles';
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 
 const MeteorLogo = ({ collapsed }: Props) => {
   const shouldAnimate = useRef(false);
-  const history = useHistory();
 
   useEffect(() => {
     shouldAnimate.current = true;
@@ -48,27 +47,29 @@ const MeteorLogo = ({ collapsed }: Props) => {
     : AnimationsLibrary[0];
 
   return (
-    <LogoWrapper onClick={() => history.push('/')}>
-      <AnimatePresence>
-        {collapsed && (
-          <motion.img
-            className='logo'
-            {...AnimationConfigSmall}
-            src={small}
-            alt='meteor-logo'
-          />
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {!collapsed && (
-          <motion.img
-            className='logo'
-            {...AnimationConfigBig}
-            src={large}
-            alt='meteor-logo'
-          />
-        )}
-      </AnimatePresence>
+    <LogoWrapper>
+      <Link to='/'>
+        <AnimatePresence>
+          {collapsed && (
+            <motion.img
+              className='logo'
+              {...AnimationConfigSmall}
+              src={small}
+              alt='meteor-logo'
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.img
+              className='logo'
+              {...AnimationConfigBig}
+              src={large}
+              alt='meteor-logo'
+            />
+          )}
+        </AnimatePresence>
+      </Link>
     </LogoWrapper>
   );
 };

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState, useCallback } from 'react';
 import { Divider, message, Space, Spin, Typography } from 'antd';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import { CreditCardOutlined } from '@ant-design/icons';
@@ -22,7 +22,7 @@ import theme from '../../Utils/theme';
 import ProductCard from './ProductCard';
 import { useAuthCTX } from '../../Utils/AuthContext';
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
 const Sale = () => {
   const [loading, setLoading] = useState(false);
@@ -95,7 +95,7 @@ const Sale = () => {
               <Text>
                 Cliente:{' '}
                 {isAdmin ? (
-                  <Link onClick={() => history.push(`/users/${user?.id}`)}>
+                  <Link to={`/users/${user?.id}`}>
                     {user &&
                       `${Capitalize(user.name)} ${Capitalize(user.last_name)}`}
                   </Link>

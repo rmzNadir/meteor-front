@@ -1,6 +1,6 @@
-import { Typography, Spin } from 'antd';
+import { Spin } from 'antd';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '../../Components/Card';
 import { ICards } from '../../Types';
 import Capitalize from '../../Utils/Capitalize';
@@ -16,10 +16,7 @@ interface Props {
   loadingProducts: boolean;
 }
 
-const { Link } = Typography;
-
 const Cards = ({ cards, loadingProducts }: Props) => {
-  const history = useHistory();
   const { total_records, low_stock, possible_sales, latest_addition } = {
     ...cards,
   };
@@ -47,7 +44,7 @@ const Cards = ({ cards, loadingProducts }: Props) => {
             <CenterCardBodyColumn style={{ padding: '12px' }}>
               {low_stock?.map(({ name, stock, id }) => (
                 /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-                <Link key={id} onClick={() => history.push(`/products/${id}`)}>
+                <Link key={id} to={`/products/${id}`}>
                   <ProductDetailsGrid>
                     <div>{Capitalize(name)}</div>
                     <div>-</div>
@@ -66,7 +63,7 @@ const Cards = ({ cards, loadingProducts }: Props) => {
             <CenterCardBodyColumn>
               {possible_sales?.map(({ name, stock, id }) => (
                 /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-                <Link key={id} onClick={() => history.push(`/products/${id}`)}>
+                <Link key={id} to={`/products/${id}`}>
                   <ProductDetailsGrid>
                     <div>{Capitalize(name)}</div>
                     <div>-</div>
@@ -87,9 +84,7 @@ const Cards = ({ cards, loadingProducts }: Props) => {
                 <>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                   <Link
-                    onClick={() =>
-                      history.push(`/products/${latest_addition.id}`)
-                    }
+                    to={`/products/${latest_addition.id}`}
                     className='latest-addition'
                   >
                     <div>{Capitalize(latest_addition.name)}</div>

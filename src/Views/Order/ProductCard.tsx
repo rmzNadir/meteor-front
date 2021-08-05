@@ -2,20 +2,18 @@
 import { Typography } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ProductImage, OrderProduct, ProductInfo } from './styles';
 import { ISaleProduct } from '../../Types';
 import IMG_FALLBACK from '../../Utils/IMG_FALLBACK';
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 interface Props {
   product: ISaleProduct;
 }
 
 const ProductCard = ({ product }: Props) => {
-  const history = useHistory();
-
   const { image, name, quantity, unit_price, id } = product;
 
   return (
@@ -28,10 +26,7 @@ const ProductCard = ({ product }: Props) => {
         }}
       />
       <ProductInfo>
-        <Link
-          style={{ marginBottom: '0.5rem' }}
-          onClick={() => history.push(`/listings?id=${id}`)}
-        >
+        <Link to={`/listings?id=${id}`} style={{ marginBottom: '0.5rem' }}>
           {name}
         </Link>
         <Text>
