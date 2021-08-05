@@ -63,17 +63,11 @@ const SalesDashboard = () => {
     xField: 'date',
     yField: 'sales',
     seriesField: 'name',
-    xAxis: {
-      label: {
-        formatter: function formatter(v: string) {
-          return moment(v).format('DD/MMM');
-        },
-      },
-    },
     meta: {
       date: {
+        range: [0, 1],
         formatter: function formatter(v: string) {
-          return moment(v).format('DD/MMM');
+          return moment(new Date(v)).format('DD/MMM');
         },
       },
     },
