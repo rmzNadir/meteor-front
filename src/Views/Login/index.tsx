@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, Typography, Form, Input, message, Button } from 'antd';
-import { useHistory, Link as RouterLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { ILoginFormValues } from '../../Types';
@@ -8,6 +8,7 @@ import { LogoSpace, Info, SubmitButton } from './styles';
 import AnimateAuthForms from '../../Components/AnimateAuthForms';
 import { useAuthCTX } from '../../Utils/AuthContext';
 import GetQueryParams from '../../Utils/GetQueryParams';
+import RouterLink from '../../Components/RouterLink';
 
 const { Title, Text } = Typography;
 

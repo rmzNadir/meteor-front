@@ -1,7 +1,7 @@
 import { Spin } from 'antd';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import Card from '../../Components/Card';
+import RouterLink from '../../Components/RouterLink';
 import { ICards } from '../../Types';
 import Capitalize from '../../Utils/Capitalize';
 import {
@@ -44,13 +44,13 @@ const Cards = ({ cards, loadingProducts }: Props) => {
             <CenterCardBodyColumn style={{ padding: '12px' }}>
               {low_stock?.map(({ name, stock, id }) => (
                 /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-                <Link key={id} to={`/products/${id}`}>
+                <RouterLink key={id} to={`/products/${id}`}>
                   <ProductDetailsGrid>
                     <div>{Capitalize(name)}</div>
                     <div>-</div>
                     <div>{stock} pzas.</div>
                   </ProductDetailsGrid>
-                </Link>
+                </RouterLink>
               )) || <NoData image={NoData.PRESENTED_IMAGE_SIMPLE} />}
             </CenterCardBodyColumn>
           </Spin>
@@ -63,13 +63,13 @@ const Cards = ({ cards, loadingProducts }: Props) => {
             <CenterCardBodyColumn>
               {possible_sales?.map(({ name, stock, id }) => (
                 /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-                <Link key={id} to={`/products/${id}`}>
+                <RouterLink key={id} to={`/products/${id}`}>
                   <ProductDetailsGrid>
                     <div>{Capitalize(name)}</div>
                     <div>-</div>
                     <div>{stock} pzas.</div>
                   </ProductDetailsGrid>
-                </Link>
+                </RouterLink>
               )) || <NoData image={NoData.PRESENTED_IMAGE_SIMPLE} />}
             </CenterCardBodyColumn>
           </Spin>
@@ -83,12 +83,12 @@ const Cards = ({ cards, loadingProducts }: Props) => {
               {latest_addition ? (
                 <>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <Link
+                  <RouterLink
                     to={`/products/${latest_addition.id}`}
                     className='latest-addition'
                   >
                     <div>{Capitalize(latest_addition.name)}</div>
-                  </Link>
+                  </RouterLink>
                   <div>{moment(latest_addition.created_at).fromNow()}</div>
                 </>
               ) : (

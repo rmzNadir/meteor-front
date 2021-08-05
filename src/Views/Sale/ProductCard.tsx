@@ -2,10 +2,10 @@
 import { Typography } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
-import { Link } from 'react-router-dom';
 import { ProductImage, OrderProduct, ProductInfo } from './styles';
 import { ISaleProduct } from '../../Types';
 import IMG_FALLBACK from '../../Utils/IMG_FALLBACK';
+import RouterLink from '../../Components/RouterLink';
 
 const { Text } = Typography;
 
@@ -26,9 +26,9 @@ const ProductCard = ({ product }: Props) => {
         }}
       />
       <ProductInfo>
-        <Link style={{ marginBottom: '0.5rem' }} to={`/products/${id}`}>
+        <RouterLink style={{ marginBottom: '0.5rem' }} to={`/products/${id}`}>
           {name}
-        </Link>
+        </RouterLink>
 
         <Text>
           Cantidad:&nbsp;

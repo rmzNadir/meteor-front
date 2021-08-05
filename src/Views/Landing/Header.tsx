@@ -119,7 +119,7 @@ const Header = ({
                     )}
                   >
                     <li>
-                      <Link to='/sign-up'>
+                      <Link to='/sign-up' style={{ padding: 0 }}>
                         <SignUpButton>Registrarse</SignUpButton>
                       </Link>
                     </li>
@@ -127,7 +127,7 @@ const Header = ({
                   {!hideSignin && (
                     <ul className='list-reset header-nav-right'>
                       <li>
-                        <Link to='/login'>
+                        <Link to='/login' style={{ padding: 0 }}>
                           <LoginButton type='primary'>
                             Iniciar sesión
                           </LoginButton>
