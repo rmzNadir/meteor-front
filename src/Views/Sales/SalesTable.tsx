@@ -187,10 +187,11 @@ const SalesTable = ({
           current: paginationParams.page,
         }}
         onChange={({ current, pageSize }) => {
-          setPaginationParams({
+          setPaginationParams((p) => ({
+            ...p,
             per_page: pageSize || 10,
             page: current || 1,
-          });
+          }));
         }}
       />
     </Spin>
