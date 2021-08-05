@@ -5,7 +5,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { IUser } from '../../Types';
 import { clearStorageKey } from '../../Utils/Storage';
 import { useCartCTX } from '../../Utils/CartContext';
@@ -47,7 +47,7 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
   const handleMenuClick = (e: { key: string }) => {
     switch (e.key) {
       case 'profile':
-        return history.push('/my-profile');
+        return undefined;
       case 'logout':
         return handleLogout();
       default:
@@ -58,9 +58,11 @@ const UserDropdown = ({ setIsAuth, setUser, user }: Props) => {
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key='profile'>
-        <Button type='link' size='small' icon={<InfoCircleOutlined />}>
-          Perfil
-        </Button>
+        <Link to='/my-profile'>
+          <Button type='link' size='small' icon={<InfoCircleOutlined />}>
+            Perfil
+          </Button>
+        </Link>
       </Menu.Item>
       <Menu.Item key='logout'>
         <Button type='link' size='small' icon={<PoweroffOutlined />}>

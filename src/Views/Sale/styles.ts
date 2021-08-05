@@ -116,7 +116,7 @@ export const ProductImage = styled(AntImage)`
   object-fit: cover;
 
   :first-child {
-    height: 100%;
+    height: 10rem;
     object-fit: cover;
   }
 `;

@@ -4,7 +4,7 @@ import { Button, Drawer, Empty, message, Result } from 'antd';
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { AnimatePresence } from 'framer-motion';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCartCTX } from '../../Utils/CartContext';
 import { CartItemSpace, EmptyWrapper, ResultWrapper } from './styles';
 import CartItem from './CartItem';
@@ -16,7 +16,6 @@ const Cart = () => {
     useCartCTX();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sale, setSale] = useState<ISale>();
-  const history = useHistory();
   const mobile = useMediaQuery('(max-width: 640px)');
   const tablet = useMediaQuery('(max-width: 1023px)');
   const laptop = useMediaQuery('(max-width: 1439px)');
@@ -66,7 +65,6 @@ const Cart = () => {
   const handleCheckOrder = () => {
     setSale(undefined);
     setVisible(false);
-    history.push(`/orders/${sale?.id}`);
   };
 
   return (
@@ -122,13 +120,11 @@ const Cart = () => {
               title='¡Compra realizada correctamente!'
               subTitle='Se te ha enviado un correo de confirmación con los detalles de tu orden'
               extra={[
-                <Button
-                  type='primary'
-                  key='open-order'
-                  onClick={handleCheckOrder}
-                >
-                  Ver orden
-                </Button>,
+                <Link to={`/orders/${sale?.id}`} key='open-order'>
+                  <Button type='primary' onClick={handleCheckOrder}>
+                    Ver orden
+                  </Button>
+                </Link>,
                 <Button
                   key='close'
                   onClick={() => {

@@ -2,6 +2,7 @@
 /* eslint-disable no-multi-assign */
 import { useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
 import { LogoWrapper } from './styles';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 const MeteorLogo = ({ collapsed }: Props) => {
   const shouldAnimate = useRef(false);
+  const history = useHistory();
 
   useEffect(() => {
     shouldAnimate.current = true;
@@ -46,7 +48,7 @@ const MeteorLogo = ({ collapsed }: Props) => {
     : AnimationsLibrary[0];
 
   return (
-    <LogoWrapper>
+    <LogoWrapper onClick={() => history.push('/')}>
       <AnimatePresence>
         {collapsed && (
           <motion.img

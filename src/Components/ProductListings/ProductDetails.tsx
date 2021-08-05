@@ -21,7 +21,7 @@ import {
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { AnimatePresence } from 'framer-motion';
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { IProduct } from '../../Types';
 import { useAuthCTX } from '../../Utils/AuthContext';
 import Capitalize from '../../Utils/Capitalize';
@@ -61,7 +61,6 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
   } = data;
 
   const [selectedAmount, setSelectedAmount] = useState(0);
-  const history = useHistory();
   const { isClientUser } = useAuthCTX();
   const { cartItems, setCartItems } = useCartCTX();
   const mobile = useMediaQuery('(max-width: 767px)');
@@ -188,13 +187,11 @@ const ProductDetails = ({ data, visible, setVisible }: Props) => {
           </Title>
           {isClientUser && (
             <Tooltip title='Editar / Eliminar'>
-              <Button
-                shape='circle'
-                type='primary'
-                onClick={() => history.push(`/products/${id}`)}
-              >
-                <SettingOutlined />
-              </Button>
+              <Link to={`/products/${id}`}>
+                <Button shape='circle' type='primary'>
+                  <SettingOutlined />
+                </Button>
+              </Link>
             </Tooltip>
           )}
         </div>

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ILanguage, IPlatform, IProduct } from '../../Types/Products';
 import { Actions, PlatformIconSpace } from './styles';
 import GetPlatformIcon from '../../Utils/GetPlatformIcon';
@@ -39,7 +39,6 @@ const InventoryTable = ({
   paginationParams,
 }: Props) => {
   const { isCollapsing } = useCollapseCTX();
-  const history = useHistory();
 
   const columns: ColumnsType<IProductsTable> = [
     {
@@ -202,12 +201,9 @@ const InventoryTable = ({
       render: (_a: undefined, r: IProduct) => (
         <Actions>
           <Tooltip title='Ver'>
-            <Button
-              type='primary'
-              shape='circle'
-              icon={<EyeOutlined />}
-              onClick={() => history.push(`/products/${r.id}`)}
-            />
+            <Link to={`/products/${r.id}`}>
+              <Button type='primary' shape='circle' icon={<EyeOutlined />} />
+            </Link>
           </Tooltip>
         </Actions>
       ),

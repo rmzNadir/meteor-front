@@ -3,7 +3,7 @@ import { Table, Spin, Tooltip, Button, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import NumberFormat from 'react-number-format';
 import { EyeOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { useCollapseCTX } from '../../Utils/CollapseContext';
 import { IPagination, ISaleProduct, ISaleRecord } from '../../Types';
@@ -31,7 +31,6 @@ const SalesTable = ({
   loading,
 }: Props) => {
   const { isCollapsing } = useCollapseCTX();
-  const history = useHistory();
 
   const columns: ColumnsType<ISalesTable> = [
     {
@@ -161,12 +160,9 @@ const SalesTable = ({
       render: (_a: undefined, r: ISaleRecord) => (
         <Actions>
           <Tooltip title='Ver'>
-            <Button
-              type='primary'
-              shape='circle'
-              icon={<EyeOutlined />}
-              onClick={() => history.push(`/sales/${r.id}`)}
-            />
+            <Link to={`/sales/${r.id}`}>
+              <Button type='primary' shape='circle' icon={<EyeOutlined />} />
+            </Link>
           </Tooltip>
         </Actions>
       ),

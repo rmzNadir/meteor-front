@@ -14,7 +14,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { DashboardSpace, LiquidTooltipInfo, TitleInfo } from './styles';
 import theme from '../../Utils/theme';
 import { IDashboard } from '../../Types';
@@ -31,7 +31,6 @@ const SalesDashboard = () => {
   // Liquid charts wont show text when downloaded
   const lineRef = useRef<any>();
   const pieRef = useRef<any>();
-  const history = useHistory();
 
   const { week_sales, most_sold, top_buyer, top_5_products } = {
     ...dashboardData,
@@ -172,9 +171,8 @@ const SalesDashboard = () => {
     theme: { styleSheet: { brandColor: '#FFC100' } },
   };
 
-  const handleRedirect = (route: string) => {
+  const handleRedirect = () => {
     setStorage('dashboardTab', 'dashboard');
-    history.push(route);
   };
 
   return (
@@ -209,13 +207,9 @@ const SalesDashboard = () => {
             </TitleInfo>
           }
           extra={
-            <Button
-              onClick={() =>
-                handleRedirect(`/products/${most_sold?.product.id}`)
-              }
-            >
-              Ver producto
-            </Button>
+            <Link to={`/products/${most_sold?.product.id}`}>
+              <Button onClick={handleRedirect}>Ver producto</Button>
+            </Link>
           }
           type='inner'
         >
@@ -258,11 +252,9 @@ const SalesDashboard = () => {
             </TitleInfo>
           }
           extra={
-            <Button
-              onClick={() => handleRedirect(`/users/${top_buyer?.user.id}`)}
-            >
-              Ver cliente
-            </Button>
+            <Link to={`/users/${top_buyer?.user.id}`}>
+              <Button onClick={handleRedirect}>Ver cliente</Button>
+            </Link>
           }
           type='inner'
         >

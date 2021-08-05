@@ -11,7 +11,7 @@ import {
   DollarOutlined,
 } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMeteor } from '@fortawesome/free-solid-svg-icons';
 import Particles from 'react-particles-js';
@@ -44,8 +44,6 @@ interface MenuProps {
 const { Header, Sider } = Layout;
 
 const MeteorMenu = ({ selectedKeys, isClientUser, isAdmin }: MenuProps) => {
-  const history = useHistory();
-
   const SelectedKeys: string[] = Array.isArray(selectedKeys)
     ? selectedKeys
     : [selectedKeys];
@@ -55,27 +53,27 @@ const MeteorMenu = ({ selectedKeys, isClientUser, isAdmin }: MenuProps) => {
       theme='dark'
       defaultSelectedKeys={SelectedKeys}
       mode='inline'
-      onClick={(i) => history.push(`/${i.key}`)}
+      // onClick={(i) => history.push(`/${i.key}`)}
     >
       <Menu.Item key='listings' icon={<FontAwesomeIcon icon={faMeteor} />}>
-        Mi Meteor
+        <Link to='/listings'>Mi Meteor</Link>
       </Menu.Item>
       <Menu.Item key='orders' icon={<ShoppingCartOutlined />}>
-        Mis Pedidos
+        <Link to='/orders'>Mis Pedidos</Link>
       </Menu.Item>
       {isClientUser && (
         <Menu.Item key='products' icon={<DropboxOutlined />}>
-          Productos
+          <Link to='/products'>Productos</Link>
         </Menu.Item>
       )}
       {isClientUser && (
         <Menu.Item key='sales' icon={<DollarOutlined />}>
-          Ventas
+          <Link to='/sales'>Ventas</Link>
         </Menu.Item>
       )}
       {isAdmin && (
         <Menu.Item key='users' icon={<UserOutlined />}>
-          Usuarios
+          <Link to='/users'>Usuarios</Link>
         </Menu.Item>
       )}
     </Menu>
