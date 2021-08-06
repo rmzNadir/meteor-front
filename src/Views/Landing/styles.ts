@@ -2,17 +2,28 @@ import styled from 'styled-components';
 import { Button, Card as AntCard } from 'antd';
 import Device from '../../Utils/Breakpoints';
 
-export const LoginButton = styled(Button)`
+export const LoginWrapper = styled.div`
   @media (max-width: 640px) {
-    width: 100%;
-    margin-top: 0.5rem;
+    > :first-child {
+      width: 100%;
+      margin-top: 0.5rem;
+
+      > :first-child {
+        width: 100%;
+      }
+    }
   }
   @media (min-width: 640px) {
-    width: auto;
-    margin-left: 0.5rem;
+    > :first-child {
+      width: auto;
+      margin-left: 0.5rem;
+
+      > :first-child {
+        width: auto;
+      }
+    }
   }
 `;
-
 export const CartButton = styled(Button)`
   @media (max-width: 640px) {
     width: 100%;
@@ -24,12 +35,35 @@ export const CartButton = styled(Button)`
   }
 `;
 
-export const SignUpButton = styled(Button)`
+export const CartWrapper = styled.div`
   @media (max-width: 640px) {
     width: 100%;
+    margin-top: 0.5rem;
   }
   @media (min-width: 640px) {
     width: auto;
+    margin-left: 0.5rem;
+  }
+`;
+
+export const SignUpWrapper = styled.div`
+  @media (max-width: 640px) {
+    > :first-child {
+      width: 100%;
+
+      > :first-child {
+        width: 100%;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    > :first-child {
+      width: auto;
+
+      > :first-child {
+        width: auto;
+      }
+    }
   }
 `;
 

@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { ShoppingOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'beautiful-react-hooks';
-import { Tooltip, Badge } from 'antd';
+import { Tooltip, Badge, Button } from 'antd';
 import Logo from './Logo';
-import { CartButton, LoginButton, SignUpButton } from './styles';
+import { CartButton, SignUpWrapper, LoginWrapper } from './styles';
 import { useCartCTX } from '../../Utils/CartContext';
 
 interface Props {
@@ -119,19 +119,21 @@ const Header = ({
                     )}
                   >
                     <li>
-                      <Link to='/sign-up' style={{ padding: 0 }}>
-                        <SignUpButton>Registrarse</SignUpButton>
-                      </Link>
+                      <SignUpWrapper>
+                        <Link to='/sign-up' style={{ padding: 0 }}>
+                          <Button>Registrarse</Button>
+                        </Link>
+                      </SignUpWrapper>
                     </li>
                   </ul>
                   {!hideSignin && (
                     <ul className='list-reset header-nav-right'>
                       <li>
-                        <Link to='/login' style={{ padding: 0 }}>
-                          <LoginButton type='primary'>
-                            Iniciar sesión
-                          </LoginButton>
-                        </Link>
+                        <LoginWrapper>
+                          <Link to='/login' style={{ padding: 0 }}>
+                            <Button type='primary'>Iniciar sesión</Button>
+                          </Link>
+                        </LoginWrapper>
                       </li>
                     </ul>
                   )}
