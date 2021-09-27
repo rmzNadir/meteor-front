@@ -74,6 +74,10 @@ const Login = () => {
           layout='vertical'
           onFinish={onFinish}
           scrollToFirstError
+          initialValues={{
+            email: 'diego50098@gmail.com',
+            password: 'password',
+          }}
         >
           <Form.Item
             name='email'
