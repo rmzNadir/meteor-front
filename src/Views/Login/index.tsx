@@ -75,7 +75,7 @@ const Login = () => {
           onFinish={onFinish}
           scrollToFirstError
           initialValues={{
-            email: 'diego50098@gmail.com',
+            email: 'admin@user.com',
             password: 'password',
           }}
         >
