@@ -4,7 +4,7 @@
 <br>
 
 ## :memo: Basic overview
-Meteor is a proof-of-concept for an e-commerce and ERP platform, it is built using TypeScript, React, Ruby on Rails, PostgreSQL, SendGrid, Cloudinary and Heroku. You can use [these](#mage_man-test-credentials) credentials to check out the [live demo](https://meteor-erp-app.herokuapp.com/).
+Meteor an e-commerce and ERP platform, it is built using TypeScript, React, Ruby on Rails, PostgreSQL, SendGrid, Cloudinary and Heroku. You can use [these](#mage_man-test-credentials) credentials to check out the [live demo](https://meteor-erp-app.herokuapp.com/).
 
 ## :ledger: Index
 
@@ -16,14 +16,16 @@ Meteor is a proof-of-concept for an e-commerce and ERP platform, it is built usi
 
 ## :mage_man: Test credentials
 
+(Register your own user if you want to receive order confirmation emails)
+
 - User 🙍‍♂️
-  - Email: dgzrz99@gmail.com
+  - Email: normal@user.com
   - Password: password
 - Manager 👨‍💼
-  - Email: xnadir99@gmail.com
+  - Email: manager@user.com
   - Password: password
 - Admin 🧙‍ (default)
-  - Email: diego50098@gmail.com
+  - Email: admin@user.com
   - Password: password
 
 ## :zap: Features
