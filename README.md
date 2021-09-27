@@ -16,14 +16,16 @@ Meteor an e-commerce and ERP platform, it is built using TypeScript, React, Ruby
 
 ## :mage_man: Test credentials
 
+(Register your own user if you want to receive order confirmation emails)
+
 - User 🙍‍♂️
-  - Email: dgzrz99@gmail.com
+  - Email: normal@user.com
   - Password: password
 - Manager 👨‍💼
-  - Email: xnadir99@gmail.com
+  - Email: manager@user.com
   - Password: password
 - Admin 🧙‍ (default)
-  - Email: diego50098@gmail.com
+  - Email: admin@user.com
   - Password: password
 
 ## :zap: Features
